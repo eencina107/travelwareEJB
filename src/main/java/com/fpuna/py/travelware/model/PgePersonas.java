@@ -48,6 +48,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgePersonas.findByPerUsuMod", query = "SELECT p FROM PgePersonas p WHERE p.perUsuMod = :perUsuMod"),
     @NamedQuery(name = "PgePersonas.findByPerFecMod", query = "SELECT p FROM PgePersonas p WHERE p.perFecMod = :perFecMod")})
 public class PgePersonas implements Serializable {
+    @Lob
+    @Column(name = "PER_DOC")
+    private byte[] perDoc;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,9 +72,6 @@ public class PgePersonas implements Serializable {
     @Size(min = 1, max = 12)
     @Column(name = "PER_NRO_DOC")
     private String perNroDoc;
-    @Lob
-    @Column(name = "PER_DOC")
-    private byte[] perDoc;
     @Column(name = "PER_FEC_NAC")
     @Temporal(TemporalType.DATE)
     private Date perFecNac;
@@ -316,5 +316,7 @@ public class PgePersonas implements Serializable {
     public String toString() {
         return "com.fpuna.py.travelware.PgePersonas[ perId=" + perId + " ]";
     }
+
+  
     
 }

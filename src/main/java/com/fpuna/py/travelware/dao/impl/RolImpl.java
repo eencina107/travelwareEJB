@@ -7,9 +7,13 @@ package com.fpuna.py.travelware.dao.impl;
 
 import com.fpuna.py.travelware.dao.RolDao;
 import com.fpuna.py.travelware.model.PgeRoles;
+import com.fpuna.py.travelware.model.PgeUsuRoles;
+import com.fpuna.py.travelware.model.PgeUsuarios;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.swing.text.html.HTMLDocument;
 import org.apache.log4j.Logger;
 
 /**
@@ -82,5 +86,23 @@ public class RolImpl implements RolDao{
             return null;
         }
     }
-    
+
+    @Override
+    public List<PgeRoles> getRolesByUsuario(PgeUsuarios usuario) {
+        List<PgeUsuRoles> usuRoles;
+        List<PgeRoles> roles = null;
+        
+        usuRoles = em.createNamedQuery("PgeUsuRoles.findByUsuId").setParameter("usuId", usuario.getUsuId()).getResultList();
+        
+        Iterator it = usuRoles.iterator();
+        
+        while (it.hasNext()){
+            PgeUsuRoles uro= (PgeUsuRoles) it.next();
+            PgeRoles ro=(PgeRoles) em.createNamedQuery("PgeRoles.findByRolId").setParameter("rolId",uro.getPgeUsuRolesPK().getRolId()).getSingleResult();
+            roles.add(ro);
+        }
+        
+        return roles;
+    }
+
 }

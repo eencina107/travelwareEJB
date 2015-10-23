@@ -46,6 +46,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeUsuarios.findByUsuUsuMod", query = "SELECT p FROM PgeUsuarios p WHERE p.usuUsuMod = :usuUsuMod"),
     @NamedQuery(name = "PgeUsuarios.findByUsuFecMod", query = "SELECT p FROM PgeUsuarios p WHERE p.usuFecMod = :usuFecMod")})
 public class PgeUsuarios implements Serializable {
+    @Size(max = 2147483647)
+    @Column(name = "USU_PASS", length = 2147483647)
+    private String usuPass;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -240,6 +243,14 @@ public class PgeUsuarios implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.PgeUsuarios[ usuId=" + usuId + " ]";
+    }
+
+    public String getUsuPass() {
+        return usuPass;
+    }
+
+    public void setUsuPass(String usuPass) {
+        this.usuPass = usuPass;
     }
     
 }

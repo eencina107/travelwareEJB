@@ -7,11 +7,13 @@ package com.fpuna.py.travelware.dao;
 
 import com.fpuna.py.travelware.model.PgeUsuarios;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  *
  * @author eencina
  */
 public interface UsuarioDao extends GenericDao<PgeUsuarios, Integer>{
-    
+    public PgeUsuarios autenticate(String username, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException;
 }
