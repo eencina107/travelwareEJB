@@ -6,7 +6,6 @@
 package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -30,7 +29,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PGE_ROLES")
+@Table(name = "PGE_ROLES", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PgeRoles.findAll", query = "SELECT p FROM PgeRoles p"),
     @NamedQuery(name = "PgeRoles.findByRolId", query = "SELECT p FROM PgeRoles p WHERE p.rolId = :rolId"),
@@ -40,37 +39,35 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeRoles.findByRolUsuMod", query = "SELECT p FROM PgeRoles p WHERE p.rolUsuMod = :rolUsuMod"),
     @NamedQuery(name = "PgeRoles.findByRolFecMod", query = "SELECT p FROM PgeRoles p WHERE p.rolFecMod = :rolFecMod")})
 public class PgeRoles implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeRoles")
-    private Collection<PgePermisos> pgePermisosCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ROL_ID")
+    @Column(name = "ROL_ID", nullable = false)
     private Integer rolId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 35)
-    @Column(name = "ROL_DESC")
+    @Column(name = "ROL_DESC", nullable = false, length = 35)
     private String rolDesc;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "ROL_USU_INS")
+    @Column(name = "ROL_USU_INS", nullable = false, length = 10)
     private String rolUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ROL_FEC_INS")
+    @Column(name = "ROL_FEC_INS", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date rolFecIns;
     @Size(max = 10)
-    @Column(name = "ROL_USU_MOD")
+    @Column(name = "ROL_USU_MOD", length = 10)
     private String rolUsuMod;
     @Column(name = "ROL_FEC_MOD")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rolFecMod;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeRoles")
-    private List<PgeUsuRoles> pgeUsuRolesList;
+    private List<PgePermisos> pgePermisosList;
 
     public PgeRoles() {
     }
@@ -134,12 +131,12 @@ public class PgeRoles implements Serializable {
         this.rolFecMod = rolFecMod;
     }
 
-    public List<PgeUsuRoles> getPgeUsuRolesList() {
-        return pgeUsuRolesList;
+    public List<PgePermisos> getPgePermisosList() {
+        return pgePermisosList;
     }
 
-    public void setPgeUsuRolesList(List<PgeUsuRoles> pgeUsuRolesList) {
-        this.pgeUsuRolesList = pgeUsuRolesList;
+    public void setPgePermisosList(List<PgePermisos> pgePermisosList) {
+        this.pgePermisosList = pgePermisosList;
     }
 
     @Override
@@ -164,15 +161,7 @@ public class PgeRoles implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgeRoles[ rolId=" + rolId + " ]";
-    }
-
-    public Collection<PgePermisos> getPgePermisosCollection() {
-        return pgePermisosCollection;
-    }
-
-    public void setPgePermisosCollection(Collection<PgePermisos> pgePermisosCollection) {
-        this.pgePermisosCollection = pgePermisosCollection;
+        return "com.fpuna.py.travelware.model.PgeRoles[ rolId=" + rolId + " ]";
     }
     
 }

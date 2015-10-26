@@ -16,6 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -51,6 +53,12 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PagComprobantes.findByComTotImp", query = "SELECT p FROM PagComprobantes p WHERE p.comTotImp = :comTotImp"),
     @NamedQuery(name = "PagComprobantes.findByComTotTot", query = "SELECT p FROM PagComprobantes p WHERE p.comTotTot = :comTotTot")})
 public class PagComprobantes implements Serializable {
+    @JoinColumn(name = "PER_ID", referencedColumnName = "PER_ID", nullable = false)
+    @ManyToOne(optional = false)
+    private PgePersonas perId;
+    @JoinColumn(name = "MON_ID", referencedColumnName = "MON_ID", nullable = false)
+    @ManyToOne(optional = false)
+    private PgeMonedas monId;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -272,6 +280,22 @@ public class PagComprobantes implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PagComprobantes[ comIdTran=" + comIdTran + " ]";
+    }
+
+    public PgePersonas getPerId() {
+        return perId;
+    }
+
+    public void setPerId(PgePersonas perId) {
+        this.perId = perId;
+    }
+
+    public PgeMonedas getMonId() {
+        return monId;
+    }
+
+    public void setMonId(PgeMonedas monId) {
+        this.monId = monId;
     }
     
 }

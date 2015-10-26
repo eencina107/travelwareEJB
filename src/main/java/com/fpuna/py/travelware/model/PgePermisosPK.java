@@ -93,7 +93,7 @@ public class PgePermisosPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.dao.PgePermisosPK[ rolId=" + rolId + ", menuId=" + menuId + ", submenuId=" + submenuId + " ]";
+        return "com.fpuna.py.travelware.model.PgePermisosPK[ rolId=" + rolId + ", menuId=" + menuId + ", submenuId=" + submenuId + " ]";
     }
     
 }

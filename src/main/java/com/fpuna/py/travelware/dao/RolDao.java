@@ -5,6 +5,7 @@
  */
 package com.fpuna.py.travelware.dao;
 
+import com.fpuna.py.travelware.model.PgePermisos;
 import com.fpuna.py.travelware.model.PgeRoles;
 import com.fpuna.py.travelware.model.PgeUsuarios;
 import java.io.Serializable;
@@ -16,4 +17,5 @@ import java.util.List;
  */
 public interface RolDao extends GenericDao<PgeRoles, Integer>{
     List<PgeRoles> getRolesByUsuario(PgeUsuarios usuario);
+    List<PgePermisos> getPermisos(PgeRoles object);
 }

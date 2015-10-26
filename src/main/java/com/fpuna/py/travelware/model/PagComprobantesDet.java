@@ -43,6 +43,12 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PagComprobantesDet.findByCdeUsuMod", query = "SELECT p FROM PagComprobantesDet p WHERE p.cdeUsuMod = :cdeUsuMod"),
     @NamedQuery(name = "PagComprobantesDet.findByCdeFecMod", query = "SELECT p FROM PagComprobantesDet p WHERE p.cdeFecMod = :cdeFecMod")})
 public class PagComprobantesDet implements Serializable {
+    @JoinColumn(name = "VIA_ID", referencedColumnName = "VIA_ID")
+    @ManyToOne
+    private ViaViajes viaId;
+    @JoinColumn(name = "PER_ID", referencedColumnName = "PER_ID", nullable = false)
+    @ManyToOne(optional = false)
+    private PgePersonas perId;
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PagComprobantesDetPK pagComprobantesDetPK;
@@ -230,6 +236,22 @@ public class PagComprobantesDet implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PagComprobantesDet[ pagComprobantesDetPK=" + pagComprobantesDetPK + " ]";
+    }
+
+    public ViaViajes getViaId() {
+        return viaId;
+    }
+
+    public void setViaId(ViaViajes viaId) {
+        this.viaId = viaId;
+    }
+
+    public PgePersonas getPerId() {
+        return perId;
+    }
+
+    public void setPerId(PgePersonas perId) {
+        this.perId = perId;
     }
     
 }

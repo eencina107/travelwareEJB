@@ -7,11 +7,9 @@ package com.fpuna.py.travelware.dao.impl;
 
 import com.fpuna.py.travelware.dao.CiudadDao;
 import com.fpuna.py.travelware.model.PgeCiudades;
-import com.fpuna.py.travelware.model.PgeCiudadesPK;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TemporalType;
 import org.apache.log4j.Logger;
 
 /**
@@ -21,7 +19,7 @@ import org.apache.log4j.Logger;
 public class CiudadImpl implements CiudadDao{
     final static Logger logger = Logger.getLogger(CiudadImpl.class);
     
-    @PersistenceContext(unitName = "TravewarePU")
+    @PersistenceContext(unitName = "TravelwarePU")
     private EntityManager em;
 
     @Override

@@ -5,7 +5,6 @@
  */
 package com.fpuna.py.travelware.model;
 
-import com.fpuna.py.travelware.model.PgeRoles;
 import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -83,7 +82,7 @@ public class PgePermisos implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.dao.PgePermisos[ pgePermisosPK=" + pgePermisosPK + " ]";
+        return "com.fpuna.py.travelware.model.PgePermisos[ pgePermisosPK=" + pgePermisosPK + " ]";
     }
     
 }

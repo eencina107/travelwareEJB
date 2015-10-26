@@ -42,6 +42,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ViaViajes.findByViaUsuMod", query = "SELECT v FROM ViaViajes v WHERE v.viaUsuMod = :viaUsuMod"),
     @NamedQuery(name = "ViaViajes.findByViaFecMod", query = "SELECT v FROM ViaViajes v WHERE v.viaFecMod = :viaFecMod")})
 public class ViaViajes implements Serializable {
+    @OneToMany(mappedBy = "viaId")
+    private List<PagComprobantesDet> pagComprobantesDetList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,8 +90,10 @@ public class ViaViajes implements Serializable {
     private List<ViaPreViajes> viaPreViajesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaViajes")
     private List<ViaPasViajes> viaPasViajesList;
-    @OneToMany(mappedBy = "viaId")
-    private List<PagComprobantesDet> pagComprobantesDetList;
+//    @OneToMany(mappedBy = "viaId")
+//    private List<PagComprobantesDet> pagComprobantesDetList;
+     @OneToMany(mappedBy = "viaId")
+    private List<PagComprobantes> pagComprobantesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaViajes")
     private List<ViaActividades> viaActividadesList;
 
@@ -198,12 +202,19 @@ public class ViaViajes implements Serializable {
         this.viaPasViajesList = viaPasViajesList;
     }
 
-    public List<PagComprobantesDet> getPagComprobantesDetList() {
-        return pagComprobantesDetList;
+//    public List<PagComprobantesDet> getPagComprobantesDetList() {
+//        return pagComprobantesDetList;
+//    }
+//
+//    public void setPagComprobantesDetList(List<PagComprobantesDet> pagComprobantesDetList) {
+//        this.pagComprobantesDetList = pagComprobantesDetList;
+//    }
+    public List<PagComprobantes> getPagComprobantesList() {
+        return pagComprobantesList;
     }
 
     public void setPagComprobantesDetList(List<PagComprobantesDet> pagComprobantesDetList) {
-        this.pagComprobantesDetList = pagComprobantesDetList;
+        this.pagComprobantesList = pagComprobantesList;
     }
 
     public List<ViaActividades> getViaActividadesList() {
@@ -237,6 +248,10 @@ public class ViaViajes implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.ViaViajes[ viaId=" + viaId + " ]";
+    }
+
+    public List<PagComprobantesDet> getPagComprobantesDetList() {
+        return pagComprobantesDetList;
     }
     
 }
