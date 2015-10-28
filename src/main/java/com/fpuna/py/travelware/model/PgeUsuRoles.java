@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PGE_USU_ROLES")
+@Table(name = "pge_usu_roles", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PgeUsuRoles.findAll", query = "SELECT p FROM PgeUsuRoles p"),
     @NamedQuery(name = "PgeUsuRoles.findByRolId", query = "SELECT p FROM PgeUsuRoles p WHERE p.pgeUsuRolesPK.rolId = :rolId"),
@@ -42,23 +42,23 @@ public class PgeUsuRoles implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "URO_USU_INS")
+    @Column(name = "uro_usu_ins", nullable = false, length = 10)
     private String uroUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "URO_FEC_INS")
+    @Column(name = "uro_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date uroFecIns;
     @Size(max = 10)
-    @Column(name = "URO_USU_MOD")
+    @Column(name = "uro_usu_mod", length = 10)
     private String uroUsuMod;
-    @Column(name = "URO_FEC_MOD")
+    @Column(name = "uro_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date uroFecMod;
-    @JoinColumn(name = "USU_ID", referencedColumnName = "USU_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "usu_id", referencedColumnName = "usu_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PgeUsuarios pgeUsuarios;
-    @JoinColumn(name = "ROL_ID", referencedColumnName = "ROL_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "rol_id", referencedColumnName = "rol_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PgeRoles pgeRoles;
 
@@ -157,7 +157,7 @@ public class PgeUsuRoles implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgeUsuRoles[ pgeUsuRolesPK=" + pgeUsuRolesPK + " ]";
+        return "com.fpuna.py.travelware.model.PgeUsuRoles[ pgeUsuRolesPK=" + pgeUsuRolesPK + " ]";
     }
     
 }

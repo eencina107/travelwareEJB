@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PGE_COTIZACIONES")
+@Table(name = "pge_cotizaciones", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PgeCotizaciones.findAll", query = "SELECT p FROM PgeCotizaciones p"),
     @NamedQuery(name = "PgeCotizaciones.findByMonId", query = "SELECT p FROM PgeCotizaciones p WHERE p.pgeCotizacionesPK.monId = :monId"),
@@ -45,29 +45,29 @@ public class PgeCotizaciones implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "COT_VAL_COMPRA")
+    @Column(name = "cot_val_compra", nullable = false, precision = 6, scale = 2)
     private BigDecimal cotValCompra;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "COT_VAL_VENTA")
+    @Column(name = "cot_val_venta", nullable = false, precision = 6, scale = 2)
     private BigDecimal cotValVenta;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "COT_USU_INS")
+    @Column(name = "cot_usu_ins", nullable = false, length = 10)
     private String cotUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "COT_FEC_INS")
+    @Column(name = "cot_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date cotFecIns;
     @Size(max = 10)
-    @Column(name = "COT_USU_MOD")
+    @Column(name = "cot_usu_mod", length = 10)
     private String cotUsuMod;
-    @Column(name = "COT_FEC_MOD")
+    @Column(name = "cot_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date cotFecMod;
-    @JoinColumn(name = "MON_ID", referencedColumnName = "MON_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "mon_id", referencedColumnName = "mon_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PgeMonedas pgeMonedas;
 
@@ -176,7 +176,7 @@ public class PgeCotizaciones implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgeCotizaciones[ pgeCotizacionesPK=" + pgeCotizacionesPK + " ]";
+        return "com.fpuna.py.travelware.model.PgeCotizaciones[ pgeCotizacionesPK=" + pgeCotizacionesPK + " ]";
     }
     
 }

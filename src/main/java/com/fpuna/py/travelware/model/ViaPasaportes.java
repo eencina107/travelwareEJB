@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "VIA_PASAPORTES")
+@Table(name = "via_pasaportes", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ViaPasaportes.findAll", query = "SELECT v FROM ViaPasaportes v"),
     @NamedQuery(name = "ViaPasaportes.findByPerId", query = "SELECT v FROM ViaPasaportes v WHERE v.viaPasaportesPK.perId = :perId"),
@@ -46,34 +46,34 @@ public class ViaPasaportes implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
-    @Column(name = "PAT_NRO_PAS")
+    @Column(name = "pat_nro_pas", nullable = false, length = 15)
     private String patNroPas;
     @Lob
-    @Column(name = "PAT_IMG_PAS")
+    @Column(name = "pat_img_pas")
     private byte[] patImgPas;
-    @Column(name = "PAT_FEC_EMI")
+    @Column(name = "pat_fec_emi")
     @Temporal(TemporalType.DATE)
     private Date patFecEmi;
-    @Column(name = "PAT_FEC_VEN")
+    @Column(name = "pat_fec_ven")
     @Temporal(TemporalType.DATE)
     private Date patFecVen;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "PAT_USU_INS")
+    @Column(name = "pat_usu_ins", nullable = false, length = 10)
     private String patUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "PAT_FEC_INS")
+    @Column(name = "pat_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date patFecIns;
     @Size(max = 10)
-    @Column(name = "PAT_USU_MOD")
+    @Column(name = "pat_usu_mod", length = 10)
     private String patUsuMod;
-    @Column(name = "PAT_FEC_MOD")
+    @Column(name = "pat_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date patFecMod;
-    @JoinColumn(name = "PER_ID", referencedColumnName = "PER_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PgePersonas pgePersonas;
 
@@ -197,7 +197,7 @@ public class ViaPasaportes implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.ViaPasaportes[ viaPasaportesPK=" + viaPasaportesPK + " ]";
+        return "com.fpuna.py.travelware.model.ViaPasaportes[ viaPasaportesPK=" + viaPasaportesPK + " ]";
     }
     
 }

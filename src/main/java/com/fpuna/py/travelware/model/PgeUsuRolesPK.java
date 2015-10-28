@@ -19,11 +19,11 @@ import javax.validation.constraints.NotNull;
 public class PgeUsuRolesPK implements Serializable {
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ROL_ID")
+    @Column(name = "rol_id", nullable = false)
     private int rolId;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "USU_ID")
+    @Column(name = "usu_id", nullable = false)
     private int usuId;
 
     public PgeUsuRolesPK() {
@@ -76,7 +76,7 @@ public class PgeUsuRolesPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgeUsuRolesPK[ rolId=" + rolId + ", usuId=" + usuId + " ]";
+        return "com.fpuna.py.travelware.model.PgeUsuRolesPK[ rolId=" + rolId + ", usuId=" + usuId + " ]";
     }
     
 }

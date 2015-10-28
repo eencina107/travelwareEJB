@@ -19,11 +19,11 @@ import javax.validation.constraints.NotNull;
 public class PagComprobantesDetPK implements Serializable {
     @Basic(optional = false)
     @NotNull
-    @Column(name = "COM_ID", nullable = false)
+    @Column(name = "com_id", nullable = false)
     private int comId;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "CDE_NRO_DET", nullable = false)
+    @Column(name = "cde_nro_det", nullable = false)
     private int cdeNroDet;
 
     public PagComprobantesDetPK() {

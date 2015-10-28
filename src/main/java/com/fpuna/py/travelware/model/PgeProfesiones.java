@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PGE_PROFESIONES")
+@Table(name = "pge_profesiones", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PgeProfesiones.findAll", query = "SELECT p FROM PgeProfesiones p"),
     @NamedQuery(name = "PgeProfesiones.findByPrfId", query = "SELECT p FROM PgeProfesiones p WHERE p.prfId = :prfId"),
@@ -44,30 +44,30 @@ public class PgeProfesiones implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "PRF_ID")
+    @Column(name = "prf_id", nullable = false)
     private Integer prfId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 35)
-    @Column(name = "PRF_DESC")
+    @Column(name = "prf_desc", nullable = false, length = 35)
     private String prfDesc;
     @Size(max = 50)
-    @Column(name = "PRF_OBS")
+    @Column(name = "prf_obs", length = 50)
     private String prfObs;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "PRF_USU_INS")
+    @Column(name = "prf_usu_ins", nullable = false, length = 10)
     private String prfUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "PRF_FEC_INS")
+    @Column(name = "prf_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date prfFecIns;
     @Size(max = 10)
-    @Column(name = "PRF_USU_MOD")
+    @Column(name = "prf_usu_mod", length = 10)
     private String prfUsuMod;
-    @Column(name = "PRF_FEC_MOD")
+    @Column(name = "prf_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date prfFecMod;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prfId")
@@ -173,7 +173,7 @@ public class PgeProfesiones implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgeProfesiones[ prfId=" + prfId + " ]";
+        return "com.fpuna.py.travelware.model.PgeProfesiones[ prfId=" + prfId + " ]";
     }
     
 }

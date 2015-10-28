@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PGE_CIUDADES")
+@Table(name = "pge_ciudades", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PgeCiudades.findAll", query = "SELECT p FROM PgeCiudades p"),
     @NamedQuery(name = "PgeCiudades.findByCiuId", query = "SELECT p FROM PgeCiudades p WHERE p.pgeCiudadesPK.ciuId = :ciuId"),
@@ -47,36 +47,36 @@ public class PgeCiudades implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 35)
-    @Column(name = "CIU_DESC")
+    @Column(name = "ciu_desc", nullable = false, length = 35)
     private String ciuDesc;
     @Size(max = 500)
-    @Column(name = "CIU_UBI")
+    @Column(name = "ciu_ubi", length = 500)
     private String ciuUbi;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "CIU_USU_INS")
+    @Column(name = "ciu_usu_ins", nullable = false, length = 10)
     private String ciuUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "CIU_FEC_INS")
+    @Column(name = "ciu_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date ciuFecIns;
     @Size(max = 10)
-    @Column(name = "CIU_USU_MOD")
+    @Column(name = "ciu_usu_mod", length = 10)
     private String ciuUsuMod;
-    @Column(name = "CIU_FEC_MOD")
+    @Column(name = "ciu_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ciuFecMod;
-    @JoinColumn(name = "PAI_ID", referencedColumnName = "PAI_ID", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private PgePaises pgePaises;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeCiudades")
-    private List<PgeAtractivos> pgeAtractivosList;
     @OneToMany(mappedBy = "pgeCiudades")
     private List<ViaActividades> viaActividadesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeCiudades")
     private List<PgeOrganizaciones> pgeOrganizacionesList;
+    @JoinColumn(name = "pai_id", referencedColumnName = "pai_id", nullable = false, insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private PgePaises pgePaises;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeCiudades")
+    private List<PgeAtractivos> pgeAtractivosList;
 
     public PgeCiudades() {
     }
@@ -152,22 +152,6 @@ public class PgeCiudades implements Serializable {
         this.ciuFecMod = ciuFecMod;
     }
 
-    public PgePaises getPgePaises() {
-        return pgePaises;
-    }
-
-    public void setPgePaises(PgePaises pgePaises) {
-        this.pgePaises = pgePaises;
-    }
-
-    public List<PgeAtractivos> getPgeAtractivosList() {
-        return pgeAtractivosList;
-    }
-
-    public void setPgeAtractivosList(List<PgeAtractivos> pgeAtractivosList) {
-        this.pgeAtractivosList = pgeAtractivosList;
-    }
-
     public List<ViaActividades> getViaActividadesList() {
         return viaActividadesList;
     }
@@ -182,6 +166,22 @@ public class PgeCiudades implements Serializable {
 
     public void setPgeOrganizacionesList(List<PgeOrganizaciones> pgeOrganizacionesList) {
         this.pgeOrganizacionesList = pgeOrganizacionesList;
+    }
+
+    public PgePaises getPgePaises() {
+        return pgePaises;
+    }
+
+    public void setPgePaises(PgePaises pgePaises) {
+        this.pgePaises = pgePaises;
+    }
+
+    public List<PgeAtractivos> getPgeAtractivosList() {
+        return pgeAtractivosList;
+    }
+
+    public void setPgeAtractivosList(List<PgeAtractivos> pgeAtractivosList) {
+        this.pgeAtractivosList = pgeAtractivosList;
     }
 
     @Override
@@ -206,7 +206,7 @@ public class PgeCiudades implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgeCiudades[ pgeCiudadesPK=" + pgeCiudadesPK + " ]";
+        return "com.fpuna.py.travelware.model.PgeCiudades[ pgeCiudadesPK=" + pgeCiudadesPK + " ]";
     }
     
 }

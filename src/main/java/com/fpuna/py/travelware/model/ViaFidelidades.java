@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "VIA_FIDELIDADES")
+@Table(name = "via_fidelidades", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ViaFidelidades.findAll", query = "SELECT v FROM ViaFidelidades v"),
     @NamedQuery(name = "ViaFidelidades.findByPerId", query = "SELECT v FROM ViaFidelidades v WHERE v.viaFidelidadesPK.perId = :perId"),
@@ -35,7 +35,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ViaFidelidades.findByFidFecIns", query = "SELECT v FROM ViaFidelidades v WHERE v.fidFecIns = :fidFecIns"),
     @NamedQuery(name = "ViaFidelidades.findByFidUsuMod", query = "SELECT v FROM ViaFidelidades v WHERE v.fidUsuMod = :fidUsuMod"),
     @NamedQuery(name = "ViaFidelidades.findByFidFecMod", query = "SELECT v FROM ViaFidelidades v WHERE v.fidFecMod = :fidFecMod")})
-    @NamedQuery(name = "ViaFidelidades.findById", query = "SELECT v FROM ViaFidelidades v WHERE v.viaFidelidadesPK.perId = :perId and v.viaFidelidadesPK.orgId = :orgId")
 public class ViaFidelidades implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -43,23 +42,23 @@ public class ViaFidelidades implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "FID_USU_INS")
+    @Column(name = "fid_usu_ins", nullable = false, length = 10)
     private String fidUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "FID_FEC_INS")
+    @Column(name = "fid_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date fidFecIns;
     @Size(max = 10)
-    @Column(name = "FID_USU_MOD")
+    @Column(name = "fid_usu_mod", length = 10)
     private String fidUsuMod;
-    @Column(name = "FID_FEC_MOD")
+    @Column(name = "fid_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fidFecMod;
-    @JoinColumn(name = "PER_ID", referencedColumnName = "PER_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PgePersonas pgePersonas;
-    @JoinColumn(name = "ORG_ID", referencedColumnName = "ORG_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "org_id", referencedColumnName = "org_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PgeOrganizaciones pgeOrganizaciones;
 
@@ -158,7 +157,7 @@ public class ViaFidelidades implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.ViaFidelidades[ viaFidelidadesPK=" + viaFidelidadesPK + " ]";
+        return "com.fpuna.py.travelware.model.ViaFidelidades[ viaFidelidadesPK=" + viaFidelidadesPK + " ]";
     }
     
 }

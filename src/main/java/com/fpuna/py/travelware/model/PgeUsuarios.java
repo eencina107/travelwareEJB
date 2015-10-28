@@ -31,7 +31,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PGE_USUARIOS")
+@Table(name = "pge_usuarios", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PgeUsuarios.findAll", query = "SELECT p FROM PgeUsuarios p"),
     @NamedQuery(name = "PgeUsuarios.findByUsuId", query = "SELECT p FROM PgeUsuarios p WHERE p.usuId = :usuId"),
@@ -44,59 +44,60 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeUsuarios.findByUsuUsuIns", query = "SELECT p FROM PgeUsuarios p WHERE p.usuUsuIns = :usuUsuIns"),
     @NamedQuery(name = "PgeUsuarios.findByUsuFecIns", query = "SELECT p FROM PgeUsuarios p WHERE p.usuFecIns = :usuFecIns"),
     @NamedQuery(name = "PgeUsuarios.findByUsuUsuMod", query = "SELECT p FROM PgeUsuarios p WHERE p.usuUsuMod = :usuUsuMod"),
-    @NamedQuery(name = "PgeUsuarios.findByUsuFecMod", query = "SELECT p FROM PgeUsuarios p WHERE p.usuFecMod = :usuFecMod")})
+    @NamedQuery(name = "PgeUsuarios.findByUsuFecMod", query = "SELECT p FROM PgeUsuarios p WHERE p.usuFecMod = :usuFecMod"),
+    @NamedQuery(name = "PgeUsuarios.findByUsuPass", query = "SELECT p FROM PgeUsuarios p WHERE p.usuPass = :usuPass")})
 public class PgeUsuarios implements Serializable {
-    @Size(max = 2147483647)
-    @Column(name = "USU_PASS", length = 2147483647)
-    private String usuPass;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "USU_ID")
+    @Column(name = "usu_id", nullable = false)
     private Integer usuId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "USU_NOM_APE")
+    @Column(name = "usu_nom_ape", nullable = false, length = 100)
     private String usuNomApe;
     @Size(max = 2)
-    @Column(name = "USU_CAT")
+    @Column(name = "usu_cat", length = 2)
     private String usuCat;
-    @Column(name = "USU_EST")
+    @Column(name = "usu_est")
     private Character usuEst;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "USU_FEC_ING")
+    @Column(name = "usu_fec_ing", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date usuFecIng;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "USU_COD")
+    @Column(name = "usu_cod", nullable = false, length = 10)
     private String usuCod;
     @Size(max = 60)
-    @Column(name = "USU_CARGO")
+    @Column(name = "usu_cargo", length = 60)
     private String usuCargo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "USU_USU_INS")
+    @Column(name = "usu_usu_ins", nullable = false, length = 10)
     private String usuUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "USU_FEC_INS")
+    @Column(name = "usu_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date usuFecIns;
     @Size(max = 10)
-    @Column(name = "USU_USU_MOD")
+    @Column(name = "usu_usu_mod", length = 10)
     private String usuUsuMod;
-    @Column(name = "USU_FEC_MOD")
+    @Column(name = "usu_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date usuFecMod;
+    @Size(max = 2147483647)
+    @Column(name = "usu_pass", length = 2147483647)
+    private String usuPass;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeUsuarios")
     private List<PgeUsuRoles> pgeUsuRolesList;
-    @JoinColumn(name = "PER_ID", referencedColumnName = "PER_ID")
+    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false)
     @ManyToOne(optional = false)
     private PgePersonas perId;
 
@@ -204,6 +205,14 @@ public class PgeUsuarios implements Serializable {
         this.usuFecMod = usuFecMod;
     }
 
+    public String getUsuPass() {
+        return usuPass;
+    }
+
+    public void setUsuPass(String usuPass) {
+        this.usuPass = usuPass;
+    }
+
     public List<PgeUsuRoles> getPgeUsuRolesList() {
         return pgeUsuRolesList;
     }
@@ -242,15 +251,7 @@ public class PgeUsuarios implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgeUsuarios[ usuId=" + usuId + " ]";
-    }
-
-    public String getUsuPass() {
-        return usuPass;
-    }
-
-    public void setUsuPass(String usuPass) {
-        this.usuPass = usuPass;
+        return "com.fpuna.py.travelware.model.PgeUsuarios[ usuId=" + usuId + " ]";
     }
     
 }

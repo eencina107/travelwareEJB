@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "VIA_PASAJEROS")
+@Table(name = "via_pasajeros", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ViaPasajeros.findAll", query = "SELECT v FROM ViaPasajeros v"),
     @NamedQuery(name = "ViaPasajeros.findByPerId", query = "SELECT v FROM ViaPasajeros v WHERE v.perId = :perId"),
@@ -44,36 +44,36 @@ public class ViaPasajeros implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "PER_ID")
+    @Column(name = "per_id", nullable = false)
     private Integer perId;
-    @Column(name = "PAS_PREF_ASI")
+    @Column(name = "pas_pref_asi")
     private Character pasPrefAsi;
     @Size(max = 20)
-    @Column(name = "PAS_PREF_COMI")
+    @Column(name = "pas_pref_comi", length = 20)
     private String pasPrefComi;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "PAS_USU_INS")
+    @Column(name = "pas_usu_ins", nullable = false, length = 10)
     private String pasUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "PAS_FEC_INS")
+    @Column(name = "pas_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date pasFecIns;
     @Size(max = 10)
-    @Column(name = "PAS_USU_MOD")
+    @Column(name = "pas_usu_mod", length = 10)
     private String pasUsuMod;
-    @Column(name = "PAS_FEC_MOD")
+    @Column(name = "pas_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date pasFecMod;
+    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false, insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private PgePersonas pgePersonas;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pviPasId")
     private List<ViaPasViajes> viaPasViajesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaPasajeros")
     private List<ViaPasViajes> viaPasViajesList1;
-    @JoinColumn(name = "PER_ID", referencedColumnName = "PER_ID", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private PgePersonas pgePersonas;
 
     public ViaPasajeros() {
     }
@@ -144,6 +144,14 @@ public class ViaPasajeros implements Serializable {
         this.pasFecMod = pasFecMod;
     }
 
+    public PgePersonas getPgePersonas() {
+        return pgePersonas;
+    }
+
+    public void setPgePersonas(PgePersonas pgePersonas) {
+        this.pgePersonas = pgePersonas;
+    }
+
     public List<ViaPasViajes> getViaPasViajesList() {
         return viaPasViajesList;
     }
@@ -158,14 +166,6 @@ public class ViaPasajeros implements Serializable {
 
     public void setViaPasViajesList1(List<ViaPasViajes> viaPasViajesList1) {
         this.viaPasViajesList1 = viaPasViajesList1;
-    }
-
-    public PgePersonas getPgePersonas() {
-        return pgePersonas;
-    }
-
-    public void setPgePersonas(PgePersonas pgePersonas) {
-        this.pgePersonas = pgePersonas;
     }
 
     @Override
@@ -190,7 +190,7 @@ public class ViaPasajeros implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.ViaPasajeros[ perId=" + perId + " ]";
+        return "com.fpuna.py.travelware.model.ViaPasajeros[ perId=" + perId + " ]";
     }
     
 }

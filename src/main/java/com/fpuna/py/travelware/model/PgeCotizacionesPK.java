@@ -21,11 +21,11 @@ import javax.validation.constraints.NotNull;
 @Embeddable
 public class PgeCotizacionesPK implements Serializable {
     @Basic(optional = false)
-    @Column(name = "MON_ID")
+    @Column(name = "mon_id", nullable = false)
     private int monId;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "COT_FECHA")
+    @Column(name = "cot_fecha", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date cotFecha;
 
@@ -79,7 +79,7 @@ public class PgeCotizacionesPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgeCotizacionesPK[ monId=" + monId + ", cotFecha=" + cotFecha + " ]";
+        return "com.fpuna.py.travelware.model.PgeCotizacionesPK[ monId=" + monId + ", cotFecha=" + cotFecha + " ]";
     }
     
 }

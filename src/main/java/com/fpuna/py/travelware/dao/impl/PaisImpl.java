@@ -9,6 +9,7 @@ import com.fpuna.py.travelware.dao.PaisDao;
 import com.fpuna.py.travelware.model.PgeOrganizaciones;
 import com.fpuna.py.travelware.model.PgePaises;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
@@ -17,6 +18,7 @@ import org.apache.log4j.Logger;
  *
  * @author eencina
  */
+@Stateless
 public class PaisImpl implements PaisDao{
     final static Logger logger = Logger.getLogger(PaisImpl.class);
     

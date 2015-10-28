@@ -8,6 +8,7 @@ package com.fpuna.py.travelware.dao.impl;
 import com.fpuna.py.travelware.dao.PasajeroDao;
 import com.fpuna.py.travelware.model.ViaPasajeros;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
@@ -16,6 +17,7 @@ import org.apache.log4j.Logger;
  *
  * @author eencina
  */
+@Stateless
 public class PasajeroImpl implements PasajeroDao{
     final static Logger logger = Logger.getLogger(PasajeroImpl.class);
 

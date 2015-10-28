@@ -12,6 +12,7 @@ import com.fpuna.py.travelware.model.PgeUsuRoles;
 import com.fpuna.py.travelware.model.PgeUsuarios;
 import java.util.Iterator;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -22,6 +23,7 @@ import org.apache.log4j.Logger;
  *
  * @author eencina
  */
+@Stateless
 public class RolImpl implements RolDao{
     final static Logger logger = Logger.getLogger(RolImpl.class);
     

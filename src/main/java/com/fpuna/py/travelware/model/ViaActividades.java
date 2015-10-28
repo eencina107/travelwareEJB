@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "VIA_ACTIVIDADES")
+@Table(name = "via_actividades", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ViaActividades.findAll", query = "SELECT v FROM ViaActividades v"),
     @NamedQuery(name = "ViaActividades.findByViaId", query = "SELECT v FROM ViaActividades v WHERE v.viaActividadesPK.viaId = :viaId"),
@@ -44,36 +44,36 @@ public class ViaActividades implements Serializable {
     protected ViaActividadesPK viaActividadesPK;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ACT_FECHA")
+    @Column(name = "act_fecha", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date actFecha;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2147483647)
-    @Column(name = "ACT_DET")
+    @Column(name = "act_det", nullable = false, length = 2147483647)
     private String actDet;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "ACT_USU_INS")
+    @Column(name = "act_usu_ins", nullable = false, length = 10)
     private String actUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ACT_FEC_INS")
+    @Column(name = "act_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date actFecIns;
     @Size(max = 10)
-    @Column(name = "ACT_USU_MOD")
+    @Column(name = "act_usu_mod", length = 10)
     private String actUsuMod;
-    @Column(name = "ACT_FEC_MOD")
+    @Column(name = "act_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date actFecMod;
-    @JoinColumn(name = "VIA_ID", referencedColumnName = "VIA_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private ViaViajes viaViajes;
     @JoinColumns({
-        @JoinColumn(name = "CIU_ID", referencedColumnName = "CIU_ID"),
-        @JoinColumn(name = "PAI_ID", referencedColumnName = "PAI_ID")})
+        @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id"),
+        @JoinColumn(name = "pai_id", referencedColumnName = "pai_id")})
     @ManyToOne
     private PgeCiudades pgeCiudades;
 
@@ -190,7 +190,7 @@ public class ViaActividades implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.ViaActividades[ viaActividadesPK=" + viaActividadesPK + " ]";
+        return "com.fpuna.py.travelware.model.ViaActividades[ viaActividadesPK=" + viaActividadesPK + " ]";
     }
     
 }

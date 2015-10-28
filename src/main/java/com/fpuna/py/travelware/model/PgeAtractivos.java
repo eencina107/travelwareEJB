@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PGE_ATRACTIVOS")
+@Table(name = "pge_atractivos", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PgeAtractivos.findAll", query = "SELECT p FROM PgeAtractivos p"),
     @NamedQuery(name = "PgeAtractivos.findByPaiId", query = "SELECT p FROM PgeAtractivos p WHERE p.pgeAtractivosPK.paiId = :paiId"),
@@ -47,33 +47,33 @@ public class PgeAtractivos implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 35)
-    @Column(name = "ATR_DESC")
+    @Column(name = "atr_desc", nullable = false, length = 35)
     private String atrDesc;
     @Lob
-    @Column(name = "ATR_IMG")
+    @Column(name = "atr_img")
     private byte[] atrImg;
     @Size(max = 500)
-    @Column(name = "ATR_UBI")
+    @Column(name = "atr_ubi", length = 500)
     private String atrUbi;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "ATR_USU_INS")
+    @Column(name = "atr_usu_ins", nullable = false, length = 10)
     private String atrUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ATR_FEC_INS")
+    @Column(name = "atr_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date atrFecIns;
     @Size(max = 10)
-    @Column(name = "ATR_USU_MOD")
+    @Column(name = "atr_usu_mod", length = 10)
     private String atrUsuMod;
-    @Column(name = "ATR_FEC_MOD")
+    @Column(name = "atr_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date atrFecMod;
     @JoinColumns({
-        @JoinColumn(name = "PAI_ID", referencedColumnName = "PAI_ID", insertable = false, updatable = false),
-        @JoinColumn(name = "CIU_ID", referencedColumnName = "CIU_ID", insertable = false, updatable = false)})
+        @JoinColumn(name = "pai_id", referencedColumnName = "pai_id", nullable = false, insertable = false, updatable = false),
+        @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id", nullable = false, insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private PgeCiudades pgeCiudades;
 
@@ -189,7 +189,7 @@ public class PgeAtractivos implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgeAtractivos[ pgeAtractivosPK=" + pgeAtractivosPK + " ]";
+        return "com.fpuna.py.travelware.model.PgeAtractivos[ pgeAtractivosPK=" + pgeAtractivosPK + " ]";
     }
     
 }

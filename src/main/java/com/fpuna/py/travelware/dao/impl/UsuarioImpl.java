@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
@@ -19,6 +20,7 @@ import org.apache.log4j.Logger;
  *
  * @author eencina
  */
+@Stateless
 public class UsuarioImpl implements UsuarioDao{
     final static Logger logger = Logger.getLogger(FidelidadImpl.class);
     
@@ -89,21 +91,27 @@ public class UsuarioImpl implements UsuarioDao{
     @Override
     public PgeUsuarios autenticate (String username, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException{
         PgeUsuarios usuario;
-        usuario = (PgeUsuarios) em.createNamedQuery("PgeUsuarios.findByUsuCod").setParameter("usuCod", username).getSingleResult();
-        
-        /*Se convierte el string ingresado en codigo Hash-MD5 y se compara con el de la BD*/
-        String hashIngresado;
-        hashIngresado = (String) em.createNativeQuery("SELECT md5(:pass)").setParameter("pass", password).getSingleResult();
-        
-        String hashBD;
-        hashBD = usuario.getUsuPass();
-        
-        if ((usuario != null) && (hashIngresado.equals(hashBD))) {
-            return usuario;
+        try{
+            usuario = (PgeUsuarios) em.createNamedQuery("PgeUsuarios.findByUsuCod").setParameter("usuCod", username.toString()).getSingleResult();
+
+            /*Se convierte el string ingresado en codigo Hash-MD5 y se compara con el de la BD*/
+            String hashIngresado;
+            hashIngresado = (String) em.createNativeQuery("SELECT md5(:pass)").setParameter("pass", password).getSingleResult();
+
+            String hashBD;
+            hashBD = usuario.getUsuPass();
+
+            if ((usuario != null) && (hashIngresado.equals(hashBD))) {
+                return usuario;
+            }
+            else {
+                return null;    
+            }   
         }
-        else {
-            return null;    
-        }    
+        catch(Exception e)
+        {
+            return null;
+        }
     }
     
 }

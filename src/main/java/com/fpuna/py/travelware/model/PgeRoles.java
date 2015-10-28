@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PGE_ROLES", catalog = "travelware", schema = "public")
+@Table(name = "pge_roles", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PgeRoles.findAll", query = "SELECT p FROM PgeRoles p"),
     @NamedQuery(name = "PgeRoles.findByRolId", query = "SELECT p FROM PgeRoles p WHERE p.rolId = :rolId"),
@@ -43,29 +43,31 @@ public class PgeRoles implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ROL_ID", nullable = false)
+    @Column(name = "rol_id", nullable = false)
     private Integer rolId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 35)
-    @Column(name = "ROL_DESC", nullable = false, length = 35)
+    @Column(name = "rol_desc", nullable = false, length = 35)
     private String rolDesc;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "ROL_USU_INS", nullable = false, length = 10)
+    @Column(name = "rol_usu_ins", nullable = false, length = 10)
     private String rolUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ROL_FEC_INS", nullable = false)
+    @Column(name = "rol_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date rolFecIns;
     @Size(max = 10)
-    @Column(name = "ROL_USU_MOD", length = 10)
+    @Column(name = "rol_usu_mod", length = 10)
     private String rolUsuMod;
-    @Column(name = "ROL_FEC_MOD")
+    @Column(name = "rol_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rolFecMod;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeRoles")
+    private List<PgeUsuRoles> pgeUsuRolesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeRoles")
     private List<PgePermisos> pgePermisosList;
 
@@ -129,6 +131,14 @@ public class PgeRoles implements Serializable {
 
     public void setRolFecMod(Date rolFecMod) {
         this.rolFecMod = rolFecMod;
+    }
+
+    public List<PgeUsuRoles> getPgeUsuRolesList() {
+        return pgeUsuRolesList;
+    }
+
+    public void setPgeUsuRolesList(List<PgeUsuRoles> pgeUsuRolesList) {
+        this.pgeUsuRolesList = pgeUsuRolesList;
     }
 
     public List<PgePermisos> getPgePermisosList() {

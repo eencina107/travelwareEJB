@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "VIA_PRE_VIAJES")
+@Table(name = "via_pre_viajes", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ViaPreViajes.findAll", query = "SELECT v FROM ViaPreViajes v"),
     @NamedQuery(name = "ViaPreViajes.findByViaId", query = "SELECT v FROM ViaPreViajes v WHERE v.viaPreViajesPK.viaId = :viaId"),
@@ -43,20 +43,20 @@ public class ViaPreViajes implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "PRE_PRECIO")
+    @Column(name = "pre_precio", nullable = false, precision = 18, scale = 2)
     private BigDecimal prePrecio;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "PRE_NOMBRE")
+    @Column(name = "pre_nombre", nullable = false, length = 10)
     private String preNombre;
     @Size(max = 2147483647)
-    @Column(name = "PRE_DESCRIPCION")
+    @Column(name = "pre_descripcion", length = 2147483647)
     private String preDescripcion;
-    @JoinColumn(name = "VIA_ID", referencedColumnName = "VIA_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private ViaViajes viaViajes;
-    @JoinColumn(name = "MON_ID", referencedColumnName = "MON_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "mon_id", referencedColumnName = "mon_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PgeMonedas pgeMonedas;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaPreViajes")
@@ -157,7 +157,7 @@ public class ViaPreViajes implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.ViaPreViajes[ viaPreViajesPK=" + viaPreViajesPK + " ]";
+        return "com.fpuna.py.travelware.model.ViaPreViajes[ viaPreViajesPK=" + viaPreViajesPK + " ]";
     }
     
 }

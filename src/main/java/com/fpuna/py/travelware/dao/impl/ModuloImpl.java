@@ -9,6 +9,7 @@ import com.fpuna.py.travelware.dao.ModuloDao;
 import static com.fpuna.py.travelware.dao.impl.FidelidadImpl.logger;
 import com.fpuna.py.travelware.model.PgeModulos;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.xml.registry.infomodel.EmailAddress;
@@ -18,6 +19,7 @@ import org.apache.log4j.Logger;
  *
  * @author eencina
  */
+@Stateless
 public class ModuloImpl implements ModuloDao{
     final static Logger logger = Logger.getLogger(ModuloImpl.class);
     

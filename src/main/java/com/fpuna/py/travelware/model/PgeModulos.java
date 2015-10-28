@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PGE_MODULOS")
+@Table(name = "pge_modulos", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PgeModulos.findAll", query = "SELECT p FROM PgeModulos p"),
     @NamedQuery(name = "PgeModulos.findByModId", query = "SELECT p FROM PgeModulos p WHERE p.modId = :modId"),
@@ -42,32 +42,32 @@ public class PgeModulos implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "MOD_ID")
+    @Column(name = "mod_id", nullable = false)
     private Integer modId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 35)
-    @Column(name = "MOD_DESC")
+    @Column(name = "mod_desc", nullable = false, length = 35)
     private String modDesc;
     @Size(max = 10)
-    @Column(name = "MOD_ABR")
+    @Column(name = "mod_abr", length = 10)
     private String modAbr;
-    @Column(name = "MOD_EST")
+    @Column(name = "mod_est")
     private Short modEst;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "MOD_USU_INS")
+    @Column(name = "mod_usu_ins", nullable = false, length = 10)
     private String modUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "MOD_FEC_INS")
+    @Column(name = "mod_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date modFecIns;
     @Size(max = 10)
-    @Column(name = "MOD_USU_MOD")
+    @Column(name = "mod_usu_mod", length = 10)
     private String modUsuMod;
-    @Column(name = "MOD_FEC_MOD")
+    @Column(name = "mod_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modFecMod;
 
@@ -171,7 +171,7 @@ public class PgeModulos implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgeModulos[ modId=" + modId + " ]";
+        return "com.fpuna.py.travelware.model.PgeModulos[ modId=" + modId + " ]";
     }
     
 }

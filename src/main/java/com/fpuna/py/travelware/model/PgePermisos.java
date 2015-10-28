@@ -19,7 +19,7 @@ import javax.persistence.Table;
  * @author eencina
  */
 @Entity
-@Table(name = "PGE_PERMISOS", catalog = "travelware", schema = "public")
+@Table(name = "pge_permisos", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PgePermisos.findAll", query = "SELECT p FROM PgePermisos p"),
     @NamedQuery(name = "PgePermisos.findByRolId", query = "SELECT p FROM PgePermisos p WHERE p.pgePermisosPK.rolId = :rolId"),
@@ -29,7 +29,7 @@ public class PgePermisos implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PgePermisosPK pgePermisosPK;
-    @JoinColumn(name = "ROL_ID", referencedColumnName = "ROL_ID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "rol_id", referencedColumnName = "rol_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PgeRoles pgeRoles;
 

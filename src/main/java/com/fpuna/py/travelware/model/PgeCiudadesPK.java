@@ -17,10 +17,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class PgeCiudadesPK implements Serializable {
     @Basic(optional = false)
-    @Column(name = "CIU_ID")
+    @Column(name = "ciu_id", nullable = false)
     private int ciuId;
     @Basic(optional = false)
-    @Column(name = "PAI_ID")
+    @Column(name = "pai_id", nullable = false)
     private int paiId;
 
     public PgeCiudadesPK() {
@@ -73,7 +73,7 @@ public class PgeCiudadesPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgeCiudadesPK[ ciuId=" + ciuId + ", paiId=" + paiId + " ]";
+        return "com.fpuna.py.travelware.model.PgeCiudadesPK[ ciuId=" + ciuId + ", paiId=" + paiId + " ]";
     }
     
 }

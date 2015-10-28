@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PGE_PAISES")
+@Table(name = "pge_paises", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PgePaises.findAll", query = "SELECT p FROM PgePaises p"),
     @NamedQuery(name = "PgePaises.findByPaiId", query = "SELECT p FROM PgePaises p WHERE p.paiId = :paiId"),
@@ -45,41 +45,41 @@ public class PgePaises implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "PAI_ID")
+    @Column(name = "pai_id", nullable = false)
     private Integer paiId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 35)
-    @Column(name = "PAI_DESC")
+    @Column(name = "pai_desc", nullable = false, length = 35)
     private String paiDesc;
     @Size(max = 40)
-    @Column(name = "PAI_NAC")
+    @Column(name = "pai_nac", length = 40)
     private String paiNac;
     @Size(max = 500)
-    @Column(name = "PAI_UBI")
+    @Column(name = "pai_ubi", length = 500)
     private String paiUbi;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "PAI_USU_INS")
+    @Column(name = "pai_usu_ins", nullable = false, length = 10)
     private String paiUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "PAI_FEC_INS")
+    @Column(name = "pai_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date paiFecIns;
     @Size(max = 10)
-    @Column(name = "PAI_USU_MOD")
+    @Column(name = "pai_usu_mod", length = 10)
     private String paiUsuMod;
-    @Column(name = "PAI_FEC_MOD")
+    @Column(name = "pai_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date paiFecMod;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgePaises")
-    private List<PgeCiudades> pgeCiudadesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paiId")
     private List<PgeMonedas> pgeMonedasList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paiId")
     private List<PgePersonas> pgePersonasList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgePaises")
+    private List<PgeCiudades> pgeCiudadesList;
 
     public PgePaises() {
     }
@@ -159,14 +159,6 @@ public class PgePaises implements Serializable {
         this.paiFecMod = paiFecMod;
     }
 
-    public List<PgeCiudades> getPgeCiudadesList() {
-        return pgeCiudadesList;
-    }
-
-    public void setPgeCiudadesList(List<PgeCiudades> pgeCiudadesList) {
-        this.pgeCiudadesList = pgeCiudadesList;
-    }
-
     public List<PgeMonedas> getPgeMonedasList() {
         return pgeMonedasList;
     }
@@ -181,6 +173,14 @@ public class PgePaises implements Serializable {
 
     public void setPgePersonasList(List<PgePersonas> pgePersonasList) {
         this.pgePersonasList = pgePersonasList;
+    }
+
+    public List<PgeCiudades> getPgeCiudadesList() {
+        return pgeCiudadesList;
+    }
+
+    public void setPgeCiudadesList(List<PgeCiudades> pgeCiudadesList) {
+        this.pgeCiudadesList = pgeCiudadesList;
     }
 
     @Override
@@ -205,7 +205,7 @@ public class PgePaises implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgePaises[ paiId=" + paiId + " ]";
+        return "com.fpuna.py.travelware.model.PgePaises[ paiId=" + paiId + " ]";
     }
     
 }

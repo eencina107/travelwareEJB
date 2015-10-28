@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PAG_COMPROBANTES_DET", catalog = "travelware", schema = "public")
+@Table(name = "pag_comprobantes_det", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PagComprobantesDet.findAll", query = "SELECT p FROM PagComprobantesDet p"),
     @NamedQuery(name = "PagComprobantesDet.findByComId", query = "SELECT p FROM PagComprobantesDet p WHERE p.pagComprobantesDetPK.comId = :comId"),
@@ -43,55 +43,55 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PagComprobantesDet.findByCdeUsuMod", query = "SELECT p FROM PagComprobantesDet p WHERE p.cdeUsuMod = :cdeUsuMod"),
     @NamedQuery(name = "PagComprobantesDet.findByCdeFecMod", query = "SELECT p FROM PagComprobantesDet p WHERE p.cdeFecMod = :cdeFecMod")})
 public class PagComprobantesDet implements Serializable {
-    @JoinColumn(name = "VIA_ID", referencedColumnName = "VIA_ID")
-    @ManyToOne
-    private ViaViajes viaId;
-    @JoinColumn(name = "PER_ID", referencedColumnName = "PER_ID", nullable = false)
-    @ManyToOne(optional = false)
-    private PgePersonas perId;
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PagComprobantesDetPK pagComprobantesDetPK;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "CDE_NUM_CUOTA", nullable = false)
+    @Column(name = "cde_num_cuota", nullable = false)
     private int cdeNumCuota;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "CDE_POR_RDE", precision = 8, scale = 2)
+    @Column(name = "cde_por_rde", precision = 8, scale = 2)
     private BigDecimal cdePorRde;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "CDE_EXE", nullable = false, precision = 18, scale = 2)
+    @Column(name = "cde_exe", nullable = false, precision = 18, scale = 2)
     private BigDecimal cdeExe;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "CDE_GRA", nullable = false, precision = 18, scale = 2)
+    @Column(name = "cde_gra", nullable = false, precision = 18, scale = 2)
     private BigDecimal cdeGra;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "CDE_IVA", nullable = false, precision = 18, scale = 2)
+    @Column(name = "cde_iva", nullable = false, precision = 18, scale = 2)
     private BigDecimal cdeIva;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "CDE_TOT", nullable = false, precision = 18, scale = 2)
+    @Column(name = "cde_tot", nullable = false, precision = 18, scale = 2)
     private BigDecimal cdeTot;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "CDE_USU_INS", nullable = false, length = 10)
+    @Column(name = "cde_usu_ins", nullable = false, length = 10)
     private String cdeUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "CDE_FEC_INS", nullable = false)
+    @Column(name = "cde_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date cdeFecIns;
     @Size(max = 10)
-    @Column(name = "CDE_USU_MOD", length = 10)
+    @Column(name = "cde_usu_mod", length = 10)
     private String cdeUsuMod;
-    @Column(name = "CDE_FEC_MOD")
+    @Column(name = "cde_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date cdeFecMod;
-    @JoinColumn(name = "COM_ID", referencedColumnName = "COM_ID_TRAN", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "via_id", referencedColumnName = "via_id")
+    @ManyToOne
+    private ViaViajes viaId;
+    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false)
+    @ManyToOne(optional = false)
+    private PgePersonas perId;
+    @JoinColumn(name = "com_id", referencedColumnName = "com_id_tran", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PagComprobantes pagComprobantes;
 
@@ -205,6 +205,22 @@ public class PagComprobantesDet implements Serializable {
         this.cdeFecMod = cdeFecMod;
     }
 
+    public ViaViajes getViaId() {
+        return viaId;
+    }
+
+    public void setViaId(ViaViajes viaId) {
+        this.viaId = viaId;
+    }
+
+    public PgePersonas getPerId() {
+        return perId;
+    }
+
+    public void setPerId(PgePersonas perId) {
+        this.perId = perId;
+    }
+
     public PagComprobantes getPagComprobantes() {
         return pagComprobantes;
     }
@@ -236,22 +252,6 @@ public class PagComprobantesDet implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PagComprobantesDet[ pagComprobantesDetPK=" + pagComprobantesDetPK + " ]";
-    }
-
-    public ViaViajes getViaId() {
-        return viaId;
-    }
-
-    public void setViaId(ViaViajes viaId) {
-        this.viaId = viaId;
-    }
-
-    public PgePersonas getPerId() {
-        return perId;
-    }
-
-    public void setPerId(PgePersonas perId) {
-        this.perId = perId;
     }
     
 }

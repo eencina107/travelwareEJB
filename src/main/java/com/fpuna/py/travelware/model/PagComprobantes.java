@@ -33,8 +33,8 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PAG_COMPROBANTES", catalog = "travelware", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"COM_CONC", "COM_TIP_DOC", "COM_NUM_DOC", "COM_ESTADO"})})
+@Table(name = "pag_comprobantes", catalog = "travelware", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"com_conc", "com_tip_doc", "com_num_doc", "com_estado"})})
 @NamedQueries({
     @NamedQuery(name = "PagComprobantes.findAll", query = "SELECT p FROM PagComprobantes p"),
     @NamedQuery(name = "PagComprobantes.findByComIdTran", query = "SELECT p FROM PagComprobantes p WHERE p.comIdTran = :comIdTran"),
@@ -51,67 +51,70 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PagComprobantes.findByComTotExe", query = "SELECT p FROM PagComprobantes p WHERE p.comTotExe = :comTotExe"),
     @NamedQuery(name = "PagComprobantes.findByComTotGra", query = "SELECT p FROM PagComprobantes p WHERE p.comTotGra = :comTotGra"),
     @NamedQuery(name = "PagComprobantes.findByComTotImp", query = "SELECT p FROM PagComprobantes p WHERE p.comTotImp = :comTotImp"),
-    @NamedQuery(name = "PagComprobantes.findByComTotTot", query = "SELECT p FROM PagComprobantes p WHERE p.comTotTot = :comTotTot")})
+    @NamedQuery(name = "PagComprobantes.findByComTotTot", query = "SELECT p FROM PagComprobantes p WHERE p.comTotTot = :comTotTot"),
+    @NamedQuery(name = "PagComprobantes.findByViaId", query = "SELECT p FROM PagComprobantes p WHERE p.viaId = :viaId")})
 public class PagComprobantes implements Serializable {
-    @JoinColumn(name = "PER_ID", referencedColumnName = "PER_ID", nullable = false)
-    @ManyToOne(optional = false)
-    private PgePersonas perId;
-    @JoinColumn(name = "MON_ID", referencedColumnName = "MON_ID", nullable = false)
-    @ManyToOne(optional = false)
-    private PgeMonedas monId;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "COM_ID_TRAN", nullable = false)
+    @Column(name = "com_id_tran", nullable = false)
     private Integer comIdTran;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 4)
-    @Column(name = "COM_CONC", nullable = false, length = 4)
+    @Column(name = "com_conc", nullable = false, length = 4)
     private String comConc;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "COM_NUM_DOC", nullable = false)
+    @Column(name = "com_num_doc", nullable = false)
     private int comNumDoc;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2)
-    @Column(name = "COM_TIP_DOC", nullable = false, length = 2)
+    @Column(name = "com_tip_doc", nullable = false, length = 2)
     private String comTipDoc;
     @Size(max = 12)
-    @Column(name = "COM_TIMBRADO", length = 12)
+    @Column(name = "com_timbrado", length = 12)
     private String comTimbrado;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "COM_ESTADO", nullable = false)
+    @Column(name = "com_estado", nullable = false)
     private Character comEstado;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "COM_FEC_EMIS", nullable = false)
+    @Column(name = "com_fec_emis", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date comFecEmis;
-    @Column(name = "COM_FEC_VENC")
+    @Column(name = "com_fec_venc")
     @Temporal(TemporalType.DATE)
     private Date comFecVenc;
-    @Column(name = "COM_CONDICION")
+    @Column(name = "com_condicion")
     private Character comCondicion;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "COM_COTIZACION", precision = 8, scale = 2)
+    @Column(name = "com_cotizacion", precision = 8, scale = 2)
     private BigDecimal comCotizacion;
     @Size(max = 2147483647)
-    @Column(name = "COM_OBSERVACION", length = 2147483647)
+    @Column(name = "com_observacion", length = 2147483647)
     private String comObservacion;
-    @Column(name = "COM_TOT_EXE", precision = 18, scale = 2)
+    @Column(name = "com_tot_exe", precision = 18, scale = 2)
     private BigDecimal comTotExe;
-    @Column(name = "COM_TOT_GRA", precision = 18, scale = 2)
+    @Column(name = "com_tot_gra", precision = 18, scale = 2)
     private BigDecimal comTotGra;
-    @Column(name = "COM_TOT_IMP", precision = 18, scale = 2)
+    @Column(name = "com_tot_imp", precision = 18, scale = 2)
     private BigDecimal comTotImp;
-    @Column(name = "COM_TOT_TOT", precision = 18, scale = 2)
+    @Column(name = "com_tot_tot", precision = 18, scale = 2)
     private BigDecimal comTotTot;
+    @Column(name = "via_id")
+    private Integer viaId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pagComprobantes")
     private List<PagComprobantesDet> pagComprobantesDetList;
+    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false)
+    @ManyToOne(optional = false)
+    private PgePersonas perId;
+    @JoinColumn(name = "mon_id", referencedColumnName = "mon_id", nullable = false)
+    @ManyToOne(optional = false)
+    private PgeMonedas monId;
 
     public PagComprobantes() {
     }
@@ -249,12 +252,36 @@ public class PagComprobantes implements Serializable {
         this.comTotTot = comTotTot;
     }
 
+    public Integer getViaId() {
+        return viaId;
+    }
+
+    public void setViaId(Integer viaId) {
+        this.viaId = viaId;
+    }
+
     public List<PagComprobantesDet> getPagComprobantesDetList() {
         return pagComprobantesDetList;
     }
 
     public void setPagComprobantesDetList(List<PagComprobantesDet> pagComprobantesDetList) {
         this.pagComprobantesDetList = pagComprobantesDetList;
+    }
+
+    public PgePersonas getPerId() {
+        return perId;
+    }
+
+    public void setPerId(PgePersonas perId) {
+        this.perId = perId;
+    }
+
+    public PgeMonedas getMonId() {
+        return monId;
+    }
+
+    public void setMonId(PgeMonedas monId) {
+        this.monId = monId;
     }
 
     @Override
@@ -280,22 +307,6 @@ public class PagComprobantes implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PagComprobantes[ comIdTran=" + comIdTran + " ]";
-    }
-
-    public PgePersonas getPerId() {
-        return perId;
-    }
-
-    public void setPerId(PgePersonas perId) {
-        this.perId = perId;
-    }
-
-    public PgeMonedas getMonId() {
-        return monId;
-    }
-
-    public void setMonId(PgeMonedas monId) {
-        this.monId = monId;
     }
     
 }

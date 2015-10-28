@@ -8,6 +8,7 @@ package com.fpuna.py.travelware.dao.impl;
 import com.fpuna.py.travelware.dao.PersonaDao;
 import com.fpuna.py.travelware.model.PgePersonas;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
@@ -16,6 +17,7 @@ import org.apache.log4j.Logger;
  *
  * @author eencina
  */
+@Stateless
 public class PersonaImpl implements PersonaDao{
     final static Logger logger = Logger.getLogger(FidelidadImpl.class);
     

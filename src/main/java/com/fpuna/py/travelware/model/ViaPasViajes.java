@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "VIA_PAS_VIAJES")
+@Table(name = "via_pas_viajes", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ViaPasViajes.findAll", query = "SELECT v FROM ViaPasViajes v"),
     @NamedQuery(name = "ViaPasViajes.findByViaId", query = "SELECT v FROM ViaPasViajes v WHERE v.viaPasViajesPK.viaId = :viaId"),
@@ -43,41 +43,41 @@ public class ViaPasViajes implements Serializable {
     protected ViaPasViajesPK viaPasViajesPK;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "PVI_REL")
+    @Column(name = "pvi_rel", nullable = false)
     private Character pviRel;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "PVI_USU_INS")
+    @Column(name = "pvi_usu_ins", nullable = false, length = 10)
     private String pviUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "PVI_FEC_INS")
+    @Column(name = "pvi_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date pviFecIns;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "PVI_USU_MOD")
+    @Column(name = "pvi_usu_mod", nullable = false, length = 10)
     private String pviUsuMod;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "PVI_FEC_MOD")
+    @Column(name = "pvi_fec_mod", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date pviFecMod;
-    @JoinColumn(name = "VIA_ID", referencedColumnName = "VIA_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private ViaViajes viaViajes;
     @JoinColumns({
-        @JoinColumn(name = "VIA_ID", referencedColumnName = "VIA_ID", insertable = false, updatable = false),
-        @JoinColumn(name = "PRE_ID", referencedColumnName = "PRE_ID"),
-        @JoinColumn(name = "MON_ID", referencedColumnName = "MON_ID")})
+        @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false, insertable = false, updatable = false),
+        @JoinColumn(name = "pre_id", referencedColumnName = "pre_id", nullable = false),
+        @JoinColumn(name = "mon_id", referencedColumnName = "mon_id", nullable = false)})
     @ManyToOne(optional = false)
     private ViaPreViajes viaPreViajes;
-    @JoinColumn(name = "PVI_PAS_ID", referencedColumnName = "PER_ID")
+    @JoinColumn(name = "pvi_pas_id", referencedColumnName = "per_id", nullable = false)
     @ManyToOne(optional = false)
     private ViaPasajeros pviPasId;
-    @JoinColumn(name = "PER_ID", referencedColumnName = "PER_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private ViaPasajeros viaPasajeros;
 
@@ -203,7 +203,7 @@ public class ViaPasViajes implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.ViaPasViajes[ viaPasViajesPK=" + viaPasViajesPK + " ]";
+        return "com.fpuna.py.travelware.model.ViaPasViajes[ viaPasViajesPK=" + viaPasViajesPK + " ]";
     }
     
 }

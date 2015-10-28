@@ -19,14 +19,14 @@ import javax.validation.constraints.NotNull;
 public class ViaPreViajesPK implements Serializable {
     @Basic(optional = false)
     @NotNull
-    @Column(name = "VIA_ID")
+    @Column(name = "via_id", nullable = false)
     private int viaId;
     @Basic(optional = false)
-    @Column(name = "PRE_ID")
+    @Column(name = "pre_id", nullable = false)
     private int preId;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "MON_ID")
+    @Column(name = "mon_id", nullable = false)
     private int monId;
 
     public ViaPreViajesPK() {
@@ -92,7 +92,7 @@ public class ViaPreViajesPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.ViaPreViajesPK[ viaId=" + viaId + ", preId=" + preId + ", monId=" + monId + " ]";
+        return "com.fpuna.py.travelware.model.ViaPreViajesPK[ viaId=" + viaId + ", preId=" + preId + ", monId=" + monId + " ]";
     }
     
 }

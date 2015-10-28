@@ -9,6 +9,7 @@ import com.fpuna.py.travelware.dao.AtractivoDao;
 import com.fpuna.py.travelware.model.PgeAtractivos;
 import com.fpuna.py.travelware.model.PgeAtractivosPK;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
@@ -17,6 +18,7 @@ import org.apache.log4j.Logger;
  *
  * @author eencina
  */
+@Stateless
 public class AtractivoImpl implements AtractivoDao {
     final static Logger logger = Logger.getLogger(AtractivoImpl.class);
     

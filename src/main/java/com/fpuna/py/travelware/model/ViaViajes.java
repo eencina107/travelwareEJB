@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "VIA_VIAJES")
+@Table(name = "via_viajes", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ViaViajes.findAll", query = "SELECT v FROM ViaViajes v"),
     @NamedQuery(name = "ViaViajes.findByViaId", query = "SELECT v FROM ViaViajes v WHERE v.viaId = :viaId"),
@@ -42,60 +42,56 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ViaViajes.findByViaUsuMod", query = "SELECT v FROM ViaViajes v WHERE v.viaUsuMod = :viaUsuMod"),
     @NamedQuery(name = "ViaViajes.findByViaFecMod", query = "SELECT v FROM ViaViajes v WHERE v.viaFecMod = :viaFecMod")})
 public class ViaViajes implements Serializable {
-    @OneToMany(mappedBy = "viaId")
-    private List<PagComprobantesDet> pagComprobantesDetList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "VIA_ID")
+    @Column(name = "via_id", nullable = false)
     private Integer viaId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "VIA_DEST")
+    @Column(name = "via_dest", nullable = false, length = 50)
     private String viaDest;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2147483647)
-    @Column(name = "VIA_DESC")
+    @Column(name = "via_desc", nullable = false, length = 2147483647)
     private String viaDesc;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "VIA_FEC_SALI")
+    @Column(name = "via_fec_sali", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date viaFecSali;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "VIA_FEC_REG")
+    @Column(name = "via_fec_reg", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date viaFecReg;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "VIA_USU_INS")
+    @Column(name = "via_usu_ins", nullable = false, length = 10)
     private String viaUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "VIA_FEC_INS")
+    @Column(name = "via_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date viaFecIns;
     @Size(max = 10)
-    @Column(name = "VIA_USU_MOD")
+    @Column(name = "via_usu_mod", length = 10)
     private String viaUsuMod;
-    @Column(name = "VIA_FEC_MOD")
+    @Column(name = "via_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date viaFecMod;
+    @OneToMany(mappedBy = "viaId")
+    private List<PagComprobantesDet> pagComprobantesDetList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaViajes")
     private List<ViaPreViajes> viaPreViajesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaViajes")
-    private List<ViaPasViajes> viaPasViajesList;
-//    @OneToMany(mappedBy = "viaId")
-//    private List<PagComprobantesDet> pagComprobantesDetList;
-     @OneToMany(mappedBy = "viaId")
-    private List<PagComprobantes> pagComprobantesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaViajes")
     private List<ViaActividades> viaActividadesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaViajes")
+    private List<ViaPasViajes> viaPasViajesList;
 
     public ViaViajes() {
     }
@@ -186,6 +182,14 @@ public class ViaViajes implements Serializable {
         this.viaFecMod = viaFecMod;
     }
 
+    public List<PagComprobantesDet> getPagComprobantesDetList() {
+        return pagComprobantesDetList;
+    }
+
+    public void setPagComprobantesDetList(List<PagComprobantesDet> pagComprobantesDetList) {
+        this.pagComprobantesDetList = pagComprobantesDetList;
+    }
+
     public List<ViaPreViajes> getViaPreViajesList() {
         return viaPreViajesList;
     }
@@ -194,35 +198,20 @@ public class ViaViajes implements Serializable {
         this.viaPreViajesList = viaPreViajesList;
     }
 
-    public List<ViaPasViajes> getViaPasViajesList() {
-        return viaPasViajesList;
-    }
-
-    public void setViaPasViajesList(List<ViaPasViajes> viaPasViajesList) {
-        this.viaPasViajesList = viaPasViajesList;
-    }
-
-//    public List<PagComprobantesDet> getPagComprobantesDetList() {
-//        return pagComprobantesDetList;
-//    }
-//
-//    public void setPagComprobantesDetList(List<PagComprobantesDet> pagComprobantesDetList) {
-//        this.pagComprobantesDetList = pagComprobantesDetList;
-//    }
-    public List<PagComprobantes> getPagComprobantesList() {
-        return pagComprobantesList;
-    }
-
-    public void setPagComprobantesDetList(List<PagComprobantesDet> pagComprobantesDetList) {
-        this.pagComprobantesList = pagComprobantesList;
-    }
-
     public List<ViaActividades> getViaActividadesList() {
         return viaActividadesList;
     }
 
     public void setViaActividadesList(List<ViaActividades> viaActividadesList) {
         this.viaActividadesList = viaActividadesList;
+    }
+
+    public List<ViaPasViajes> getViaPasViajesList() {
+        return viaPasViajesList;
+    }
+
+    public void setViaPasViajesList(List<ViaPasViajes> viaPasViajesList) {
+        this.viaPasViajesList = viaPasViajesList;
     }
 
     @Override
@@ -247,11 +236,7 @@ public class ViaViajes implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.ViaViajes[ viaId=" + viaId + " ]";
-    }
-
-    public List<PagComprobantesDet> getPagComprobantesDetList() {
-        return pagComprobantesDetList;
+        return "com.fpuna.py.travelware.model.ViaViajes[ viaId=" + viaId + " ]";
     }
     
 }

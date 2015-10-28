@@ -33,7 +33,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PGE_ORGANIZACIONES")
+@Table(name = "pge_organizaciones", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PgeOrganizaciones.findAll", query = "SELECT p FROM PgeOrganizaciones p"),
     @NamedQuery(name = "PgeOrganizaciones.findByOrgId", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgId = :orgId"),
@@ -53,57 +53,57 @@ public class PgeOrganizaciones implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "ORG_ID")
+    @Column(name = "org_id", nullable = false)
     private Integer orgId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 60)
-    @Column(name = "ORG_DESC")
+    @Column(name = "org_desc", nullable = false, length = 60)
     private String orgDesc;
     @Size(max = 500)
-    @Column(name = "ORG_DIR")
+    @Column(name = "org_dir", length = 500)
     private String orgDir;
     @Size(max = 30)
-    @Column(name = "ORG_TEL")
+    @Column(name = "org_tel", length = 30)
     private String orgTel;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
-    @Column(name = "ORG_TIPO")
+    @Column(name = "org_tipo", nullable = false, length = 3)
     private String orgTipo;
     @Size(max = 3)
-    @Column(name = "ORG_SUB_TIPO")
+    @Column(name = "org_sub_tipo", length = 3)
     private String orgSubTipo;
     @Size(max = 500)
-    @Column(name = "ORG_UBI")
+    @Column(name = "org_ubi", length = 500)
     private String orgUbi;
     @Lob
-    @Column(name = "ORG_LOGO")
+    @Column(name = "org_logo")
     private byte[] orgLogo;
     @Size(max = 255)
-    @Column(name = "ORG_PAG_WEB")
+    @Column(name = "org_pag_web", length = 255)
     private String orgPagWeb;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "ORG_USU_INS")
+    @Column(name = "org_usu_ins", nullable = false, length = 10)
     private String orgUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ORG_FEC_INS")
+    @Column(name = "org_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date orgFecIns;
     @Size(max = 10)
-    @Column(name = "ORG_USU_MOD")
+    @Column(name = "org_usu_mod", length = 10)
     private String orgUsuMod;
-    @Column(name = "ORG_FEC_MOD")
+    @Column(name = "org_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date orgFecMod;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeOrganizaciones")
     private List<ViaFidelidades> viaFidelidadesList;
     @JoinColumns({
-        @JoinColumn(name = "PAI_ID", referencedColumnName = "PAI_ID"),
-        @JoinColumn(name = "CIU_ID", referencedColumnName = "CIU_ID")})
+        @JoinColumn(name = "pai_id", referencedColumnName = "pai_id", nullable = false),
+        @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id", nullable = false)})
     @ManyToOne(optional = false)
     private PgeCiudades pgeCiudades;
 
@@ -264,7 +264,7 @@ public class PgeOrganizaciones implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgeOrganizaciones[ orgId=" + orgId + " ]";
+        return "com.fpuna.py.travelware.model.PgeOrganizaciones[ orgId=" + orgId + " ]";
     }
     
 }

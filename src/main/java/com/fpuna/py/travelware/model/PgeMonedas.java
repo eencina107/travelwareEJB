@@ -31,7 +31,7 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "PGE_MONEDAS")
+@Table(name = "pge_monedas", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "PgeMonedas.findAll", query = "SELECT p FROM PgeMonedas p"),
     @NamedQuery(name = "PgeMonedas.findByMonId", query = "SELECT p FROM PgeMonedas p WHERE p.monId = :monId"),
@@ -45,34 +45,34 @@ public class PgeMonedas implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "MON_ID")
+    @Column(name = "mon_id", nullable = false)
     private Integer monId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 35)
-    @Column(name = "MON_DESC")
+    @Column(name = "mon_desc", nullable = false, length = 35)
     private String monDesc;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "MON_USU_INS")
+    @Column(name = "mon_usu_ins", nullable = false, length = 10)
     private String monUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "MON_FEC_INS")
+    @Column(name = "mon_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date monFecIns;
     @Size(max = 10)
-    @Column(name = "MON_USU_MOD")
+    @Column(name = "mon_usu_mod", length = 10)
     private String monUsuMod;
-    @Column(name = "MON_FEC_MOD")
+    @Column(name = "mon_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date monFecMod;
-    @JoinColumn(name = "PAI_ID", referencedColumnName = "PAI_ID")
-    @ManyToOne(optional = false)
-    private PgePaises paiId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeMonedas")
     private List<ViaPreViajes> viaPreViajesList;
+    @JoinColumn(name = "pai_id", referencedColumnName = "pai_id", nullable = false)
+    @ManyToOne(optional = false)
+    private PgePaises paiId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
     private List<PagComprobantes> pagComprobantesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeMonedas")
@@ -140,20 +140,20 @@ public class PgeMonedas implements Serializable {
         this.monFecMod = monFecMod;
     }
 
-    public PgePaises getPaiId() {
-        return paiId;
-    }
-
-    public void setPaiId(PgePaises paiId) {
-        this.paiId = paiId;
-    }
-
     public List<ViaPreViajes> getViaPreViajesList() {
         return viaPreViajesList;
     }
 
     public void setViaPreViajesList(List<ViaPreViajes> viaPreViajesList) {
         this.viaPreViajesList = viaPreViajesList;
+    }
+
+    public PgePaises getPaiId() {
+        return paiId;
+    }
+
+    public void setPaiId(PgePaises paiId) {
+        this.paiId = paiId;
     }
 
     public List<PagComprobantes> getPagComprobantesList() {
@@ -194,7 +194,7 @@ public class PgeMonedas implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.PgeMonedas[ monId=" + monId + " ]";
+        return "com.fpuna.py.travelware.model.PgeMonedas[ monId=" + monId + " ]";
     }
     
 }

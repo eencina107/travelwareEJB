@@ -19,15 +19,15 @@ import javax.validation.constraints.NotNull;
 public class PgePermisosPK implements Serializable {
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ROL_ID", nullable = false)
+    @Column(name = "rol_id", nullable = false)
     private int rolId;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "MENU_ID", nullable = false)
+    @Column(name = "menu_id", nullable = false)
     private int menuId;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "SUBMENU_ID", nullable = false)
+    @Column(name = "submenu_id", nullable = false)
     private int submenuId;
 
     public PgePermisosPK() {
