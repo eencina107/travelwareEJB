@@ -96,7 +96,7 @@ public class UsuarioImpl implements UsuarioDao{
 
             /*Se convierte el string ingresado en codigo Hash-MD5 y se compara con el de la BD*/
             String hashIngresado;
-            hashIngresado = (String) em.createNativeQuery("SELECT md5(:pass)").setParameter("pass", password).getSingleResult();
+            hashIngresado = (String) em.createNativeQuery("SELECT md5(\'"+password+"\')").getSingleResult();
 
             String hashBD;
             hashBD = usuario.getUsuPass();
