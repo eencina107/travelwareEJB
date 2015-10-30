@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -39,6 +40,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeRoles.findByRolUsuMod", query = "SELECT p FROM PgeRoles p WHERE p.rolUsuMod = :rolUsuMod"),
     @NamedQuery(name = "PgeRoles.findByRolFecMod", query = "SELECT p FROM PgeRoles p WHERE p.rolFecMod = :rolFecMod")})
 public class PgeRoles implements Serializable {
+    @ManyToMany(mappedBy = "pgeRolesList")
+    private List<PgeMenus> pgeMenusList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -172,6 +175,14 @@ public class PgeRoles implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PgeRoles[ rolId=" + rolId + " ]";
+    }
+
+    public List<PgeMenus> getPgeMenusList() {
+        return pgeMenusList;
+    }
+
+    public void setPgeMenusList(List<PgeMenus> pgeMenusList) {
+        this.pgeMenusList = pgeMenusList;
     }
     
 }

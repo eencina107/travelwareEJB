@@ -6,6 +6,8 @@
 package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -13,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -26,6 +30,13 @@ import javax.persistence.Table;
     @NamedQuery(name = "PgePermisos.findByMenuId", query = "SELECT p FROM PgePermisos p WHERE p.pgePermisosPK.menuId = :menuId"),
     @NamedQuery(name = "PgePermisos.findBySubmenuId", query = "SELECT p FROM PgePermisos p WHERE p.pgePermisosPK.submenuId = :submenuId")})
 public class PgePermisos implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "per_tipo", nullable = false)
+    private Character perTipo;
+    @Size(max = 50)
+    @Column(name = "per_descripcion", length = 50)
+    private String perDescripcion;
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PgePermisosPK pgePermisosPK;
@@ -83,6 +94,22 @@ public class PgePermisos implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PgePermisos[ pgePermisosPK=" + pgePermisosPK + " ]";
+    }
+
+    public Character getPerTipo() {
+        return perTipo;
+    }
+
+    public void setPerTipo(Character perTipo) {
+        this.perTipo = perTipo;
+    }
+
+    public String getPerDescripcion() {
+        return perDescripcion;
+    }
+
+    public void setPerDescripcion(String perDescripcion) {
+        this.perDescripcion = perDescripcion;
     }
     
 }

@@ -7,6 +7,7 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -215,6 +216,42 @@ public class PgeUsuarios implements Serializable {
 
     public List<PgeUsuRoles> getPgeUsuRolesList() {
         return pgeUsuRolesList;
+    }
+  
+    public List<PgeRoles> getPgeRoles() {
+        List<PgeUsuRoles> usuRoles = this.getPgeUsuRolesList();
+        List<PgeRoles> roles = null;
+        Iterator i= usuRoles.iterator();
+        PgeUsuRoles usuRol;
+        PgeRoles rol;
+        while (i.hasNext()){
+            usuRol = (PgeUsuRoles) i.next();
+            rol = usuRol.getPgeRoles();
+            roles.add(rol);
+        }
+        return roles;
+    }
+    
+    public List<PgePermisos> getPgePermisos(){
+        List<PgeRoles> roles = this.getPgeRoles();
+        List<PgePermisos> permisosRol; //permisos recuperados con cada rol
+        List<PgePermisos> permisos = null; //permisos que seran retornados (suma de todos los permisosRol)
+        PgeRoles rol;
+        Iterator i= roles.iterator(); //iterador roles
+        Iterator i2; //iterador permisosRol
+        PgePermisos permiso;
+        
+        while(i.hasNext()){
+            rol= (PgeRoles) i.next();
+            permisosRol = rol.getPgePermisosList();
+            i2=permisosRol.iterator();
+            while(i2.hasNext()){
+                permiso=(PgePermisos) i2.next();
+                permisos.add(permiso);
+            }
+        }
+        
+        return permisos;
     }
 
     public void setPgeUsuRolesList(List<PgeUsuRoles> pgeUsuRolesList) {

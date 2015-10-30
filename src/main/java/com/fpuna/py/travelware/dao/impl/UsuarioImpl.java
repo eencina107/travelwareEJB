@@ -6,10 +6,13 @@
 package com.fpuna.py.travelware.dao.impl;
 
 import com.fpuna.py.travelware.dao.UsuarioDao;
+import com.fpuna.py.travelware.model.PgeRoles;
+import com.fpuna.py.travelware.model.PgeUsuRoles;
 import com.fpuna.py.travelware.model.PgeUsuarios;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -113,5 +116,7 @@ public class UsuarioImpl implements UsuarioDao{
             return null;
         }
     }
+
+    
     
 }
