@@ -7,7 +7,9 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,11 +35,11 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeModulos.findByModId", query = "SELECT p FROM PgeModulos p WHERE p.modId = :modId"),
     @NamedQuery(name = "PgeModulos.findByModDesc", query = "SELECT p FROM PgeModulos p WHERE p.modDesc = :modDesc"),
     @NamedQuery(name = "PgeModulos.findByModAbr", query = "SELECT p FROM PgeModulos p WHERE p.modAbr = :modAbr"),
-    @NamedQuery(name = "PgeModulos.findByModEst", query = "SELECT p FROM PgeModulos p WHERE p.modEst = :modEst"),
     @NamedQuery(name = "PgeModulos.findByModUsuIns", query = "SELECT p FROM PgeModulos p WHERE p.modUsuIns = :modUsuIns"),
     @NamedQuery(name = "PgeModulos.findByModFecIns", query = "SELECT p FROM PgeModulos p WHERE p.modFecIns = :modFecIns"),
     @NamedQuery(name = "PgeModulos.findByModUsuMod", query = "SELECT p FROM PgeModulos p WHERE p.modUsuMod = :modUsuMod"),
-    @NamedQuery(name = "PgeModulos.findByModFecMod", query = "SELECT p FROM PgeModulos p WHERE p.modFecMod = :modFecMod")})
+    @NamedQuery(name = "PgeModulos.findByModFecMod", query = "SELECT p FROM PgeModulos p WHERE p.modFecMod = :modFecMod"),
+    @NamedQuery(name = "PgeModulos.findByModEstado", query = "SELECT p FROM PgeModulos p WHERE p.modEstado = :modEstado")})
 public class PgeModulos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,8 +55,6 @@ public class PgeModulos implements Serializable {
     @Size(max = 10)
     @Column(name = "mod_abr", length = 10)
     private String modAbr;
-    @Column(name = "mod_est")
-    private Short modEst;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -70,6 +71,12 @@ public class PgeModulos implements Serializable {
     @Column(name = "mod_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modFecMod;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "mod_estado", nullable = false)
+    private Character modEstado;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeModulos")
+    private List<PgeMenus> pgeMenusList;
 
     public PgeModulos() {
     }
@@ -78,11 +85,12 @@ public class PgeModulos implements Serializable {
         this.modId = modId;
     }
 
-    public PgeModulos(Integer modId, String modDesc, String modUsuIns, Date modFecIns) {
+    public PgeModulos(Integer modId, String modDesc, String modUsuIns, Date modFecIns, Character modEstado) {
         this.modId = modId;
         this.modDesc = modDesc;
         this.modUsuIns = modUsuIns;
         this.modFecIns = modFecIns;
+        this.modEstado = modEstado;
     }
 
     public Integer getModId() {
@@ -107,14 +115,6 @@ public class PgeModulos implements Serializable {
 
     public void setModAbr(String modAbr) {
         this.modAbr = modAbr;
-    }
-
-    public Short getModEst() {
-        return modEst;
-    }
-
-    public void setModEst(Short modEst) {
-        this.modEst = modEst;
     }
 
     public String getModUsuIns() {
@@ -147,6 +147,22 @@ public class PgeModulos implements Serializable {
 
     public void setModFecMod(Date modFecMod) {
         this.modFecMod = modFecMod;
+    }
+
+    public Character getModEstado() {
+        return modEstado;
+    }
+
+    public void setModEstado(Character modEstado) {
+        this.modEstado = modEstado;
+    }
+
+    public List<PgeMenus> getPgeMenusList() {
+        return pgeMenusList;
+    }
+
+    public void setPgeMenusList(List<PgeMenus> pgeMenusList) {
+        this.pgeMenusList = pgeMenusList;
     }
 
     @Override

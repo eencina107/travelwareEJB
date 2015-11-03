@@ -6,11 +6,14 @@
 package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -29,7 +32,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgePermisos.findByRolId", query = "SELECT p FROM PgePermisos p WHERE p.pgePermisosPK.rolId = :rolId"),
     @NamedQuery(name = "PgePermisos.findByMenuId", query = "SELECT p FROM PgePermisos p WHERE p.pgePermisosPK.menuId = :menuId"),
     @NamedQuery(name = "PgePermisos.findBySubmenuId", query = "SELECT p FROM PgePermisos p WHERE p.pgePermisosPK.submenuId = :submenuId")})
-public class PgePermisos implements Serializable {
+public class PgePermisos implements Serializable, Comparable<PgePermisos> {
     @Basic(optional = false)
     @NotNull
     @Column(name = "per_tipo", nullable = false)
@@ -43,7 +46,7 @@ public class PgePermisos implements Serializable {
     @JoinColumn(name = "rol_id", referencedColumnName = "rol_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private PgeRoles pgeRoles;
-
+    
     public PgePermisos() {
     }
 
@@ -110,6 +113,27 @@ public class PgePermisos implements Serializable {
 
     public void setPerDescripcion(String perDescripcion) {
         this.perDescripcion = perDescripcion;
+    }
+
+    @Override
+    public int compareTo(PgePermisos t) {
+        if (this.getPgePermisosPK().getMenuId()<t.getPgePermisosPK().getMenuId()){
+            return -1;
+        }
+        else if (this.getPgePermisosPK().getMenuId()>t.getPgePermisosPK().getMenuId()){
+            return 1;
+        }
+        else{
+            if(this.getPgePermisosPK().getSubmenuId()<t.getPgePermisosPK().getSubmenuId()){
+                return -1;
+            }
+            else if(this.getPgePermisosPK().getSubmenuId()>t.getPgePermisosPK().getSubmenuId()){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
     }
     
 }

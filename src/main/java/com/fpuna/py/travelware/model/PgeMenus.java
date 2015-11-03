@@ -5,6 +5,7 @@
  */
 package com.fpuna.py.travelware.model;
 
+import com.sun.org.apache.bcel.internal.generic.InstructionConstants;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -12,8 +13,8 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -31,8 +32,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeMenus.findByMenId", query = "SELECT p FROM PgeMenus p WHERE p.pgeMenusPK.menId = :menId"),
     @NamedQuery(name = "PgeMenus.findByMenSubId", query = "SELECT p FROM PgeMenus p WHERE p.pgeMenusPK.menSubId = :menSubId"),
     @NamedQuery(name = "PgeMenus.findByMenDescripcion", query = "SELECT p FROM PgeMenus p WHERE p.menDescripcion = :menDescripcion"),
-    @NamedQuery(name = "PgeMenus.findByMenTipo", query = "SELECT p FROM PgeMenus p WHERE p.menTipo = :menTipo")})
-public class PgeMenus implements Serializable {
+    @NamedQuery(name = "PgeMenus.findByMenTipo", query = "SELECT p FROM PgeMenus p WHERE p.menTipo = :menTipo"),
+    @NamedQuery(name = "PgeMenus.findByMenUbicacion", query = "SELECT p FROM PgeMenus p WHERE p.menUbicacion = :menUbicacion")})
+public class PgeMenus implements Serializable, Comparable<PgeMenus> {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PgeMenusPK pgeMenusPK;
@@ -45,12 +47,14 @@ public class PgeMenus implements Serializable {
     @NotNull
     @Column(name = "men_tipo", nullable = false)
     private Character menTipo;
-    @JoinTable(name = "pge_permisos", joinColumns = {
-        @JoinColumn(name = "men_id", referencedColumnName = "men_id", nullable = false),
-        @JoinColumn(name = "men_sub_id", referencedColumnName = "men_sub_id", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "rol_id", referencedColumnName = "rol_id", nullable = false)})
-    @ManyToMany
+    @Size(max = 50)
+    @Column(name = "men_ubicacion", length = 50)
+    private String menUbicacion;
+    @ManyToMany(mappedBy = "pgeMenusList")
     private List<PgeRoles> pgeRolesList;
+    @JoinColumn(name = "men_id", referencedColumnName = "mod_id", nullable = false, insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private PgeModulos pgeModulos;
 
     public PgeMenus() {
     }
@@ -93,12 +97,28 @@ public class PgeMenus implements Serializable {
         this.menTipo = menTipo;
     }
 
+    public String getMenUbicacion() {
+        return menUbicacion;
+    }
+
+    public void setMenUbicacion(String menUbicacion) {
+        this.menUbicacion = menUbicacion;
+    }
+
     public List<PgeRoles> getPgeRolesList() {
         return pgeRolesList;
     }
 
     public void setPgeRolesList(List<PgeRoles> pgeRolesList) {
         this.pgeRolesList = pgeRolesList;
+    }
+
+    public PgeModulos getPgeModulos() {
+        return pgeModulos;
+    }
+
+    public void setPgeModulos(PgeModulos pgeModulos) {
+        this.pgeModulos = pgeModulos;
     }
 
     @Override
@@ -124,6 +144,27 @@ public class PgeMenus implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PgeMenus[ pgeMenusPK=" + pgeMenusPK + " ]";
+    }
+
+    @Override
+    public int compareTo(PgeMenus t) {
+        if (this.pgeMenusPK.getMenId()<t.getPgeMenusPK().getMenId()){
+            return -1;
+        }
+        else if(this.pgeMenusPK.getMenId()>t.getPgeMenusPK().getMenId()){
+            return 1;
+        }
+        else{
+            if (this.pgeMenusPK.getMenSubId()<t.getPgeMenusPK().getMenSubId()){
+                return -1;
+            }
+            else if(this.pgeMenusPK.getMenSubId()>t.getPgeMenusPK().getMenSubId()){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
     }
     
 }

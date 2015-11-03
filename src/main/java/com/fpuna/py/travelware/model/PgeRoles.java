@@ -9,16 +9,16 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,8 +40,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeRoles.findByRolUsuMod", query = "SELECT p FROM PgeRoles p WHERE p.rolUsuMod = :rolUsuMod"),
     @NamedQuery(name = "PgeRoles.findByRolFecMod", query = "SELECT p FROM PgeRoles p WHERE p.rolFecMod = :rolFecMod")})
 public class PgeRoles implements Serializable {
-    @ManyToMany(mappedBy = "pgeRolesList")
-    private List<PgeMenus> pgeMenusList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,10 +67,12 @@ public class PgeRoles implements Serializable {
     @Column(name = "rol_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rolFecMod;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeRoles")
-    private List<PgeUsuRoles> pgeUsuRolesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeRoles")
-    private List<PgePermisos> pgePermisosList;
+    @JoinTable(name = "pge_permisos", joinColumns = {
+        @JoinColumn(name = "rol_id", referencedColumnName = "rol_id", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "men_id", referencedColumnName = "men_id", nullable = false),
+        @JoinColumn(name = "men_sub_id", referencedColumnName = "men_sub_id", nullable = false)})
+    @ManyToMany
+    private List<PgeMenus> pgeMenusList;
 
     public PgeRoles() {
     }
@@ -136,20 +136,12 @@ public class PgeRoles implements Serializable {
         this.rolFecMod = rolFecMod;
     }
 
-    public List<PgeUsuRoles> getPgeUsuRolesList() {
-        return pgeUsuRolesList;
+    public List<PgeMenus> getPgeMenusList() {
+        return pgeMenusList;
     }
 
-    public void setPgeUsuRolesList(List<PgeUsuRoles> pgeUsuRolesList) {
-        this.pgeUsuRolesList = pgeUsuRolesList;
-    }
-
-    public List<PgePermisos> getPgePermisosList() {
-        return pgePermisosList;
-    }
-
-    public void setPgePermisosList(List<PgePermisos> pgePermisosList) {
-        this.pgePermisosList = pgePermisosList;
+    public void setPgeMenusList(List<PgeMenus> pgeMenusList) {
+        this.pgeMenusList = pgeMenusList;
     }
 
     @Override
@@ -175,14 +167,6 @@ public class PgeRoles implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PgeRoles[ rolId=" + rolId + " ]";
-    }
-
-    public List<PgeMenus> getPgeMenusList() {
-        return pgeMenusList;
-    }
-
-    public void setPgeMenusList(List<PgeMenus> pgeMenusList) {
-        this.pgeMenusList = pgeMenusList;
     }
     
 }

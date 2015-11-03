@@ -90,5 +90,9 @@ public class PermisoImpl implements PermisoDao{
     public PgePermisos getById(Integer id) {
         throw new UnsupportedOperationException("ERROR. Metodo no soportado."); //To change body of generated methods, choose Tools | Templates.
     }
+
+  
+
+    
     
 }
