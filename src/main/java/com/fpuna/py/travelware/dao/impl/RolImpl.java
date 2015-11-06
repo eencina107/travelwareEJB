@@ -10,6 +10,7 @@ import com.fpuna.py.travelware.model.PgePermisos;
 import com.fpuna.py.travelware.model.PgeRoles;
 import com.fpuna.py.travelware.model.PgeUsuRoles;
 import com.fpuna.py.travelware.model.PgeUsuarios;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -94,20 +95,27 @@ public class RolImpl implements RolDao{
     @Override
     public List<PgeRoles> getRolesByUsuario(PgeUsuarios usuario) {
         List<PgeUsuRoles> usuRoles;
-        List<PgeRoles> roles = null;
+        List<PgeRoles> roles = new ArrayList();
         
         usuRoles = em.createNamedQuery("PgeUsuRoles.findByUsuId").setParameter("usuId", usuario.getUsuId()).getResultList();
-        
+
         Iterator it = usuRoles.iterator();
-        
+
         while (it.hasNext()){
-            PgeUsuRoles uro= (PgeUsuRoles) it.next();
-            PgeRoles ro=(PgeRoles) em.createNamedQuery("PgeRoles.findByRolId").setParameter("rolId",uro.getPgeUsuRolesPK().getRolId()).getSingleResult();
-            roles.add(ro);
+            try{
+                PgeUsuRoles uro= (PgeUsuRoles) it.next();
+                PgeRoles ro=(PgeRoles) em.createNamedQuery("PgeRoles.findByRolId").setParameter("rolId",uro.getPgeUsuRolesPK().getRolId()).getSingleResult();
+                roles.add(ro);
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+                return null;
+            }
         }
-        
+
         return roles;
     }
+    
 
     @Override
     public List<PgePermisos> getPermisos(PgeRoles object) {

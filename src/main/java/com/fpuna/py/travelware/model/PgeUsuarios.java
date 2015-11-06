@@ -6,6 +6,7 @@
 package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -220,7 +221,7 @@ public class PgeUsuarios implements Serializable {
   
     public List<PgeRoles> getPgeRoles() {
         List<PgeUsuRoles> usuRoles = this.getPgeUsuRolesList();
-        List<PgeRoles> roles = null;
+        List<PgeRoles> roles = new ArrayList();
         Iterator i= usuRoles.iterator();
         PgeUsuRoles usuRol;
         PgeRoles rol;
@@ -234,8 +235,8 @@ public class PgeUsuarios implements Serializable {
     
     public List<PgeMenus> getPgeMenus(){
         List<PgeRoles> roles = this.getPgeRoles();
-        List<PgeMenus> menusRol; //permisos recuperados con cada rol
-        List<PgeMenus> menus = null; //permisos que seran retornados (suma de todos los permisosRol)
+        List<PgeMenus> menusRol= new ArrayList(); //permisos recuperados con cada rol
+        List<PgeMenus> menus = new ArrayList(); //permisos que seran retornados (suma de todos los permisosRol)
         PgeRoles rol;
         Iterator i= roles.iterator(); //iterador roles
         Iterator i2; //iterador permisosRol
