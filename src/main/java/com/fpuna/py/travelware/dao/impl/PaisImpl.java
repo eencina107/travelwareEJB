@@ -6,7 +6,6 @@
 package com.fpuna.py.travelware.dao.impl;
 
 import com.fpuna.py.travelware.dao.PaisDao;
-import com.fpuna.py.travelware.model.PgeOrganizaciones;
 import com.fpuna.py.travelware.model.PgePaises;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -65,7 +64,7 @@ public class PaisImpl implements PaisDao{
     public boolean delete(PgePaises object) {
         try {
             int id = object.getPaiId();
-            em.remove(em.find(PgeOrganizaciones.class, id));
+            em.remove(em.find(PgePaises.class, id));
             em.flush();
             logger.info("Se elimina el pais con id:"+id);
             return true;

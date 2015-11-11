@@ -254,6 +254,30 @@ public class PgeUsuarios implements Serializable {
         
         return menus;
     }
+    
+    public List<PgeMenus> getPgeMenus(Integer modulo){
+        List<PgeRoles> roles = this.getPgeRoles();
+        List<PgeMenus> menusRol= new ArrayList(); //permisos recuperados con cada rol
+        List<PgeMenus> menus = new ArrayList(); //permisos que seran retornados (suma de todos los permisosRol)
+        PgeRoles rol;
+        Iterator i= roles.iterator(); //iterador roles
+        Iterator i2; //iterador permisosRol
+        PgeMenus menu;
+        
+        while(i.hasNext()){
+            rol= (PgeRoles) i.next();
+            menusRol = rol.getPgeMenusList();
+            i2=menusRol.iterator();
+            while(i2.hasNext()){
+                menu=(PgeMenus) i2.next();
+                if (menu.pgeMenusPK.getMenId()==modulo){
+                    menus.add(menu);
+                }
+            }
+        }
+        
+        return menus;
+    }
 
     public void setPgeUsuRolesList(List<PgeUsuRoles> pgeUsuRolesList) {
         this.pgeUsuRolesList = pgeUsuRolesList;
