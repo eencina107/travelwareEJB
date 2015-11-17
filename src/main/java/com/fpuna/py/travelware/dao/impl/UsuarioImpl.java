@@ -95,7 +95,7 @@ public class UsuarioImpl implements UsuarioDao{
     public PgeUsuarios autenticate (String username, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException{
         PgeUsuarios usuario;
         try{
-            usuario = (PgeUsuarios) em.createNamedQuery("PgeUsuarios.findByUsuCod").setParameter("usuCod", username.toString()).getSingleResult();
+            usuario = (PgeUsuarios) em.createNamedQuery("PgeUsuarios.findByUsuCod").setParameter("usuCod", username).getSingleResult();
 
             /*Se convierte el string ingresado en codigo Hash-MD5 y se compara con el de la BD*/
             String hashIngresado;
