@@ -77,7 +77,7 @@ public class PaisImpl implements PaisDao{
     @Override
     public List<PgePaises> getAll() {
         try {
-            return em.createQuery("Select p from PgePaises p").getResultList();
+            return em.createQuery("Select p from PgePaises p ORDER BY P.paiDesc").getResultList();
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: getAll ", e);
             return null;
