@@ -13,5 +13,5 @@ import java.io.Serializable;
  * @author eencina
  */
 public interface PaisDao extends GenericDao<PgePaises, Integer>{
-    
+    PgePaises getByName(String name);
 }

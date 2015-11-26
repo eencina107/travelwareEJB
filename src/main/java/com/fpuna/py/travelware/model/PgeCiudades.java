@@ -11,8 +11,10 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -21,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -29,11 +32,11 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "pge_ciudades", catalog = "travelware", schema = "public")
+@Table(name = "pge_ciudades", catalog = "travelware", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"pai_id", "ciu_id"})})
 @NamedQueries({
     @NamedQuery(name = "PgeCiudades.findAll", query = "SELECT p FROM PgeCiudades p"),
-    @NamedQuery(name = "PgeCiudades.findByCiuId", query = "SELECT p FROM PgeCiudades p WHERE p.pgeCiudadesPK.ciuId = :ciuId"),
-    @NamedQuery(name = "PgeCiudades.findByPaiId", query = "SELECT p FROM PgeCiudades p WHERE p.pgeCiudadesPK.paiId = :paiId"),
+    @NamedQuery(name = "PgeCiudades.findByCiuId", query = "SELECT p FROM PgeCiudades p WHERE p.ciuId = :ciuId"),
     @NamedQuery(name = "PgeCiudades.findByCiuDesc", query = "SELECT p FROM PgeCiudades p WHERE p.ciuDesc = :ciuDesc"),
     @NamedQuery(name = "PgeCiudades.findByCiuUbi", query = "SELECT p FROM PgeCiudades p WHERE p.ciuUbi = :ciuUbi"),
     @NamedQuery(name = "PgeCiudades.findByCiuUsuIns", query = "SELECT p FROM PgeCiudades p WHERE p.ciuUsuIns = :ciuUsuIns"),
@@ -42,8 +45,11 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeCiudades.findByCiuFecMod", query = "SELECT p FROM PgeCiudades p WHERE p.ciuFecMod = :ciuFecMod")})
 public class PgeCiudades implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected PgeCiudadesPK pgeCiudadesPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "ciu_id", nullable = false)
+    private Integer ciuId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 35)
@@ -68,40 +74,36 @@ public class PgeCiudades implements Serializable {
     @Column(name = "ciu_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ciuFecMod;
-    @OneToMany(mappedBy = "pgeCiudades")
-    private List<ViaActividades> viaActividadesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeCiudades")
-    private List<PgeOrganizaciones> pgeOrganizacionesList;
-    @JoinColumn(name = "pai_id", referencedColumnName = "pai_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "pai_id", referencedColumnName = "pai_id", nullable = false)
     @ManyToOne(optional = false)
-    private PgePaises pgePaises;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeCiudades")
+    private PgePaises paiId;
+    @OneToMany(mappedBy = "ciuId")
+    private List<ViaActividades> viaActividadesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ciuId")
+    private List<PgeOrganizaciones> pgeOrganizacionesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ciuId")
     private List<PgeAtractivos> pgeAtractivosList;
 
     public PgeCiudades() {
     }
 
-    public PgeCiudades(PgeCiudadesPK pgeCiudadesPK) {
-        this.pgeCiudadesPK = pgeCiudadesPK;
+    public PgeCiudades(Integer ciuId) {
+        this.ciuId = ciuId;
     }
 
-    public PgeCiudades(PgeCiudadesPK pgeCiudadesPK, String ciuDesc, String ciuUsuIns, Date ciuFecIns) {
-        this.pgeCiudadesPK = pgeCiudadesPK;
+    public PgeCiudades(Integer ciuId, String ciuDesc, String ciuUsuIns, Date ciuFecIns) {
+        this.ciuId = ciuId;
         this.ciuDesc = ciuDesc;
         this.ciuUsuIns = ciuUsuIns;
         this.ciuFecIns = ciuFecIns;
     }
 
-    public PgeCiudades(int ciuId, int paiId) {
-        this.pgeCiudadesPK = new PgeCiudadesPK(ciuId, paiId);
+    public Integer getCiuId() {
+        return ciuId;
     }
 
-    public PgeCiudadesPK getPgeCiudadesPK() {
-        return pgeCiudadesPK;
-    }
-
-    public void setPgeCiudadesPK(PgeCiudadesPK pgeCiudadesPK) {
-        this.pgeCiudadesPK = pgeCiudadesPK;
+    public void setCiuId(Integer ciuId) {
+        this.ciuId = ciuId;
     }
 
     public String getCiuDesc() {
@@ -152,6 +154,14 @@ public class PgeCiudades implements Serializable {
         this.ciuFecMod = ciuFecMod;
     }
 
+    public PgePaises getPaiId() {
+        return paiId;
+    }
+
+    public void setPaiId(PgePaises paiId) {
+        this.paiId = paiId;
+    }
+
     public List<ViaActividades> getViaActividadesList() {
         return viaActividadesList;
     }
@@ -168,14 +178,6 @@ public class PgeCiudades implements Serializable {
         this.pgeOrganizacionesList = pgeOrganizacionesList;
     }
 
-    public PgePaises getPgePaises() {
-        return pgePaises;
-    }
-
-    public void setPgePaises(PgePaises pgePaises) {
-        this.pgePaises = pgePaises;
-    }
-
     public List<PgeAtractivos> getPgeAtractivosList() {
         return pgeAtractivosList;
     }
@@ -187,7 +189,7 @@ public class PgeCiudades implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (pgeCiudadesPK != null ? pgeCiudadesPK.hashCode() : 0);
+        hash += (ciuId != null ? ciuId.hashCode() : 0);
         return hash;
     }
 
@@ -198,7 +200,7 @@ public class PgeCiudades implements Serializable {
             return false;
         }
         PgeCiudades other = (PgeCiudades) object;
-        if ((this.pgeCiudadesPK == null && other.pgeCiudadesPK != null) || (this.pgeCiudadesPK != null && !this.pgeCiudadesPK.equals(other.pgeCiudadesPK))) {
+        if ((this.ciuId == null && other.ciuId != null) || (this.ciuId != null && !this.ciuId.equals(other.ciuId))) {
             return false;
         }
         return true;
@@ -206,7 +208,7 @@ public class PgeCiudades implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.model.PgeCiudades[ pgeCiudadesPK=" + pgeCiudadesPK + " ]";
+        return "com.fpuna.py.travelware.model.PgeCiudades[ ciuId=" + ciuId + " ]";
     }
     
 }

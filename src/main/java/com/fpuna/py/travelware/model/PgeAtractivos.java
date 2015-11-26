@@ -9,10 +9,11 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -20,6 +21,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -28,12 +30,11 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "pge_atractivos", catalog = "travelware", schema = "public")
+@Table(name = "pge_atractivos", catalog = "travelware", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"ciu_id", "atr_id"})})
 @NamedQueries({
     @NamedQuery(name = "PgeAtractivos.findAll", query = "SELECT p FROM PgeAtractivos p"),
-    @NamedQuery(name = "PgeAtractivos.findByPaiId", query = "SELECT p FROM PgeAtractivos p WHERE p.pgeAtractivosPK.paiId = :paiId"),
-    @NamedQuery(name = "PgeAtractivos.findByCiuId", query = "SELECT p FROM PgeAtractivos p WHERE p.pgeAtractivosPK.ciuId = :ciuId"),
-    @NamedQuery(name = "PgeAtractivos.findByAtrId", query = "SELECT p FROM PgeAtractivos p WHERE p.pgeAtractivosPK.atrId = :atrId"),
+    @NamedQuery(name = "PgeAtractivos.findByAtrId", query = "SELECT p FROM PgeAtractivos p WHERE p.atrId = :atrId"),
     @NamedQuery(name = "PgeAtractivos.findByAtrDesc", query = "SELECT p FROM PgeAtractivos p WHERE p.atrDesc = :atrDesc"),
     @NamedQuery(name = "PgeAtractivos.findByAtrUbi", query = "SELECT p FROM PgeAtractivos p WHERE p.atrUbi = :atrUbi"),
     @NamedQuery(name = "PgeAtractivos.findByAtrUsuIns", query = "SELECT p FROM PgeAtractivos p WHERE p.atrUsuIns = :atrUsuIns"),
@@ -42,8 +43,11 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeAtractivos.findByAtrFecMod", query = "SELECT p FROM PgeAtractivos p WHERE p.atrFecMod = :atrFecMod")})
 public class PgeAtractivos implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected PgeAtractivosPK pgeAtractivosPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "atr_id", nullable = false)
+    private Integer atrId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 35)
@@ -71,36 +75,30 @@ public class PgeAtractivos implements Serializable {
     @Column(name = "atr_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date atrFecMod;
-    @JoinColumns({
-        @JoinColumn(name = "pai_id", referencedColumnName = "pai_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id", nullable = false, insertable = false, updatable = false)})
+    @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id", nullable = false)
     @ManyToOne(optional = false)
-    private PgeCiudades pgeCiudades;
+    private PgeCiudades ciuId;
 
     public PgeAtractivos() {
     }
 
-    public PgeAtractivos(PgeAtractivosPK pgeAtractivosPK) {
-        this.pgeAtractivosPK = pgeAtractivosPK;
+    public PgeAtractivos(Integer atrId) {
+        this.atrId = atrId;
     }
 
-    public PgeAtractivos(PgeAtractivosPK pgeAtractivosPK, String atrDesc, String atrUsuIns, Date atrFecIns) {
-        this.pgeAtractivosPK = pgeAtractivosPK;
+    public PgeAtractivos(Integer atrId, String atrDesc, String atrUsuIns, Date atrFecIns) {
+        this.atrId = atrId;
         this.atrDesc = atrDesc;
         this.atrUsuIns = atrUsuIns;
         this.atrFecIns = atrFecIns;
     }
 
-    public PgeAtractivos(int paiId, int ciuId, int atrId) {
-        this.pgeAtractivosPK = new PgeAtractivosPK(paiId, ciuId, atrId);
+    public Integer getAtrId() {
+        return atrId;
     }
 
-    public PgeAtractivosPK getPgeAtractivosPK() {
-        return pgeAtractivosPK;
-    }
-
-    public void setPgeAtractivosPK(PgeAtractivosPK pgeAtractivosPK) {
-        this.pgeAtractivosPK = pgeAtractivosPK;
+    public void setAtrId(Integer atrId) {
+        this.atrId = atrId;
     }
 
     public String getAtrDesc() {
@@ -159,18 +157,18 @@ public class PgeAtractivos implements Serializable {
         this.atrFecMod = atrFecMod;
     }
 
-    public PgeCiudades getPgeCiudades() {
-        return pgeCiudades;
+    public PgeCiudades getCiuId() {
+        return ciuId;
     }
 
-    public void setPgeCiudades(PgeCiudades pgeCiudades) {
-        this.pgeCiudades = pgeCiudades;
+    public void setCiuId(PgeCiudades ciuId) {
+        this.ciuId = ciuId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (pgeAtractivosPK != null ? pgeAtractivosPK.hashCode() : 0);
+        hash += (atrId != null ? atrId.hashCode() : 0);
         return hash;
     }
 
@@ -181,7 +179,7 @@ public class PgeAtractivos implements Serializable {
             return false;
         }
         PgeAtractivos other = (PgeAtractivos) object;
-        if ((this.pgeAtractivosPK == null && other.pgeAtractivosPK != null) || (this.pgeAtractivosPK != null && !this.pgeAtractivosPK.equals(other.pgeAtractivosPK))) {
+        if ((this.atrId == null && other.atrId != null) || (this.atrId != null && !this.atrId.equals(other.atrId))) {
             return false;
         }
         return true;
@@ -189,7 +187,7 @@ public class PgeAtractivos implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.model.PgeAtractivos[ pgeAtractivosPK=" + pgeAtractivosPK + " ]";
+        return "com.fpuna.py.travelware.model.PgeAtractivos[ atrId=" + atrId + " ]";
     }
     
 }

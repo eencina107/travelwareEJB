@@ -29,7 +29,7 @@ public class CiudadImpl implements CiudadDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta la ciudad con id:"+object.getPgeCiudadesPK().getCiuId()+" del país con id:"+object.getPgeCiudadesPK().getPaiId());
+            logger.info("Se inserta la ciudad con id:"+object.getCiuId()+" del país con id:"+object.getPaiId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: create ", e);
@@ -37,9 +37,10 @@ public class CiudadImpl implements CiudadDao{
         }
     }
 
+    @Override
     public PgeCiudades getById(Integer paiId, Integer ciuId) {
         try {
-            return (PgeCiudades) em.createQuery("Select c from PgeCiudades c WHERE c.pgeCiudadesPK.paiId = :pai_id and c.pgeCiudadesPK.ciuId = :ciu_id").setParameter("ciu_id", ciuId).setParameter("pai_id", paiId).getSingleResult();            
+            return (PgeCiudades) em.createQuery("Select c from PgeCiudades c WHERE c.ciuId = :ciu_id").setParameter("ciu_id", ciuId).getSingleResult();            
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
             return null;
@@ -51,7 +52,7 @@ public class CiudadImpl implements CiudadDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualiza la ciudad con id:"+object.getPgeCiudadesPK().getCiuId()+" del pais con el id:"+object.getPgeCiudadesPK().getCiuId());
+            logger.info("Se actualiza la ciudad con id:"+object.getCiuId()+" del pais con el id:"+object.getPaiId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
@@ -62,9 +63,9 @@ public class CiudadImpl implements CiudadDao{
     @Override
     public boolean delete(PgeCiudades object) {
         try {
-            int ciuId = object.getPgeCiudadesPK().getCiuId();
-            int paiId = object.getPgeCiudadesPK().getPaiId();
-            em.remove(em.find(PgeCiudades.class, object));
+            int ciuId = object.getCiuId();
+            int paiId = object.getPaiId().getPaiId();
+            em.remove(em.find(PgeCiudades.class, ciuId));
             em.flush();
             logger.info("Se elimina la ciudad con id:"+ciuId+" del pais con id: "+paiId);
             return true;
@@ -77,7 +78,7 @@ public class CiudadImpl implements CiudadDao{
     @Override
     public List<PgeCiudades> getAll() {
         try {
-            return em.createQuery("select p from pgeciudades p").getResultList();
+            return em.createQuery("select p from PgeCiudades p").getResultList();
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: getAll ", e);
             return null;
@@ -86,7 +87,16 @@ public class CiudadImpl implements CiudadDao{
 
     @Override
     public PgeCiudades getById(Integer id) {
-        throw new UnsupportedOperationException("ERROR. Método no Soportado"); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return em.find(PgeCiudades.class, id);
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
+            return null;
+        }
     }
     
+    @Override
+    public int getMaxId(){
+        return (int) em.createNativeQuery("SELECT MAX(CIU_ID) FROM PGE_CIUDADES").getSingleResult();
+    }
 }

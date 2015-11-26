@@ -75,10 +75,6 @@ public class PgePaises implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date paiFecMod;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paiId")
-    private List<PgeMonedas> pgeMonedasList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paiId")
-    private List<PgePersonas> pgePersonasList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgePaises")
     private List<PgeCiudades> pgeCiudadesList;
 
     public PgePaises() {
@@ -157,22 +153,6 @@ public class PgePaises implements Serializable {
 
     public void setPaiFecMod(Date paiFecMod) {
         this.paiFecMod = paiFecMod;
-    }
-
-    public List<PgeMonedas> getPgeMonedasList() {
-        return pgeMonedasList;
-    }
-
-    public void setPgeMonedasList(List<PgeMonedas> pgeMonedasList) {
-        this.pgeMonedasList = pgeMonedasList;
-    }
-
-    public List<PgePersonas> getPgePersonasList() {
-        return pgePersonasList;
-    }
-
-    public void setPgePersonasList(List<PgePersonas> pgePersonasList) {
-        this.pgePersonasList = pgePersonasList;
     }
 
     public List<PgeCiudades> getPgeCiudadesList() {

@@ -12,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -71,11 +70,9 @@ public class ViaActividades implements Serializable {
     @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private ViaViajes viaViajes;
-    @JoinColumns({
-        @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id"),
-        @JoinColumn(name = "pai_id", referencedColumnName = "pai_id")})
+    @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id")
     @ManyToOne
-    private PgeCiudades pgeCiudades;
+    private PgeCiudades ciuId;
 
     public ViaActividades() {
     }
@@ -160,12 +157,12 @@ public class ViaActividades implements Serializable {
         this.viaViajes = viaViajes;
     }
 
-    public PgeCiudades getPgeCiudades() {
-        return pgeCiudades;
+    public PgeCiudades getCiuId() {
+        return ciuId;
     }
 
-    public void setPgeCiudades(PgeCiudades pgeCiudades) {
-        this.pgeCiudades = pgeCiudades;
+    public void setCiuId(PgeCiudades ciuId) {
+        this.ciuId = ciuId;
     }
 
     @Override

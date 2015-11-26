@@ -84,4 +84,14 @@ public class PaisImpl implements PaisDao{
         }
     }
     
+    @Override
+    public PgePaises getByName(String name){
+        try {
+            return (PgePaises) em.createNamedQuery("PgePaises.findByPaiDesc").setParameter("paiDesc", name).getSingleResult();
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getByName ", e);
+            return null;
+        }
+    }
+    
 }

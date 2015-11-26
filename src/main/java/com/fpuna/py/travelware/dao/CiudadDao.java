@@ -13,5 +13,6 @@ import java.io.Serializable;
  * @author eencina
  */
 public interface CiudadDao extends GenericDao<PgeCiudades, Integer>{
-    
+    int getMaxId();
+    PgeCiudades getById(Integer paiId, Integer ciuId);
 }

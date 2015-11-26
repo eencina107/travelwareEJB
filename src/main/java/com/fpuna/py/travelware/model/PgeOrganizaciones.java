@@ -7,24 +7,21 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -33,7 +30,8 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "pge_organizaciones", catalog = "travelware", schema = "public")
+@Table(name = "pge_organizaciones", catalog = "travelware", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"ciu_id", "org_id"})})
 @NamedQueries({
     @NamedQuery(name = "PgeOrganizaciones.findAll", query = "SELECT p FROM PgeOrganizaciones p"),
     @NamedQuery(name = "PgeOrganizaciones.findByOrgId", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgId = :orgId"),
@@ -99,13 +97,9 @@ public class PgeOrganizaciones implements Serializable {
     @Column(name = "org_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date orgFecMod;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeOrganizaciones")
-    private List<ViaFidelidades> viaFidelidadesList;
-    @JoinColumns({
-        @JoinColumn(name = "pai_id", referencedColumnName = "pai_id", nullable = false),
-        @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id", nullable = false)})
+    @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id", nullable = false)
     @ManyToOne(optional = false)
-    private PgeCiudades pgeCiudades;
+    private PgeCiudades ciuId;
 
     public PgeOrganizaciones() {
     }
@@ -226,20 +220,12 @@ public class PgeOrganizaciones implements Serializable {
         this.orgFecMod = orgFecMod;
     }
 
-    public List<ViaFidelidades> getViaFidelidadesList() {
-        return viaFidelidadesList;
+    public PgeCiudades getCiuId() {
+        return ciuId;
     }
 
-    public void setViaFidelidadesList(List<ViaFidelidades> viaFidelidadesList) {
-        this.viaFidelidadesList = viaFidelidadesList;
-    }
-
-    public PgeCiudades getPgeCiudades() {
-        return pgeCiudades;
-    }
-
-    public void setPgeCiudades(PgeCiudades pgeCiudades) {
-        this.pgeCiudades = pgeCiudades;
+    public void setCiuId(PgeCiudades ciuId) {
+        this.ciuId = ciuId;
     }
 
     @Override

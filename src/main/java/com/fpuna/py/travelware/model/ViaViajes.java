@@ -84,14 +84,8 @@ public class ViaViajes implements Serializable {
     @Column(name = "via_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date viaFecMod;
-    @OneToMany(mappedBy = "viaId")
-    private List<PagComprobantesDet> pagComprobantesDetList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaViajes")
-    private List<ViaPreViajes> viaPreViajesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaViajes")
     private List<ViaActividades> viaActividadesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaViajes")
-    private List<ViaPasViajes> viaPasViajesList;
 
     public ViaViajes() {
     }
@@ -182,36 +176,12 @@ public class ViaViajes implements Serializable {
         this.viaFecMod = viaFecMod;
     }
 
-    public List<PagComprobantesDet> getPagComprobantesDetList() {
-        return pagComprobantesDetList;
-    }
-
-    public void setPagComprobantesDetList(List<PagComprobantesDet> pagComprobantesDetList) {
-        this.pagComprobantesDetList = pagComprobantesDetList;
-    }
-
-    public List<ViaPreViajes> getViaPreViajesList() {
-        return viaPreViajesList;
-    }
-
-    public void setViaPreViajesList(List<ViaPreViajes> viaPreViajesList) {
-        this.viaPreViajesList = viaPreViajesList;
-    }
-
     public List<ViaActividades> getViaActividadesList() {
         return viaActividadesList;
     }
 
     public void setViaActividadesList(List<ViaActividades> viaActividadesList) {
         this.viaActividadesList = viaActividadesList;
-    }
-
-    public List<ViaPasViajes> getViaPasViajesList() {
-        return viaPasViajesList;
-    }
-
-    public void setViaPasViajesList(List<ViaPasViajes> viaPasViajesList) {
-        this.viaPasViajesList = viaPasViajesList;
     }
 
     @Override
