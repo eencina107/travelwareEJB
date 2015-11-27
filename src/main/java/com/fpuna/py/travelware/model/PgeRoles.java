@@ -6,19 +6,20 @@
 package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -67,12 +68,8 @@ public class PgeRoles implements Serializable {
     @Column(name = "rol_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date rolFecMod;
-    @JoinTable(name = "pge_permisos", joinColumns = {
-        @JoinColumn(name = "rol_id", referencedColumnName = "rol_id", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "men_id", referencedColumnName = "men_id", nullable = false),
-        @JoinColumn(name = "men_sub_id", referencedColumnName = "men_sub_id", nullable = false)})
-    @ManyToMany
-    private List<PgeMenus> pgeMenusList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rolId")
+    private List<PgePermisos> pgePermisosList;
 
     public PgeRoles() {
     }
@@ -136,12 +133,12 @@ public class PgeRoles implements Serializable {
         this.rolFecMod = rolFecMod;
     }
 
-    public List<PgeMenus> getPgeMenusList() {
-        return pgeMenusList;
+    public List<PgePermisos> getPgePermisosList() {
+        return pgePermisosList;
     }
 
-    public void setPgeMenusList(List<PgeMenus> pgeMenusList) {
-        this.pgeMenusList = pgeMenusList;
+    public void setPgePermisosList(List<PgePermisos> pgePermisosList) {
+        this.pgePermisosList = pgePermisosList;
     }
 
     @Override
@@ -167,6 +164,17 @@ public class PgeRoles implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PgeRoles[ rolId=" + rolId + " ]";
+    }
+    
+    public List<PgeMenus> getPgeMenusList(){
+        Iterator i = this.pgePermisosList.iterator();
+        List<PgeMenus> menus = new ArrayList();
+        PgePermisos permisoAct;
+        while (i.hasNext()){
+            permisoAct = (PgePermisos) i.next();
+            menus.add(permisoAct.getPgeMenus());
+        }
+        return menus;
     }
     
 }

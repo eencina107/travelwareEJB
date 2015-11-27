@@ -29,7 +29,7 @@ public class MenuImpl implements MenuDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta el menu con id:"+object.getPgeMenusPK().getMenId()+" con el submenu con id:"+object.getPgeMenusPK().getMenSubId());
+            logger.info("Se inserta el menu con id:"+object.getMenId()+" con el submenu con id:"+object.getMenSubId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: create ", e);
@@ -51,7 +51,7 @@ public class MenuImpl implements MenuDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualiza el menu con id:"+object.getPgeMenusPK().getMenId()+" y submenu con id:"+object.getPgeMenusPK().getMenSubId());
+            logger.info("Se actualiza el menu con id:"+object.getMenId()+" y submenu con id:"+object.getMenSubId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
@@ -62,11 +62,10 @@ public class MenuImpl implements MenuDao{
     @Override
     public boolean delete(PgeMenus object) {
         try {
-            int menuId = object.getPgeMenusPK().getMenId();
-            int subMenuId = object.getPgeMenusPK().getMenSubId();
-            em.remove(em.find(PgeMenus.class, object));
+            int menuId = object.getMenCod();
+            em.remove(em.find(PgeMenus.class, menuId));
             em.flush();
-            logger.info("Se elimina el menu con id:"+menuId+" con el submenu con id:"+subMenuId);
+            logger.info("Se elimina el menu con id:"+menuId);
             return true;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: delete ", e);
@@ -86,7 +85,13 @@ public class MenuImpl implements MenuDao{
 
     @Override
     public PgeMenus getById(Integer id) {
-        throw new UnsupportedOperationException("ERROR. Metodo no soportado."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return (PgeMenus) em.createNamedQuery("PgeMenus.findByMenCod").setParameter("menCod", id).getSingleResult();
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
+            return null;
+            
+        }
     }
     
 }

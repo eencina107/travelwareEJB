@@ -23,20 +23,20 @@ public class PgePermisosPK implements Serializable {
     private int rolId;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "menu_id", nullable = false)
-    private int menuId;
+    @Column(name = "men_id", nullable = false)
+    private int menId;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "submenu_id", nullable = false)
-    private int submenuId;
+    @Column(name = "men_sub_id", nullable = false)
+    private int menSubId;
 
     public PgePermisosPK() {
     }
 
-    public PgePermisosPK(int rolId, int menuId, int submenuId) {
+    public PgePermisosPK(int rolId, int menId, int menSubId) {
         this.rolId = rolId;
-        this.menuId = menuId;
-        this.submenuId = submenuId;
+        this.menId = menId;
+        this.menSubId = menSubId;
     }
 
     public int getRolId() {
@@ -47,28 +47,28 @@ public class PgePermisosPK implements Serializable {
         this.rolId = rolId;
     }
 
-    public int getMenuId() {
-        return menuId;
+    public int getMenId() {
+        return menId;
     }
 
-    public void setMenuId(int menuId) {
-        this.menuId = menuId;
+    public void setMenId(int menId) {
+        this.menId = menId;
     }
 
-    public int getSubmenuId() {
-        return submenuId;
+    public int getMenSubId() {
+        return menSubId;
     }
 
-    public void setSubmenuId(int submenuId) {
-        this.submenuId = submenuId;
+    public void setMenSubId(int menSubId) {
+        this.menSubId = menSubId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) rolId;
-        hash += (int) menuId;
-        hash += (int) submenuId;
+        hash += (int) menId;
+        hash += (int) menSubId;
         return hash;
     }
 
@@ -82,10 +82,10 @@ public class PgePermisosPK implements Serializable {
         if (this.rolId != other.rolId) {
             return false;
         }
-        if (this.menuId != other.menuId) {
+        if (this.menId != other.menId) {
             return false;
         }
-        if (this.submenuId != other.submenuId) {
+        if (this.menSubId != other.menSubId) {
             return false;
         }
         return true;
@@ -93,7 +93,7 @@ public class PgePermisosPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.model.PgePermisosPK[ rolId=" + rolId + ", menuId=" + menuId + ", submenuId=" + submenuId + " ]";
+        return "com.fpuna.py.travelware.model.PgePermisosPK[ rolId=" + rolId + ", menId=" + menId + ", menSubId=" + menSubId + " ]";
     }
     
 }

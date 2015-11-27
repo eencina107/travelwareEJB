@@ -7,7 +7,9 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +20,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -97,6 +100,8 @@ public class PgeOrganizaciones implements Serializable {
     @Column(name = "org_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date orgFecMod;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeOrganizaciones")
+    private List<ViaFidelidades> viaFidelidadesList;
     @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id", nullable = false)
     @ManyToOne(optional = false)
     private PgeCiudades ciuId;
@@ -218,6 +223,14 @@ public class PgeOrganizaciones implements Serializable {
 
     public void setOrgFecMod(Date orgFecMod) {
         this.orgFecMod = orgFecMod;
+    }
+
+    public List<ViaFidelidades> getViaFidelidadesList() {
+        return viaFidelidadesList;
+    }
+
+    public void setViaFidelidadesList(List<ViaFidelidades> viaFidelidadesList) {
+        this.viaFidelidadesList = viaFidelidadesList;
     }
 
     public PgeCiudades getCiuId() {

@@ -74,13 +74,13 @@ public class PgeCiudades implements Serializable {
     @Column(name = "ciu_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ciuFecMod;
-    @JoinColumn(name = "pai_id", referencedColumnName = "pai_id", nullable = false)
-    @ManyToOne(optional = false)
-    private PgePaises paiId;
     @OneToMany(mappedBy = "ciuId")
     private List<ViaActividades> viaActividadesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ciuId")
     private List<PgeOrganizaciones> pgeOrganizacionesList;
+    @JoinColumn(name = "pai_id", referencedColumnName = "pai_id", nullable = false)
+    @ManyToOne(optional = false)
+    private PgePaises paiId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ciuId")
     private List<PgeAtractivos> pgeAtractivosList;
 
@@ -154,14 +154,6 @@ public class PgeCiudades implements Serializable {
         this.ciuFecMod = ciuFecMod;
     }
 
-    public PgePaises getPaiId() {
-        return paiId;
-    }
-
-    public void setPaiId(PgePaises paiId) {
-        this.paiId = paiId;
-    }
-
     public List<ViaActividades> getViaActividadesList() {
         return viaActividadesList;
     }
@@ -176,6 +168,14 @@ public class PgeCiudades implements Serializable {
 
     public void setPgeOrganizacionesList(List<PgeOrganizaciones> pgeOrganizacionesList) {
         this.pgeOrganizacionesList = pgeOrganizacionesList;
+    }
+
+    public PgePaises getPaiId() {
+        return paiId;
+    }
+
+    public void setPaiId(PgePaises paiId) {
+        this.paiId = paiId;
     }
 
     public List<PgeAtractivos> getPgeAtractivosList() {

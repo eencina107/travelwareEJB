@@ -7,9 +7,7 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -75,8 +72,6 @@ public class PgeModulos implements Serializable {
     @NotNull
     @Column(name = "mod_estado", nullable = false)
     private Character modEstado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeModulos")
-    private List<PgeMenus> pgeMenusList;
 
     public PgeModulos() {
     }
@@ -157,14 +152,6 @@ public class PgeModulos implements Serializable {
         this.modEstado = modEstado;
     }
 
-    public List<PgeMenus> getPgeMenusList() {
-        return pgeMenusList;
-    }
-
-    public void setPgeMenusList(List<PgeMenus> pgeMenusList) {
-        this.pgeMenusList = pgeMenusList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -189,7 +176,5 @@ public class PgeModulos implements Serializable {
     public String toString() {
         return "com.fpuna.py.travelware.model.PgeModulos[ modId=" + modId + " ]";
     }
-
-    
     
 }

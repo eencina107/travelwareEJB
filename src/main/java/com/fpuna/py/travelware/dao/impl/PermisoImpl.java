@@ -29,7 +29,7 @@ public class PermisoImpl implements PermisoDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta el permiso del rol con id:"+object.getPgePermisosPK().getRolId()+" en el menu "+object.getPgePermisosPK().getMenuId()+"-"+object.getPgePermisosPK().getSubmenuId());
+            logger.info("Se inserta el permiso del rol con id:"+object.getRolId()+" en el menu "+object.getPgeMenus().getMenId()+"-"+object.getPgeMenus().getMenSubId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: create ", e);
@@ -51,7 +51,7 @@ public class PermisoImpl implements PermisoDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualiza el permiso de rol con id:"+object.getPgePermisosPK().getRolId()+" sobre el menu:"+object.getPgePermisosPK().getMenuId()+"-"+object.getPgePermisosPK().getSubmenuId());
+            logger.info("Se actualiza el permiso de rol con id:"+object.getRolId()+" sobre el menu:"+object.getPgeMenus().getMenId()+"-"+object.getPgeMenus().getMenSubId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
@@ -62,9 +62,9 @@ public class PermisoImpl implements PermisoDao{
     @Override
     public boolean delete(PgePermisos object) {
         try {
-            int rolId = object.getPgePermisosPK().getRolId();
-            int menuId = object.getPgePermisosPK().getMenuId();
-            int submId = object.getPgePermisosPK().getSubmenuId();
+            int rolId = object.getRolId().getRolId();
+            int menuId = object.getPgeMenus().getMenId();
+            int submId = object.getPgeMenus().getMenSubId();
             
             em.remove(em.find(PgePermisos.class, object));
             em.flush();
