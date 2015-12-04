@@ -10,6 +10,7 @@ import com.fpuna.py.travelware.model.PgeMonedas;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
 
 /**
@@ -19,6 +20,8 @@ import org.apache.log4j.Logger;
 @Stateless
 public class MonedaImpl implements MonedaDao{
     final static Logger logger = Logger.getLogger(MonedaImpl.class);
+    
+    @PersistenceContext(unitName = "TravelwarePU")
     private EntityManager em;
 
     @Override
@@ -70,10 +73,10 @@ public class MonedaImpl implements MonedaDao{
         }
     }
 
-    @Override
+    @Override   
     public List<PgeMonedas> getAll() {
         try {
-            return em.createQuery("SELECT m FROM PgeMonedas m").getResultList();
+            return em.createQuery("SELECT p from PgeMonedas p").getResultList();
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: getAll ", e);
             return null;

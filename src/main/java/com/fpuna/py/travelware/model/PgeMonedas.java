@@ -7,9 +7,7 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -68,15 +65,9 @@ public class PgeMonedas implements Serializable {
     @Column(name = "mon_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date monFecMod;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeMonedas")
-    private List<ViaPreViajes> viaPreViajesList;
     @JoinColumn(name = "pai_id", referencedColumnName = "pai_id", nullable = false)
     @ManyToOne(optional = false)
     private PgePaises paiId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
-    private List<PagComprobantes> pagComprobantesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeMonedas")
-    private List<PgeCotizaciones> pgeCotizacionesList;
 
     public PgeMonedas() {
     }
@@ -140,36 +131,12 @@ public class PgeMonedas implements Serializable {
         this.monFecMod = monFecMod;
     }
 
-    public List<ViaPreViajes> getViaPreViajesList() {
-        return viaPreViajesList;
-    }
-
-    public void setViaPreViajesList(List<ViaPreViajes> viaPreViajesList) {
-        this.viaPreViajesList = viaPreViajesList;
-    }
-
     public PgePaises getPaiId() {
         return paiId;
     }
 
     public void setPaiId(PgePaises paiId) {
         this.paiId = paiId;
-    }
-
-    public List<PagComprobantes> getPagComprobantesList() {
-        return pagComprobantesList;
-    }
-
-    public void setPagComprobantesList(List<PagComprobantes> pagComprobantesList) {
-        this.pagComprobantesList = pagComprobantesList;
-    }
-
-    public List<PgeCotizaciones> getPgeCotizacionesList() {
-        return pgeCotizacionesList;
-    }
-
-    public void setPgeCotizacionesList(List<PgeCotizaciones> pgeCotizacionesList) {
-        this.pgeCotizacionesList = pgeCotizacionesList;
     }
 
     @Override

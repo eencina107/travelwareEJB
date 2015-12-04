@@ -64,7 +64,7 @@ public class AtractivoImpl implements AtractivoDao {
         try {
             int atrId = object.getAtrId();
             int ciuId = object.getCiuId().getCiuId();
-            em.remove(em.find(PgeAtractivos.class, object));
+            em.remove(em.find(PgeAtractivos.class, object.getAtrId()));
             em.flush();
             logger.info("Se elimina el atractivo con id: "+atrId);
             return true;

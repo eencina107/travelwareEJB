@@ -22,7 +22,7 @@ public class CiudadImpl implements CiudadDao{
     final static Logger logger = Logger.getLogger(CiudadImpl.class);
     
     @PersistenceContext(unitName = "TravelwarePU")
-    private EntityManager em;
+    private EntityManager em;   
 
     @Override
     public PgeCiudades create(PgeCiudades object) {
@@ -98,5 +98,15 @@ public class CiudadImpl implements CiudadDao{
     @Override
     public int getMaxId(){
         return (int) em.createNativeQuery("SELECT MAX(CIU_ID) FROM PGE_CIUDADES").getSingleResult();
+    }
+    
+    @Override
+    public PgeCiudades getByName(String name){
+        try {
+            return (PgeCiudades) em.createNamedQuery("PgeCiudades.findByCiuDesc").setParameter("ciuDesc", name).getSingleResult();
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getByName ", e);
+            return null;
+        }
     }
 }
