@@ -7,20 +7,16 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,7 +44,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeOrganizaciones.findByOrgUsuIns", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgUsuIns = :orgUsuIns"),
     @NamedQuery(name = "PgeOrganizaciones.findByOrgFecIns", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgFecIns = :orgFecIns"),
     @NamedQuery(name = "PgeOrganizaciones.findByOrgUsuMod", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgUsuMod = :orgUsuMod"),
-    @NamedQuery(name = "PgeOrganizaciones.findByOrgFecMod", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgFecMod = :orgFecMod")})
+    @NamedQuery(name = "PgeOrganizaciones.findByOrgFecMod", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgFecMod = :orgFecMod"),
+    @NamedQuery(name = "PgeOrganizaciones.findByOrgLogo", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgLogo = :orgLogo")})
 public class PgeOrganizaciones implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -78,9 +75,6 @@ public class PgeOrganizaciones implements Serializable {
     @Size(max = 500)
     @Column(name = "org_ubi", length = 500)
     private String orgUbi;
-    @Lob
-    @Column(name = "org_logo")
-    private byte[] orgLogo;
     @Size(max = 255)
     @Column(name = "org_pag_web", length = 255)
     private String orgPagWeb;
@@ -100,8 +94,9 @@ public class PgeOrganizaciones implements Serializable {
     @Column(name = "org_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date orgFecMod;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeOrganizaciones")
-    private List<ViaFidelidades> viaFidelidadesList;
+    @Size(max = 2147483647)
+    @Column(name = "org_logo", length = 2147483647)
+    private String orgLogo;
     @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id", nullable = false)
     @ManyToOne(optional = false)
     private PgeCiudades ciuId;
@@ -177,14 +172,6 @@ public class PgeOrganizaciones implements Serializable {
         this.orgUbi = orgUbi;
     }
 
-    public byte[] getOrgLogo() {
-        return orgLogo;
-    }
-
-    public void setOrgLogo(byte[] orgLogo) {
-        this.orgLogo = orgLogo;
-    }
-
     public String getOrgPagWeb() {
         return orgPagWeb;
     }
@@ -225,12 +212,12 @@ public class PgeOrganizaciones implements Serializable {
         this.orgFecMod = orgFecMod;
     }
 
-    public List<ViaFidelidades> getViaFidelidadesList() {
-        return viaFidelidadesList;
+    public String getOrgLogo() {
+        return orgLogo;
     }
 
-    public void setViaFidelidadesList(List<ViaFidelidades> viaFidelidadesList) {
-        this.viaFidelidadesList = viaFidelidadesList;
+    public void setOrgLogo(String orgLogo) {
+        this.orgLogo = orgLogo;
     }
 
     public PgeCiudades getCiuId() {
