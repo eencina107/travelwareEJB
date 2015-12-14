@@ -37,7 +37,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeOrganizaciones.findByOrgDesc", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgDesc = :orgDesc"),
     @NamedQuery(name = "PgeOrganizaciones.findByOrgDir", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgDir = :orgDir"),
     @NamedQuery(name = "PgeOrganizaciones.findByOrgTel", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgTel = :orgTel"),
-    @NamedQuery(name = "PgeOrganizaciones.findByOrgTipo", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgTipo = :orgTipo"),
     @NamedQuery(name = "PgeOrganizaciones.findByOrgSubTipo", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgSubTipo = :orgSubTipo"),
     @NamedQuery(name = "PgeOrganizaciones.findByOrgUbi", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgUbi = :orgUbi"),
     @NamedQuery(name = "PgeOrganizaciones.findByOrgPagWeb", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgPagWeb = :orgPagWeb"),
@@ -64,11 +63,6 @@ public class PgeOrganizaciones implements Serializable {
     @Size(max = 30)
     @Column(name = "org_tel", length = 30)
     private String orgTel;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 3)
-    @Column(name = "org_tipo", nullable = false, length = 3)
-    private String orgTipo;
     @Size(max = 3)
     @Column(name = "org_sub_tipo", length = 3)
     private String orgSubTipo;
@@ -97,6 +91,9 @@ public class PgeOrganizaciones implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "org_logo", length = 2147483647)
     private String orgLogo;
+    @JoinColumn(name = "org_tipo", referencedColumnName = "tip_codigo", nullable = false)
+    @ManyToOne(optional = false)
+    private PgeTipoOrg orgTipo;
     @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id", nullable = false)
     @ManyToOne(optional = false)
     private PgeCiudades ciuId;
@@ -108,10 +105,9 @@ public class PgeOrganizaciones implements Serializable {
         this.orgId = orgId;
     }
 
-    public PgeOrganizaciones(Integer orgId, String orgDesc, String orgTipo, String orgUsuIns, Date orgFecIns) {
+    public PgeOrganizaciones(Integer orgId, String orgDesc, String orgUsuIns, Date orgFecIns) {
         this.orgId = orgId;
         this.orgDesc = orgDesc;
-        this.orgTipo = orgTipo;
         this.orgUsuIns = orgUsuIns;
         this.orgFecIns = orgFecIns;
     }
@@ -146,14 +142,6 @@ public class PgeOrganizaciones implements Serializable {
 
     public void setOrgTel(String orgTel) {
         this.orgTel = orgTel;
-    }
-
-    public String getOrgTipo() {
-        return orgTipo;
-    }
-
-    public void setOrgTipo(String orgTipo) {
-        this.orgTipo = orgTipo;
     }
 
     public String getOrgSubTipo() {
@@ -218,6 +206,14 @@ public class PgeOrganizaciones implements Serializable {
 
     public void setOrgLogo(String orgLogo) {
         this.orgLogo = orgLogo;
+    }
+
+    public PgeTipoOrg getOrgTipo() {
+        return orgTipo;
+    }
+
+    public void setOrgTipo(PgeTipoOrg orgTipo) {
+        this.orgTipo = orgTipo;
     }
 
     public PgeCiudades getCiuId() {
