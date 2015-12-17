@@ -8,9 +8,11 @@ package com.fpuna.py.travelware.model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -28,12 +30,10 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "PgeTipoOrg.findAll", query = "SELECT p FROM PgeTipoOrg p"),
     @NamedQuery(name = "PgeTipoOrg.findByTipCodigo", query = "SELECT p FROM PgeTipoOrg p WHERE p.tipCodigo = :tipCodigo"),
-    @NamedQuery(name = "PgeTipoOrg.findByTipDescripcion", query = "SELECT p FROM PgeTipoOrg p WHERE p.tipDescripcion = :tipDescripcion")})
+    @NamedQuery(name = "PgeTipoOrg.findByTipDescripcion", query = "SELECT p FROM PgeTipoOrg p WHERE p.tipDescripcion = :tipDescripcion"),
+    @NamedQuery(name = "PgeTipoOrg.findByTipId", query = "SELECT p FROM PgeTipoOrg p WHERE p.tipId = :tipId")})
 public class PgeTipoOrg implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orgTipo")
-    private List<PgeOrganizaciones> pgeOrganizacionesList;
     private static final long serialVersionUID = 1L;
-    @Id
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2)
@@ -42,11 +42,23 @@ public class PgeTipoOrg implements Serializable {
     @Size(max = 30)
     @Column(name = "tip_descripcion", length = 30)
     private String tipDescripcion;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "tip_id", nullable = false)
+    private Integer tipId;
+    @OneToMany(mappedBy = "tipOrgId")
+    private List<PgeOrganizaciones> pgeOrganizacionesList;
 
     public PgeTipoOrg() {
     }
 
-    public PgeTipoOrg(String tipCodigo) {
+    public PgeTipoOrg(Integer tipId) {
+        this.tipId = tipId;
+    }
+
+    public PgeTipoOrg(Integer tipId, String tipCodigo) {
+        this.tipId = tipId;
         this.tipCodigo = tipCodigo;
     }
 
@@ -66,10 +78,26 @@ public class PgeTipoOrg implements Serializable {
         this.tipDescripcion = tipDescripcion;
     }
 
+    public Integer getTipId() {
+        return tipId;
+    }
+
+    public void setTipId(Integer tipId) {
+        this.tipId = tipId;
+    }
+
+    public List<PgeOrganizaciones> getPgeOrganizacionesList() {
+        return pgeOrganizacionesList;
+    }
+
+    public void setPgeOrganizacionesList(List<PgeOrganizaciones> pgeOrganizacionesList) {
+        this.pgeOrganizacionesList = pgeOrganizacionesList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (tipCodigo != null ? tipCodigo.hashCode() : 0);
+        hash += (tipId != null ? tipId.hashCode() : 0);
         return hash;
     }
 
@@ -80,7 +108,7 @@ public class PgeTipoOrg implements Serializable {
             return false;
         }
         PgeTipoOrg other = (PgeTipoOrg) object;
-        if ((this.tipCodigo == null && other.tipCodigo != null) || (this.tipCodigo != null && !this.tipCodigo.equals(other.tipCodigo))) {
+        if ((this.tipId == null && other.tipId != null) || (this.tipId != null && !this.tipId.equals(other.tipId))) {
             return false;
         }
         return true;
@@ -88,15 +116,7 @@ public class PgeTipoOrg implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.model.PgeTipoOrg[ tipCodigo=" + tipCodigo + " ]";
-    }
-
-    public List<PgeOrganizaciones> getPgeOrganizacionesList() {
-        return pgeOrganizacionesList;
-    }
-
-    public void setPgeOrganizacionesList(List<PgeOrganizaciones> pgeOrganizacionesList) {
-        this.pgeOrganizacionesList = pgeOrganizacionesList;
+        return "com.fpuna.py.travelware.model.PgeTipoOrg[ tipId=" + tipId + " ]";
     }
     
 }

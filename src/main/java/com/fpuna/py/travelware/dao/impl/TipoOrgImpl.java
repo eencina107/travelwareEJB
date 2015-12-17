@@ -10,6 +10,7 @@ import com.fpuna.py.travelware.model.PgeTipoOrg;
 import org.apache.log4j.Logger;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.Cacheable;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -40,7 +41,12 @@ public class TipoOrgImpl implements TipoOrgDao {
 
     @Override
     public PgeTipoOrg getById(Integer id) {
-        throw new UnsupportedOperationException("No soportado."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return em.find(PgeTipoOrg.class, id);
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
+            return null;
+        }
     }
 
     @Override
@@ -59,8 +65,8 @@ public class TipoOrgImpl implements TipoOrgDao {
     @Override
     public boolean delete(PgeTipoOrg object) {
         try {
-            String id= object.getTipCodigo();
-            em.remove(object);
+            Integer id= object.getTipId();
+            em.remove(em.find(PgeTipoOrg.class, id));
             logger.info("Se elimina el tipo de organizacion "+object.getTipCodigo());
             return true;
         } catch (Exception e) {

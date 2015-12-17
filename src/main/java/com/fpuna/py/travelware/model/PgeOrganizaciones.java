@@ -91,9 +91,9 @@ public class PgeOrganizaciones implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "org_logo", length = 2147483647)
     private String orgLogo;
-    @JoinColumn(name = "org_tipo", referencedColumnName = "tip_codigo", nullable = false)
-    @ManyToOne(optional = false)
-    private PgeTipoOrg orgTipo;
+    @JoinColumn(name = "tip_org_id", referencedColumnName = "tip_id")
+    @ManyToOne
+    private PgeTipoOrg tipOrgId;
     @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id", nullable = false)
     @ManyToOne(optional = false)
     private PgeCiudades ciuId;
@@ -208,12 +208,12 @@ public class PgeOrganizaciones implements Serializable {
         this.orgLogo = orgLogo;
     }
 
-    public PgeTipoOrg getOrgTipo() {
-        return orgTipo;
+    public PgeTipoOrg getTipOrgId() {
+        return tipOrgId;
     }
 
-    public void setOrgTipo(PgeTipoOrg orgTipo) {
-        this.orgTipo = orgTipo;
+    public void setTipOrgId(PgeTipoOrg tipOrgId) {
+        this.tipOrgId = tipOrgId;
     }
 
     public PgeCiudades getCiuId() {

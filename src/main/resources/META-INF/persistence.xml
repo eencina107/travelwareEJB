@@ -4,6 +4,7 @@
   <persistence-unit name="TravelwarePU" transaction-type="JTA">
     <jta-data-source>travelware</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <shared-cache-mode>DISABLE_SELECTIVE</shared-cache-mode>
     <properties/>
   </persistence-unit>
 </persistence>
