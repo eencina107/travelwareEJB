@@ -93,5 +93,15 @@ public class MenuImpl implements MenuDao{
             
         }
     }
+
+    @Override
+    public PgeMenus getByName(String name) {
+        try {
+            return (PgeMenus) em.createNamedQuery("PgeMenus.findByMenDescripcion").setParameter("menDescripcion", name).getSingleResult();
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getByName ", e);
+            return null;
+        }
+    }
     
 }

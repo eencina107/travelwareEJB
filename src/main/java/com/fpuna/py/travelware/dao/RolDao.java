@@ -18,4 +18,5 @@ import java.util.List;
 public interface RolDao extends GenericDao<PgeRoles, Integer>{
     List<PgeRoles> getRolesByUsuario(PgeUsuarios usuario);
     List<PgePermisos> getPermisos(PgeRoles object);
+    PgeRoles getByName(String name);
 }

@@ -9,16 +9,19 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -27,24 +30,32 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "via_pas_viajes", catalog = "travelware", schema = "public")
+@Table(name = "via_pas_viajes", catalog = "travelware", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"via_id", "per_id"})})
 @NamedQueries({
     @NamedQuery(name = "ViaPasViajes.findAll", query = "SELECT v FROM ViaPasViajes v"),
-    @NamedQuery(name = "ViaPasViajes.findByViaId", query = "SELECT v FROM ViaPasViajes v WHERE v.viaPasViajesPK.viaId = :viaId"),
-    @NamedQuery(name = "ViaPasViajes.findByPerId", query = "SELECT v FROM ViaPasViajes v WHERE v.viaPasViajesPK.perId = :perId"),
     @NamedQuery(name = "ViaPasViajes.findByPviRel", query = "SELECT v FROM ViaPasViajes v WHERE v.pviRel = :pviRel"),
+    @NamedQuery(name = "ViaPasViajes.findByPreId", query = "SELECT v FROM ViaPasViajes v WHERE v.preId = :preId"),
+    @NamedQuery(name = "ViaPasViajes.findByMonId", query = "SELECT v FROM ViaPasViajes v WHERE v.monId = :monId"),
     @NamedQuery(name = "ViaPasViajes.findByPviUsuIns", query = "SELECT v FROM ViaPasViajes v WHERE v.pviUsuIns = :pviUsuIns"),
     @NamedQuery(name = "ViaPasViajes.findByPviFecIns", query = "SELECT v FROM ViaPasViajes v WHERE v.pviFecIns = :pviFecIns"),
     @NamedQuery(name = "ViaPasViajes.findByPviUsuMod", query = "SELECT v FROM ViaPasViajes v WHERE v.pviUsuMod = :pviUsuMod"),
-    @NamedQuery(name = "ViaPasViajes.findByPviFecMod", query = "SELECT v FROM ViaPasViajes v WHERE v.pviFecMod = :pviFecMod")})
+    @NamedQuery(name = "ViaPasViajes.findByPviFecMod", query = "SELECT v FROM ViaPasViajes v WHERE v.pviFecMod = :pviFecMod"),
+    @NamedQuery(name = "ViaPasViajes.findByPviId", query = "SELECT v FROM ViaPasViajes v WHERE v.pviId = :pviId")})
 public class ViaPasViajes implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ViaPasViajesPK viaPasViajesPK;
     @Basic(optional = false)
     @NotNull
     @Column(name = "pvi_rel", nullable = false)
     private Character pviRel;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "pre_id", nullable = false)
+    private int preId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "mon_id", nullable = false)
+    private int monId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -65,48 +76,40 @@ public class ViaPasViajes implements Serializable {
     @Column(name = "pvi_fec_mod", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date pviFecMod;
-    @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false, insertable = false, updatable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "pvi_id", nullable = false)
+    private Integer pviId;
+    @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false)
     @ManyToOne(optional = false)
-    private ViaViajes viaViajes;
-    @JoinColumns({
-        @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false, insertable = false, updatable = false),
-        @JoinColumn(name = "pre_id", referencedColumnName = "pre_id", nullable = false),
-        @JoinColumn(name = "mon_id", referencedColumnName = "mon_id", nullable = false)})
-    @ManyToOne(optional = false)
+    private ViaViajes viaId;
+    @JoinColumn(name = "pvi_id", referencedColumnName = "pre_id", nullable = false, insertable = false, updatable = false)
+    @OneToOne(optional = false)
     private ViaPreViajes viaPreViajes;
     @JoinColumn(name = "pvi_pas_id", referencedColumnName = "per_id", nullable = false)
     @ManyToOne(optional = false)
     private ViaPasajeros pviPasId;
-    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false)
     @ManyToOne(optional = false)
-    private ViaPasajeros viaPasajeros;
+    private ViaPasajeros perId;
 
     public ViaPasViajes() {
     }
 
-    public ViaPasViajes(ViaPasViajesPK viaPasViajesPK) {
-        this.viaPasViajesPK = viaPasViajesPK;
+    public ViaPasViajes(Integer pviId) {
+        this.pviId = pviId;
     }
 
-    public ViaPasViajes(ViaPasViajesPK viaPasViajesPK, Character pviRel, String pviUsuIns, Date pviFecIns, String pviUsuMod, Date pviFecMod) {
-        this.viaPasViajesPK = viaPasViajesPK;
+    public ViaPasViajes(Integer pviId, Character pviRel, int preId, int monId, String pviUsuIns, Date pviFecIns, String pviUsuMod, Date pviFecMod) {
+        this.pviId = pviId;
         this.pviRel = pviRel;
+        this.preId = preId;
+        this.monId = monId;
         this.pviUsuIns = pviUsuIns;
         this.pviFecIns = pviFecIns;
         this.pviUsuMod = pviUsuMod;
         this.pviFecMod = pviFecMod;
-    }
-
-    public ViaPasViajes(int viaId, int perId) {
-        this.viaPasViajesPK = new ViaPasViajesPK(viaId, perId);
-    }
-
-    public ViaPasViajesPK getViaPasViajesPK() {
-        return viaPasViajesPK;
-    }
-
-    public void setViaPasViajesPK(ViaPasViajesPK viaPasViajesPK) {
-        this.viaPasViajesPK = viaPasViajesPK;
     }
 
     public Character getPviRel() {
@@ -115,6 +118,22 @@ public class ViaPasViajes implements Serializable {
 
     public void setPviRel(Character pviRel) {
         this.pviRel = pviRel;
+    }
+
+    public int getPreId() {
+        return preId;
+    }
+
+    public void setPreId(int preId) {
+        this.preId = preId;
+    }
+
+    public int getMonId() {
+        return monId;
+    }
+
+    public void setMonId(int monId) {
+        this.monId = monId;
     }
 
     public String getPviUsuIns() {
@@ -149,12 +168,20 @@ public class ViaPasViajes implements Serializable {
         this.pviFecMod = pviFecMod;
     }
 
-    public ViaViajes getViaViajes() {
-        return viaViajes;
+    public Integer getPviId() {
+        return pviId;
     }
 
-    public void setViaViajes(ViaViajes viaViajes) {
-        this.viaViajes = viaViajes;
+    public void setPviId(Integer pviId) {
+        this.pviId = pviId;
+    }
+
+    public ViaViajes getViaId() {
+        return viaId;
+    }
+
+    public void setViaId(ViaViajes viaId) {
+        this.viaId = viaId;
     }
 
     public ViaPreViajes getViaPreViajes() {
@@ -173,18 +200,18 @@ public class ViaPasViajes implements Serializable {
         this.pviPasId = pviPasId;
     }
 
-    public ViaPasajeros getViaPasajeros() {
-        return viaPasajeros;
+    public ViaPasajeros getPerId() {
+        return perId;
     }
 
-    public void setViaPasajeros(ViaPasajeros viaPasajeros) {
-        this.viaPasajeros = viaPasajeros;
+    public void setPerId(ViaPasajeros perId) {
+        this.perId = perId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (viaPasViajesPK != null ? viaPasViajesPK.hashCode() : 0);
+        hash += (pviId != null ? pviId.hashCode() : 0);
         return hash;
     }
 
@@ -195,7 +222,7 @@ public class ViaPasViajes implements Serializable {
             return false;
         }
         ViaPasViajes other = (ViaPasViajes) object;
-        if ((this.viaPasViajesPK == null && other.viaPasViajesPK != null) || (this.viaPasViajesPK != null && !this.viaPasViajesPK.equals(other.viaPasViajesPK))) {
+        if ((this.pviId == null && other.pviId != null) || (this.pviId != null && !this.pviId.equals(other.pviId))) {
             return false;
         }
         return true;
@@ -203,7 +230,7 @@ public class ViaPasViajes implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.model.ViaPasViajes[ viaPasViajesPK=" + viaPasViajesPK + " ]";
+        return "com.fpuna.py.travelware.model.ViaPasViajes[ pviId=" + pviId + " ]";
     }
     
 }

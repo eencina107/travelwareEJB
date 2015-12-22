@@ -7,7 +7,6 @@ package com.fpuna.py.travelware.dao.impl;
 
 import com.fpuna.py.travelware.dao.ActividadDao;
 import com.fpuna.py.travelware.model.ViaActividades;
-import com.fpuna.py.travelware.model.ViaActividadesPK;
 import java.util.List;
 import org.apache.log4j.Logger;
 import javax.ejb.Stateless;
@@ -30,7 +29,7 @@ public class ActividadImpl implements ActividadDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta la Actividad "+object.getActDet()+" del viaje con id:"+object.getViaViajes().getViaId());
+            logger.info("Se inserta la Actividad "+object.getActDet()+" del viaje con id:"+object.getViaId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: create", e);
@@ -53,7 +52,7 @@ public class ActividadImpl implements ActividadDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualiza la actividad "+object.getActDet()+" del viaje con id:"+object.getViaViajes().getViaId());
+            logger.info("Se actualiza la actividad "+object.getActDet()+" del viaje con id:"+object.getViaId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
@@ -65,7 +64,7 @@ public class ActividadImpl implements ActividadDao{
     public boolean delete(ViaActividades object) {
         try{
             String det = object.getActDet();
-            int viaId = object.getViaViajes().getViaId();
+            int viaId = object.getViaId().getViaId();
             em.remove(em.find(ViaActividades.class, object));
             em.flush();
             logger.info("Se elimina la actividad "+det+" del viaje con id:"+viaId);
@@ -79,7 +78,7 @@ public class ActividadImpl implements ActividadDao{
     @Override
     public List<ViaActividades> getAll() {
         try {
-            return em.createQuery("select d from Disertante d").getResultList();
+            return em.createQuery("select d from ViaActividades d").getResultList();
         } catch (Exception e){
             logger.error("CLASS "+this.getClass().getName()+" METHOD: delete ", e);
             return null;

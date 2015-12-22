@@ -7,7 +7,9 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,6 +41,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeMonedas.findByMonUsuMod", query = "SELECT p FROM PgeMonedas p WHERE p.monUsuMod = :monUsuMod"),
     @NamedQuery(name = "PgeMonedas.findByMonFecMod", query = "SELECT p FROM PgeMonedas p WHERE p.monFecMod = :monFecMod")})
 public class PgeMonedas implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
+    private List<ViaPreViajes> viaPreViajesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -162,6 +167,14 @@ public class PgeMonedas implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PgeMonedas[ monId=" + monId + " ]";
+    }
+
+    public List<ViaPreViajes> getViaPreViajesList() {
+        return viaPreViajesList;
+    }
+
+    public void setViaPreViajesList(List<ViaPreViajes> viaPreViajesList) {
+        this.viaPreViajesList = viaPreViajesList;
     }
     
 }

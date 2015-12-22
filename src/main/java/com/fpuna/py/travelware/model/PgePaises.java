@@ -42,6 +42,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgePaises.findByPaiFecMod", query = "SELECT p FROM PgePaises p WHERE p.paiFecMod = :paiFecMod")})
 public class PgePaises implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paiId")
+    private List<PgePersonas> pgePersonasList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paiId")
     private List<PgeCiudades> pgeCiudadesList;
     private static final long serialVersionUID = 1L;
     @Id
@@ -196,6 +198,14 @@ public class PgePaises implements Serializable {
 
     public void setPgeCiudadesList(List<PgeCiudades> pgeCiudadesList) {
         this.pgeCiudadesList = pgeCiudadesList;
+    }
+
+    public List<PgePersonas> getPgePersonasList() {
+        return pgePersonasList;
+    }
+
+    public void setPgePersonasList(List<PgePersonas> pgePersonasList) {
+        this.pgePersonasList = pgePersonasList;
     }
     
 }

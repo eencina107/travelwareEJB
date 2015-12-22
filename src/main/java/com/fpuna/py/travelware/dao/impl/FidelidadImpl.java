@@ -30,7 +30,7 @@ public class FidelidadImpl implements FidelidadDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta la fidelidad de la persona con id:"+object.getViaFidelidadesPK().getPerId()+" con la empresa con id:"+object.getViaFidelidadesPK().getOrgId());
+            logger.info("Se inserta la fidelidad de la persona con id:"+object.getPerId().getPerId()+" con la empresa con id:"+object.getOrgId().getOrgId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: create ", e);
@@ -52,7 +52,7 @@ public class FidelidadImpl implements FidelidadDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualiza la fidelidad de la persona con id:"+object.getViaFidelidadesPK().getPerId()+"con la empresa con id:"+object.getViaFidelidadesPK().getOrgId());
+            logger.info("Se actualiza la fidelidad de la persona con id:"+object.getPerId().getPerId()+"con la empresa con id:"+object.getOrgId().getOrgId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
@@ -63,8 +63,8 @@ public class FidelidadImpl implements FidelidadDao{
     @Override
     public boolean delete(ViaFidelidades object) {
         try {
-            int perId = object.getViaFidelidadesPK().getPerId();
-            int orgId = object.getViaFidelidadesPK().getOrgId();
+            int perId = object.getPerId().getPerId();
+            int orgId = object.getOrgId().getOrgId();
             em.remove(em.find(ViaFidelidades.class, object));
             em.flush();
             logger.info("Se elimina la fidelidad de la persona con id:"+perId+" con la org con id:"+orgId);

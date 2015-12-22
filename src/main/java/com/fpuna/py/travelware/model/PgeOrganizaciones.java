@@ -7,7 +7,9 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,6 +49,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeOrganizaciones.findByOrgFecMod", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgFecMod = :orgFecMod"),
     @NamedQuery(name = "PgeOrganizaciones.findByOrgLogo", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgLogo = :orgLogo")})
 public class PgeOrganizaciones implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orgId")
+    private List<ViaFidelidades> viaFidelidadesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -247,6 +252,14 @@ public class PgeOrganizaciones implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PgeOrganizaciones[ orgId=" + orgId + " ]";
+    }
+
+    public List<ViaFidelidades> getViaFidelidadesList() {
+        return viaFidelidadesList;
+    }
+
+    public void setViaFidelidadesList(List<ViaFidelidades> viaFidelidadesList) {
+        this.viaFidelidadesList = viaFidelidadesList;
     }
     
 }

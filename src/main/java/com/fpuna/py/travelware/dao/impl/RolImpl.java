@@ -122,4 +122,14 @@ public class RolImpl implements RolDao{
         return  em.createNamedQuery("PgePermisos.findByRolId").setParameter("rolId", object.getRolId()).getResultList();
     }
 
+    @Override
+    public PgeRoles getByName(String name) {
+        try {
+            return (PgeRoles) em.createNamedQuery("PgeRoles.findByRolDesc").setParameter("rolDesc", name).getSingleResult();
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
+            return null;
+        }
+    }
+
 }

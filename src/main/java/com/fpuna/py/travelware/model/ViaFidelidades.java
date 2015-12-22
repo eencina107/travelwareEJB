@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -18,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -26,19 +29,17 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "via_fidelidades", catalog = "travelware", schema = "public")
+@Table(name = "via_fidelidades", catalog = "travelware", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"per_id", "org_id"})})
 @NamedQueries({
     @NamedQuery(name = "ViaFidelidades.findAll", query = "SELECT v FROM ViaFidelidades v"),
-    @NamedQuery(name = "ViaFidelidades.findByPerId", query = "SELECT v FROM ViaFidelidades v WHERE v.viaFidelidadesPK.perId = :perId"),
-    @NamedQuery(name = "ViaFidelidades.findByOrgId", query = "SELECT v FROM ViaFidelidades v WHERE v.viaFidelidadesPK.orgId = :orgId"),
     @NamedQuery(name = "ViaFidelidades.findByFidUsuIns", query = "SELECT v FROM ViaFidelidades v WHERE v.fidUsuIns = :fidUsuIns"),
     @NamedQuery(name = "ViaFidelidades.findByFidFecIns", query = "SELECT v FROM ViaFidelidades v WHERE v.fidFecIns = :fidFecIns"),
     @NamedQuery(name = "ViaFidelidades.findByFidUsuMod", query = "SELECT v FROM ViaFidelidades v WHERE v.fidUsuMod = :fidUsuMod"),
-    @NamedQuery(name = "ViaFidelidades.findByFidFecMod", query = "SELECT v FROM ViaFidelidades v WHERE v.fidFecMod = :fidFecMod")})
+    @NamedQuery(name = "ViaFidelidades.findByFidFecMod", query = "SELECT v FROM ViaFidelidades v WHERE v.fidFecMod = :fidFecMod"),
+    @NamedQuery(name = "ViaFidelidades.findByFidId", query = "SELECT v FROM ViaFidelidades v WHERE v.fidId = :fidId")})
 public class ViaFidelidades implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ViaFidelidadesPK viaFidelidadesPK;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -55,36 +56,29 @@ public class ViaFidelidades implements Serializable {
     @Column(name = "fid_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fidFecMod;
-    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false, insertable = false, updatable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "fid_id", nullable = false)
+    private Integer fidId;
+    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false)
     @ManyToOne(optional = false)
-    private PgePersonas pgePersonas;
-    @JoinColumn(name = "org_id", referencedColumnName = "org_id", nullable = false, insertable = false, updatable = false)
+    private PgePersonas perId;
+    @JoinColumn(name = "org_id", referencedColumnName = "org_id", nullable = false)
     @ManyToOne(optional = false)
-    private PgeOrganizaciones pgeOrganizaciones;
+    private PgeOrganizaciones orgId;
 
     public ViaFidelidades() {
     }
 
-    public ViaFidelidades(ViaFidelidadesPK viaFidelidadesPK) {
-        this.viaFidelidadesPK = viaFidelidadesPK;
+    public ViaFidelidades(Integer fidId) {
+        this.fidId = fidId;
     }
 
-    public ViaFidelidades(ViaFidelidadesPK viaFidelidadesPK, String fidUsuIns, Date fidFecIns) {
-        this.viaFidelidadesPK = viaFidelidadesPK;
+    public ViaFidelidades(Integer fidId, String fidUsuIns, Date fidFecIns) {
+        this.fidId = fidId;
         this.fidUsuIns = fidUsuIns;
         this.fidFecIns = fidFecIns;
-    }
-
-    public ViaFidelidades(int perId, int orgId) {
-        this.viaFidelidadesPK = new ViaFidelidadesPK(perId, orgId);
-    }
-
-    public ViaFidelidadesPK getViaFidelidadesPK() {
-        return viaFidelidadesPK;
-    }
-
-    public void setViaFidelidadesPK(ViaFidelidadesPK viaFidelidadesPK) {
-        this.viaFidelidadesPK = viaFidelidadesPK;
     }
 
     public String getFidUsuIns() {
@@ -119,26 +113,34 @@ public class ViaFidelidades implements Serializable {
         this.fidFecMod = fidFecMod;
     }
 
-    public PgePersonas getPgePersonas() {
-        return pgePersonas;
+    public Integer getFidId() {
+        return fidId;
     }
 
-    public void setPgePersonas(PgePersonas pgePersonas) {
-        this.pgePersonas = pgePersonas;
+    public void setFidId(Integer fidId) {
+        this.fidId = fidId;
     }
 
-    public PgeOrganizaciones getPgeOrganizaciones() {
-        return pgeOrganizaciones;
+    public PgePersonas getPerId() {
+        return perId;
     }
 
-    public void setPgeOrganizaciones(PgeOrganizaciones pgeOrganizaciones) {
-        this.pgeOrganizaciones = pgeOrganizaciones;
+    public void setPerId(PgePersonas perId) {
+        this.perId = perId;
+    }
+
+    public PgeOrganizaciones getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(PgeOrganizaciones orgId) {
+        this.orgId = orgId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (viaFidelidadesPK != null ? viaFidelidadesPK.hashCode() : 0);
+        hash += (fidId != null ? fidId.hashCode() : 0);
         return hash;
     }
 
@@ -149,7 +151,7 @@ public class ViaFidelidades implements Serializable {
             return false;
         }
         ViaFidelidades other = (ViaFidelidades) object;
-        if ((this.viaFidelidadesPK == null && other.viaFidelidadesPK != null) || (this.viaFidelidadesPK != null && !this.viaFidelidadesPK.equals(other.viaFidelidadesPK))) {
+        if ((this.fidId == null && other.fidId != null) || (this.fidId != null && !this.fidId.equals(other.fidId))) {
             return false;
         }
         return true;
@@ -157,7 +159,7 @@ public class ViaFidelidades implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.model.ViaFidelidades[ viaFidelidadesPK=" + viaFidelidadesPK + " ]";
+        return "com.fpuna.py.travelware.model.ViaFidelidades[ fidId=" + fidId + " ]";
     }
     
 }

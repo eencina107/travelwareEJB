@@ -7,18 +7,18 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -27,19 +27,21 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "via_pre_viajes", catalog = "travelware", schema = "public")
+@Table(name = "via_pre_viajes", catalog = "travelware", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"via_id", "mon_id"})})
 @NamedQueries({
     @NamedQuery(name = "ViaPreViajes.findAll", query = "SELECT v FROM ViaPreViajes v"),
-    @NamedQuery(name = "ViaPreViajes.findByViaId", query = "SELECT v FROM ViaPreViajes v WHERE v.viaPreViajesPK.viaId = :viaId"),
-    @NamedQuery(name = "ViaPreViajes.findByPreId", query = "SELECT v FROM ViaPreViajes v WHERE v.viaPreViajesPK.preId = :preId"),
-    @NamedQuery(name = "ViaPreViajes.findByMonId", query = "SELECT v FROM ViaPreViajes v WHERE v.viaPreViajesPK.monId = :monId"),
+    @NamedQuery(name = "ViaPreViajes.findByPreId", query = "SELECT v FROM ViaPreViajes v WHERE v.preId = :preId"),
     @NamedQuery(name = "ViaPreViajes.findByPrePrecio", query = "SELECT v FROM ViaPreViajes v WHERE v.prePrecio = :prePrecio"),
     @NamedQuery(name = "ViaPreViajes.findByPreNombre", query = "SELECT v FROM ViaPreViajes v WHERE v.preNombre = :preNombre"),
     @NamedQuery(name = "ViaPreViajes.findByPreDescripcion", query = "SELECT v FROM ViaPreViajes v WHERE v.preDescripcion = :preDescripcion")})
 public class ViaPreViajes implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ViaPreViajesPK viaPreViajesPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "pre_id", nullable = false)
+    private Integer preId;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -53,38 +55,32 @@ public class ViaPreViajes implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "pre_descripcion", length = 2147483647)
     private String preDescripcion;
-    @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false)
     @ManyToOne(optional = false)
-    private ViaViajes viaViajes;
-    @JoinColumn(name = "mon_id", referencedColumnName = "mon_id", nullable = false, insertable = false, updatable = false)
+    private ViaViajes viaId;
+    @JoinColumn(name = "mon_id", referencedColumnName = "mon_id", nullable = false)
     @ManyToOne(optional = false)
-    private PgeMonedas pgeMonedas;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaPreViajes")
-    private List<ViaPasViajes> viaPasViajesList;
+    private PgeMonedas monId;
 
     public ViaPreViajes() {
     }
 
-    public ViaPreViajes(ViaPreViajesPK viaPreViajesPK) {
-        this.viaPreViajesPK = viaPreViajesPK;
+    public ViaPreViajes(Integer preId) {
+        this.preId = preId;
     }
 
-    public ViaPreViajes(ViaPreViajesPK viaPreViajesPK, BigDecimal prePrecio, String preNombre) {
-        this.viaPreViajesPK = viaPreViajesPK;
+    public ViaPreViajes(Integer preId, BigDecimal prePrecio, String preNombre) {
+        this.preId = preId;
         this.prePrecio = prePrecio;
         this.preNombre = preNombre;
     }
 
-    public ViaPreViajes(int viaId, int preId, int monId) {
-        this.viaPreViajesPK = new ViaPreViajesPK(viaId, preId, monId);
+    public Integer getPreId() {
+        return preId;
     }
 
-    public ViaPreViajesPK getViaPreViajesPK() {
-        return viaPreViajesPK;
-    }
-
-    public void setViaPreViajesPK(ViaPreViajesPK viaPreViajesPK) {
-        this.viaPreViajesPK = viaPreViajesPK;
+    public void setPreId(Integer preId) {
+        this.preId = preId;
     }
 
     public BigDecimal getPrePrecio() {
@@ -111,34 +107,26 @@ public class ViaPreViajes implements Serializable {
         this.preDescripcion = preDescripcion;
     }
 
-    public ViaViajes getViaViajes() {
-        return viaViajes;
+    public ViaViajes getViaId() {
+        return viaId;
     }
 
-    public void setViaViajes(ViaViajes viaViajes) {
-        this.viaViajes = viaViajes;
+    public void setViaId(ViaViajes viaId) {
+        this.viaId = viaId;
     }
 
-    public PgeMonedas getPgeMonedas() {
-        return pgeMonedas;
+    public PgeMonedas getMonId() {
+        return monId;
     }
 
-    public void setPgeMonedas(PgeMonedas pgeMonedas) {
-        this.pgeMonedas = pgeMonedas;
-    }
-
-    public List<ViaPasViajes> getViaPasViajesList() {
-        return viaPasViajesList;
-    }
-
-    public void setViaPasViajesList(List<ViaPasViajes> viaPasViajesList) {
-        this.viaPasViajesList = viaPasViajesList;
+    public void setMonId(PgeMonedas monId) {
+        this.monId = monId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (viaPreViajesPK != null ? viaPreViajesPK.hashCode() : 0);
+        hash += (preId != null ? preId.hashCode() : 0);
         return hash;
     }
 
@@ -149,7 +137,7 @@ public class ViaPreViajes implements Serializable {
             return false;
         }
         ViaPreViajes other = (ViaPreViajes) object;
-        if ((this.viaPreViajesPK == null && other.viaPreViajesPK != null) || (this.viaPreViajesPK != null && !this.viaPreViajesPK.equals(other.viaPreViajesPK))) {
+        if ((this.preId == null && other.preId != null) || (this.preId != null && !this.preId.equals(other.preId))) {
             return false;
         }
         return true;
@@ -157,7 +145,7 @@ public class ViaPreViajes implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.model.ViaPreViajes[ viaPreViajesPK=" + viaPreViajesPK + " ]";
+        return "com.fpuna.py.travelware.model.ViaPreViajes[ preId=" + preId + " ]";
     }
     
 }

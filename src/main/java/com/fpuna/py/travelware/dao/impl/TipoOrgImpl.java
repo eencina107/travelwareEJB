@@ -10,7 +10,6 @@ import com.fpuna.py.travelware.model.PgeTipoOrg;
 import org.apache.log4j.Logger;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.persistence.Cacheable;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 

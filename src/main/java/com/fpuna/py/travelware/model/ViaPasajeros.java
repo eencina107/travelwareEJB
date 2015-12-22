@@ -72,8 +72,6 @@ public class ViaPasajeros implements Serializable {
     private PgePersonas pgePersonas;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pviPasId")
     private List<ViaPasViajes> viaPasViajesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaPasajeros")
-    private List<ViaPasViajes> viaPasViajesList1;
 
     public ViaPasajeros() {
     }
@@ -158,14 +156,6 @@ public class ViaPasajeros implements Serializable {
 
     public void setViaPasViajesList(List<ViaPasViajes> viaPasViajesList) {
         this.viaPasViajesList = viaPasViajesList;
-    }
-
-    public List<ViaPasViajes> getViaPasViajesList1() {
-        return viaPasViajesList1;
-    }
-
-    public void setViaPasViajesList1(List<ViaPasViajes> viaPasViajesList1) {
-        this.viaPasViajesList1 = viaPasViajesList1;
     }
 
     @Override

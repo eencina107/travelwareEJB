@@ -29,7 +29,7 @@ public class PasajeroViajeImpl implements PasajeroViajeDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta el pasajero con id:"+object.getViaPasViajesPK().getPerId()+" en el viaje con id:"+object.getViaPasViajesPK().getViaId());
+            logger.info("Se inserta el pasajero con id:"+object.getPerId().getPerId()+" en el viaje con id:"+object.getViaId().getViaId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: create ", e);
@@ -39,7 +39,7 @@ public class PasajeroViajeImpl implements PasajeroViajeDao{
 
     public ViaPasViajes getById(Integer perId, Integer viaId) {
         try {
-            return (ViaPasViajes) em.createQuery("SELECT pv from ViaPasViajes pv WHERE pv.viaPasViajesPK.perId = :perId AND pv.viaPasViajesPK.viaId = :viaId").setParameter("perId", perId).setParameter("viaId", viaId).getSingleResult();
+            return (ViaPasViajes) em.createQuery("SELECT pv from ViaPasViajes pv WHERE pv.perId = :perId AND pv.viaId = :viaId").setParameter("perId", perId).setParameter("viaId", viaId).getSingleResult();
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
             return null;
@@ -51,7 +51,7 @@ public class PasajeroViajeImpl implements PasajeroViajeDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualizan el registro de pasajero con id:"+object.getViaPasViajesPK().getPerId()+" del viaje con id:"+object.getViaPasViajesPK().getViaId());
+            logger.info("Se actualizan el registro de pasajero con id:"+object.getPerId().getPerId()+" del viaje con id:"+object.getViaId().getViaId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
@@ -62,8 +62,8 @@ public class PasajeroViajeImpl implements PasajeroViajeDao{
     @Override
     public boolean delete(ViaPasViajes object) {
         try {
-            int perId = object.getViaPasViajesPK().getPerId();
-            int viaId = object.getViaPasViajesPK().getViaId();
+            int perId = object.getPerId().getPerId();
+            int viaId = object.getViaId().getViaId();
             em.remove(em.find(ViaPasViajes.class, object));
             logger.info("Se elimina la persona con id:"+perId+" del viaje con id:"+viaId);
             return true;

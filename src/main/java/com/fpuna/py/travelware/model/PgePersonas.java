@@ -48,6 +48,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgePersonas.findByPerUsuMod", query = "SELECT p FROM PgePersonas p WHERE p.perUsuMod = :perUsuMod"),
     @NamedQuery(name = "PgePersonas.findByPerFecMod", query = "SELECT p FROM PgePersonas p WHERE p.perFecMod = :perFecMod")})
 public class PgePersonas implements Serializable {
+    @Lob
+    @Column(name = "per_doc")
+    private byte[] perDoc;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,9 +72,6 @@ public class PgePersonas implements Serializable {
     @Size(min = 1, max = 12)
     @Column(name = "per_nro_doc", nullable = false, length = 12)
     private String perNroDoc;
-    @Lob
-    @Column(name = "per_doc")
-    private byte[] perDoc;
     @Column(name = "per_fec_nac")
     @Temporal(TemporalType.DATE)
     private Date perFecNac;
@@ -99,8 +99,6 @@ public class PgePersonas implements Serializable {
     private Date perFecMod;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "perId")
     private List<PagComprobantesDet> pagComprobantesDetList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgePersonas")
-    private List<ViaFidelidades> viaFidelidadesList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pgePersonas")
     private ViaPasajeros viaPasajeros;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgePersonas")
@@ -236,14 +234,6 @@ public class PgePersonas implements Serializable {
         this.pagComprobantesDetList = pagComprobantesDetList;
     }
 
-    public List<ViaFidelidades> getViaFidelidadesList() {
-        return viaFidelidadesList;
-    }
-
-    public void setViaFidelidadesList(List<ViaFidelidades> viaFidelidadesList) {
-        this.viaFidelidadesList = viaFidelidadesList;
-    }
-
     public ViaPasajeros getViaPasajeros() {
         return viaPasajeros;
     }
@@ -316,5 +306,7 @@ public class PgePersonas implements Serializable {
     public String toString() {
         return "com.fpuna.py.travelware.model.PgePersonas[ perId=" + perId + " ]";
     }
+
+
     
 }

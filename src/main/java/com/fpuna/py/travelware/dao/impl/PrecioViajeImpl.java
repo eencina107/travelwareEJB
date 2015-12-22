@@ -29,7 +29,7 @@ public class PrecioViajeImpl implements PrecioViajeDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta el precio con id:"+object.getViaPreViajesPK().getPreId()+" en la moneda con id:"+object.getViaPreViajesPK().getMonId()+" del viaje con id:"+object.getViaPreViajesPK().getViaId());
+            logger.info("Se inserta el precio con id:"+object.getPreId()+" en la moneda con id:"+object.getMonId()+" del viaje con id:"+object.getViaId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: create ", e);
@@ -39,7 +39,7 @@ public class PrecioViajeImpl implements PrecioViajeDao{
 
     public ViaPreViajes getById(Integer preId,Integer monId,Integer viaId) {
         try {
-            return (ViaPreViajes) em.createQuery("SELECT pv FROM ViaPreViajes pv WHERE pv.viaPreViajesPK.preId = :preId and PV.viaPreViajesPK.monId = :monId and pv.viaPreViajesPK.viaId = :viaId").setParameter("preId", preId).setParameter("monId", monId).setParameter("viaId", viaId).getSingleResult();
+            return (ViaPreViajes) em.createQuery("SELECT pv FROM ViaPreViajes pv WHERE pv.preId = :preId and PV.monId = :monId and pv.viaId = :viaId").setParameter("preId", preId).setParameter("monId", monId).setParameter("viaId", viaId).getSingleResult();
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
             return null;
@@ -51,7 +51,7 @@ public class PrecioViajeImpl implements PrecioViajeDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualiza el precio de viaje con id:"+object.getViaPreViajesPK().getPreId()+" en la moneda con id:"+object.getViaPreViajesPK().getMonId()+" del viaje con id:"+object.getViaPreViajesPK().getViaId());
+            logger.info("Se actualiza el precio de viaje con id:"+object.getPreId()+" en la moneda con id:"+object.getMonId()+" del viaje con id:"+object.getViaId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
@@ -62,9 +62,9 @@ public class PrecioViajeImpl implements PrecioViajeDao{
     @Override
     public boolean delete(ViaPreViajes object) {
         try {
-            int preId = object.getViaPreViajesPK().getPreId();
-            int monId = object.getViaPreViajesPK().getMonId();
-            int viaId = object.getViaPreViajesPK().getViaId();
+            int preId = object.getPreId();
+            int monId = object.getMonId().getMonId();
+            int viaId = object.getViaId().getViaId();
         
             em.remove(em.find(ViaPreViajes.class, object));
             logger.info("Se elimina el precio con id:"+preId+" en la moneda con id:"+monId+" del viaje con id:"+viaId);

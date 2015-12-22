@@ -12,5 +12,5 @@ import com.fpuna.py.travelware.model.PgeMenus;
  * @author eencina
  */
 public interface MenuDao extends GenericDao<PgeMenus, Integer>{
-    
+    PgeMenus getByName(String name);
 }

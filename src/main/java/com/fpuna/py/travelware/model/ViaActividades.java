@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -18,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -26,21 +29,24 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "via_actividades", catalog = "travelware", schema = "public")
+@Table(name = "via_actividades", catalog = "travelware", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"via_id", "act_ord"})})
 @NamedQueries({
     @NamedQuery(name = "ViaActividades.findAll", query = "SELECT v FROM ViaActividades v"),
-    @NamedQuery(name = "ViaActividades.findByViaId", query = "SELECT v FROM ViaActividades v WHERE v.viaActividadesPK.viaId = :viaId"),
-    @NamedQuery(name = "ViaActividades.findByActOrd", query = "SELECT v FROM ViaActividades v WHERE v.viaActividadesPK.actOrd = :actOrd"),
+    @NamedQuery(name = "ViaActividades.findByActOrd", query = "SELECT v FROM ViaActividades v WHERE v.actOrd = :actOrd"),
     @NamedQuery(name = "ViaActividades.findByActFecha", query = "SELECT v FROM ViaActividades v WHERE v.actFecha = :actFecha"),
     @NamedQuery(name = "ViaActividades.findByActDet", query = "SELECT v FROM ViaActividades v WHERE v.actDet = :actDet"),
     @NamedQuery(name = "ViaActividades.findByActUsuIns", query = "SELECT v FROM ViaActividades v WHERE v.actUsuIns = :actUsuIns"),
     @NamedQuery(name = "ViaActividades.findByActFecIns", query = "SELECT v FROM ViaActividades v WHERE v.actFecIns = :actFecIns"),
     @NamedQuery(name = "ViaActividades.findByActUsuMod", query = "SELECT v FROM ViaActividades v WHERE v.actUsuMod = :actUsuMod"),
-    @NamedQuery(name = "ViaActividades.findByActFecMod", query = "SELECT v FROM ViaActividades v WHERE v.actFecMod = :actFecMod")})
+    @NamedQuery(name = "ViaActividades.findByActFecMod", query = "SELECT v FROM ViaActividades v WHERE v.actFecMod = :actFecMod"),
+    @NamedQuery(name = "ViaActividades.findByActId", query = "SELECT v FROM ViaActividades v WHERE v.actId = :actId")})
 public class ViaActividades implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ViaActividadesPK viaActividadesPK;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "act_ord", nullable = false)
+    private int actOrd;
     @Basic(optional = false)
     @NotNull
     @Column(name = "act_fecha", nullable = false)
@@ -67,9 +73,14 @@ public class ViaActividades implements Serializable {
     @Column(name = "act_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date actFecMod;
-    @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false, insertable = false, updatable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "act_id", nullable = false)
+    private Integer actId;
+    @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false)
     @ManyToOne(optional = false)
-    private ViaViajes viaViajes;
+    private ViaViajes viaId;
     @JoinColumn(name = "ciu_id", referencedColumnName = "ciu_id")
     @ManyToOne
     private PgeCiudades ciuId;
@@ -77,28 +88,25 @@ public class ViaActividades implements Serializable {
     public ViaActividades() {
     }
 
-    public ViaActividades(ViaActividadesPK viaActividadesPK) {
-        this.viaActividadesPK = viaActividadesPK;
+    public ViaActividades(Integer actId) {
+        this.actId = actId;
     }
 
-    public ViaActividades(ViaActividadesPK viaActividadesPK, Date actFecha, String actDet, String actUsuIns, Date actFecIns) {
-        this.viaActividadesPK = viaActividadesPK;
+    public ViaActividades(Integer actId, int actOrd, Date actFecha, String actDet, String actUsuIns, Date actFecIns) {
+        this.actId = actId;
+        this.actOrd = actOrd;
         this.actFecha = actFecha;
         this.actDet = actDet;
         this.actUsuIns = actUsuIns;
         this.actFecIns = actFecIns;
     }
 
-    public ViaActividades(int viaId, int actOrd) {
-        this.viaActividadesPK = new ViaActividadesPK(viaId, actOrd);
+    public int getActOrd() {
+        return actOrd;
     }
 
-    public ViaActividadesPK getViaActividadesPK() {
-        return viaActividadesPK;
-    }
-
-    public void setViaActividadesPK(ViaActividadesPK viaActividadesPK) {
-        this.viaActividadesPK = viaActividadesPK;
+    public void setActOrd(int actOrd) {
+        this.actOrd = actOrd;
     }
 
     public Date getActFecha() {
@@ -149,12 +157,20 @@ public class ViaActividades implements Serializable {
         this.actFecMod = actFecMod;
     }
 
-    public ViaViajes getViaViajes() {
-        return viaViajes;
+    public Integer getActId() {
+        return actId;
     }
 
-    public void setViaViajes(ViaViajes viaViajes) {
-        this.viaViajes = viaViajes;
+    public void setActId(Integer actId) {
+        this.actId = actId;
+    }
+
+    public ViaViajes getViaId() {
+        return viaId;
+    }
+
+    public void setViaId(ViaViajes viaId) {
+        this.viaId = viaId;
     }
 
     public PgeCiudades getCiuId() {
@@ -168,7 +184,7 @@ public class ViaActividades implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (viaActividadesPK != null ? viaActividadesPK.hashCode() : 0);
+        hash += (actId != null ? actId.hashCode() : 0);
         return hash;
     }
 
@@ -179,7 +195,7 @@ public class ViaActividades implements Serializable {
             return false;
         }
         ViaActividades other = (ViaActividades) object;
-        if ((this.viaActividadesPK == null && other.viaActividadesPK != null) || (this.viaActividadesPK != null && !this.viaActividadesPK.equals(other.viaActividadesPK))) {
+        if ((this.actId == null && other.actId != null) || (this.actId != null && !this.actId.equals(other.actId))) {
             return false;
         }
         return true;
@@ -187,7 +203,7 @@ public class ViaActividades implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.model.ViaActividades[ viaActividadesPK=" + viaActividadesPK + " ]";
+        return "com.fpuna.py.travelware.model.ViaActividades[ actId=" + actId + " ]";
     }
     
 }
