@@ -7,7 +7,6 @@ package com.fpuna.py.travelware.dao.impl;
 
 import com.fpuna.py.travelware.dao.FidelidadDao;
 import com.fpuna.py.travelware.model.ViaFidelidades;
-import com.fpuna.py.travelware.model.ViaFidelidadesPK;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -30,7 +29,7 @@ public class FidelidadImpl implements FidelidadDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta la fidelidad de la persona con id:"+object.getPerId().getPerId()+" con la empresa con id:"+object.getOrgId().getOrgId());
+            logger.info("Se inserta la fidelidad con id:"+object.getFidId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: create ", e);
@@ -40,7 +39,7 @@ public class FidelidadImpl implements FidelidadDao{
 
     public ViaFidelidades getById(Integer perId, Integer orgId) {
         try {
-            return (ViaFidelidades) em.createQuery("Select f from ViaFidelidades f where f.viaFidelidadesPK.orgId = :orgId AND f.ViaFidelidadesPK.perId= :perId").setParameter("orgId", orgId).setParameter("perId", perId).getSingleResult();
+            return (ViaFidelidades) em.createQuery("Select f from ViaFidelidades f where f.orgId = :orgId AND f.perId= :perId").setParameter("orgId", orgId).setParameter("perId", perId).getSingleResult();
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
             return null;
@@ -52,7 +51,7 @@ public class FidelidadImpl implements FidelidadDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualiza la fidelidad de la persona con id:"+object.getPerId().getPerId()+"con la empresa con id:"+object.getOrgId().getOrgId());
+            logger.info("Se actualiza la fidelidad con id:"+object.getFidId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
@@ -63,11 +62,10 @@ public class FidelidadImpl implements FidelidadDao{
     @Override
     public boolean delete(ViaFidelidades object) {
         try {
-            int perId = object.getPerId().getPerId();
-            int orgId = object.getOrgId().getOrgId();
+            int fidId = object.getFidId();
             em.remove(em.find(ViaFidelidades.class, object));
             em.flush();
-            logger.info("Se elimina la fidelidad de la persona con id:"+perId+" con la org con id:"+orgId);
+            logger.info("Se elimina la fidelidad con id:"+fidId);
             return true;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: delete ", e);
@@ -87,7 +85,13 @@ public class FidelidadImpl implements FidelidadDao{
 
     @Override
     public ViaFidelidades getById(Integer id) {
-        throw new UnsupportedOperationException("ERROR. Operacion no soportada"); //To change body of generated methods, choose Tools | Templates.
+        try {
+            ViaFidelidades fid = em.find(ViaFidelidades.class, id);
+            return fid;
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
+            return null;
+        }
     }
     
 }

@@ -7,21 +7,16 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,11 +41,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgePersonas.findByPerUsuIns", query = "SELECT p FROM PgePersonas p WHERE p.perUsuIns = :perUsuIns"),
     @NamedQuery(name = "PgePersonas.findByPerFecIns", query = "SELECT p FROM PgePersonas p WHERE p.perFecIns = :perFecIns"),
     @NamedQuery(name = "PgePersonas.findByPerUsuMod", query = "SELECT p FROM PgePersonas p WHERE p.perUsuMod = :perUsuMod"),
-    @NamedQuery(name = "PgePersonas.findByPerFecMod", query = "SELECT p FROM PgePersonas p WHERE p.perFecMod = :perFecMod")})
+    @NamedQuery(name = "PgePersonas.findByPerFecMod", query = "SELECT p FROM PgePersonas p WHERE p.perFecMod = :perFecMod"),
+    @NamedQuery(name = "PgePersonas.findByPerDoc", query = "SELECT p FROM PgePersonas p WHERE p.perDoc = :perDoc")})
 public class PgePersonas implements Serializable {
-    @Lob
-    @Column(name = "per_doc")
-    private byte[] perDoc;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -97,22 +90,15 @@ public class PgePersonas implements Serializable {
     @Column(name = "per_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date perFecMod;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perId")
-    private List<PagComprobantesDet> pagComprobantesDetList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pgePersonas")
-    private ViaPasajeros viaPasajeros;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgePersonas")
-    private List<ViaPasaportes> viaPasaportesList;
+    @Size(max = 2147483647)
+    @Column(name = "per_doc", length = 2147483647)
+    private String perDoc;
     @JoinColumn(name = "prf_id", referencedColumnName = "prf_id", nullable = false)
     @ManyToOne(optional = false)
     private PgeProfesiones prfId;
     @JoinColumn(name = "pai_id", referencedColumnName = "pai_id", nullable = false)
     @ManyToOne(optional = false)
     private PgePaises paiId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perId")
-    private List<PagComprobantes> pagComprobantesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perId")
-    private List<PgeUsuarios> pgeUsuariosList;
 
     public PgePersonas() {
     }
@@ -160,14 +146,6 @@ public class PgePersonas implements Serializable {
 
     public void setPerNroDoc(String perNroDoc) {
         this.perNroDoc = perNroDoc;
-    }
-
-    public byte[] getPerDoc() {
-        return perDoc;
-    }
-
-    public void setPerDoc(byte[] perDoc) {
-        this.perDoc = perDoc;
     }
 
     public Date getPerFecNac() {
@@ -226,28 +204,12 @@ public class PgePersonas implements Serializable {
         this.perFecMod = perFecMod;
     }
 
-    public List<PagComprobantesDet> getPagComprobantesDetList() {
-        return pagComprobantesDetList;
+    public String getPerDoc() {
+        return perDoc;
     }
 
-    public void setPagComprobantesDetList(List<PagComprobantesDet> pagComprobantesDetList) {
-        this.pagComprobantesDetList = pagComprobantesDetList;
-    }
-
-    public ViaPasajeros getViaPasajeros() {
-        return viaPasajeros;
-    }
-
-    public void setViaPasajeros(ViaPasajeros viaPasajeros) {
-        this.viaPasajeros = viaPasajeros;
-    }
-
-    public List<ViaPasaportes> getViaPasaportesList() {
-        return viaPasaportesList;
-    }
-
-    public void setViaPasaportesList(List<ViaPasaportes> viaPasaportesList) {
-        this.viaPasaportesList = viaPasaportesList;
+    public void setPerDoc(String perDoc) {
+        this.perDoc = perDoc;
     }
 
     public PgeProfesiones getPrfId() {
@@ -264,22 +226,6 @@ public class PgePersonas implements Serializable {
 
     public void setPaiId(PgePaises paiId) {
         this.paiId = paiId;
-    }
-
-    public List<PagComprobantes> getPagComprobantesList() {
-        return pagComprobantesList;
-    }
-
-    public void setPagComprobantesList(List<PagComprobantes> pagComprobantesList) {
-        this.pagComprobantesList = pagComprobantesList;
-    }
-
-    public List<PgeUsuarios> getPgeUsuariosList() {
-        return pgeUsuariosList;
-    }
-
-    public void setPgeUsuariosList(List<PgeUsuarios> pgeUsuariosList) {
-        this.pgeUsuariosList = pgeUsuariosList;
     }
 
     @Override
@@ -306,7 +252,5 @@ public class PgePersonas implements Serializable {
     public String toString() {
         return "com.fpuna.py.travelware.model.PgePersonas[ perId=" + perId + " ]";
     }
-
-
     
 }

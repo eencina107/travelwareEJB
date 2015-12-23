@@ -85,5 +85,17 @@ public class ProfesionImpl implements ProfesionDao{
             return null;
         }
     }
+
+    @Override
+    public PgeProfesiones getByName(String name) {
+        try {
+            return (PgeProfesiones) em.createNamedQuery("PgeProfesiones.findByPrfDesc").setParameter("prfDesc", name).getSingleResult();
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getAll ", e);
+            return null;
+        }
+    }
+    
+    
     
 }

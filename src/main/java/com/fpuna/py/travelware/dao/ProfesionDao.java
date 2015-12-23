@@ -6,12 +6,11 @@
 package com.fpuna.py.travelware.dao;
 
 import com.fpuna.py.travelware.model.PgeProfesiones;
-import java.io.Serializable;
 
 /**
  *
  * @author eencina
  */
 public interface ProfesionDao extends GenericDao<PgeProfesiones, Integer>{
-    
+    PgeProfesiones getByName(String name);
 }
