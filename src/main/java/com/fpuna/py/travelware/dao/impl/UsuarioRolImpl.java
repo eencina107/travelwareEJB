@@ -29,7 +29,7 @@ public class UsuarioRolImpl implements UsuarioRolDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta la relacion entre el usuario con id:"+object.getPgeUsuRolesPK().getUsuId()+" con el rol con id:"+object.getPgeUsuRolesPK().getRolId());
+            logger.info("Se inserta la relacion entre el usuario con id:"+object.getUsuId().getUsuId()+" con el rol con id:"+object.getRolId().getRolId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: create ", e);
@@ -39,7 +39,7 @@ public class UsuarioRolImpl implements UsuarioRolDao{
 
     public PgeUsuRoles getById(Integer usuId, Integer rolId) {
         try {
-            return (PgeUsuRoles) em.createQuery("SELECT ur from PgeUsuRoles ur WHERE ur.pgeUsuRolesPK.usuId= :usuId and ur.pgeUsuRolesPK.rolId= :rolId").setParameter("usuId", usuId).setParameter("rolId", rolId).getSingleResult();
+            return (PgeUsuRoles) em.createQuery("SELECT ur from PgeUsuRoles ur WHERE ur.usuId.usuId :usuId and ur.rolId.rolId :rolId").setParameter("usuId", usuId).setParameter("rolId", rolId).getSingleResult();
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
             return null;
@@ -51,7 +51,7 @@ public class UsuarioRolImpl implements UsuarioRolDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualiza la relacion del usuario con id:"+object.getPgeUsuRolesPK().getUsuId()+" con el rol con id:"+object.getPgeUsuRolesPK().getRolId());
+            logger.info("Se actualiza la relacion del usuario con id:"+object.getUsuId().getUsuId()+" con el rol con id:"+object.getRolId().getRolId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
@@ -62,12 +62,11 @@ public class UsuarioRolImpl implements UsuarioRolDao{
     @Override
     public boolean delete(PgeUsuRoles object) {
         try {
-            int usuId = object.getPgeUsuRolesPK().getUsuId();
-            int rolId = object.getPgeUsuRolesPK().getRolId();
-            
-            em.remove(em.find(PgeUsuRoles.class, object));
+            int usuRolId = object.getUsuRolId();
+                        
+            em.remove(em.find(PgeUsuRoles.class, usuRolId));
             em.flush();
-            logger.info("Se elimina la relacion del usuario con id:"+usuId+" con el rol con id:"+rolId);
+            logger.info("Se elimina la relacion  con id:"+usuRolId);
             return true;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: delete ", e);

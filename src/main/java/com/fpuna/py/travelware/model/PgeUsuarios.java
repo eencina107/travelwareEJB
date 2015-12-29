@@ -97,7 +97,7 @@ public class PgeUsuarios implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "usu_pass", length = 2147483647)
     private String usuPass;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pgeUsuarios")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuId")
     private List<PgeUsuRoles> pgeUsuRolesList;
     @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false)
     @ManyToOne(optional = false)
@@ -264,7 +264,7 @@ public class PgeUsuarios implements Serializable {
             PgeRoles rol;
             while (i.hasNext()){
                 usuRolActual = (PgeUsuRoles) i.next();
-                rol = usuRolActual.getPgeRoles();
+                rol = usuRolActual.getRolId();
                 roles.add(rol);
             }
             return roles;

@@ -104,7 +104,7 @@ public class RolImpl implements RolDao{
         while (it.hasNext()){
             try{
                 PgeUsuRoles uro= (PgeUsuRoles) it.next();
-                PgeRoles ro=(PgeRoles) em.createNamedQuery("PgeRoles.findByRolId").setParameter("rolId",uro.getPgeUsuRolesPK().getRolId()).getSingleResult();
+                PgeRoles ro=(PgeRoles) em.createNamedQuery("PgeRoles.findByRolId").setParameter("rolId",uro.getRolId().getRolId()).getSingleResult();
                 roles.add(ro);
             }
             catch(Exception e){

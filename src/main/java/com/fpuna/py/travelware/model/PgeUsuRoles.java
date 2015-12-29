@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -18,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -26,19 +29,18 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "pge_usu_roles", catalog = "travelware", schema = "public")
+@Table(name = "pge_usu_roles", catalog = "travelware", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"rol_id", "usu_id"})})
 @NamedQueries({
     @NamedQuery(name = "PgeUsuRoles.findAll", query = "SELECT p FROM PgeUsuRoles p"),
-    @NamedQuery(name = "PgeUsuRoles.findByRolId", query = "SELECT p FROM PgeUsuRoles p WHERE p.pgeUsuRolesPK.rolId = :rolId"),
-    @NamedQuery(name = "PgeUsuRoles.findByUsuId", query = "SELECT p FROM PgeUsuRoles p WHERE p.pgeUsuRolesPK.usuId = :usuId"),
     @NamedQuery(name = "PgeUsuRoles.findByUroUsuIns", query = "SELECT p FROM PgeUsuRoles p WHERE p.uroUsuIns = :uroUsuIns"),
     @NamedQuery(name = "PgeUsuRoles.findByUroFecIns", query = "SELECT p FROM PgeUsuRoles p WHERE p.uroFecIns = :uroFecIns"),
     @NamedQuery(name = "PgeUsuRoles.findByUroUsuMod", query = "SELECT p FROM PgeUsuRoles p WHERE p.uroUsuMod = :uroUsuMod"),
-    @NamedQuery(name = "PgeUsuRoles.findByUroFecMod", query = "SELECT p FROM PgeUsuRoles p WHERE p.uroFecMod = :uroFecMod")})
+    @NamedQuery(name = "PgeUsuRoles.findByUroFecMod", query = "SELECT p FROM PgeUsuRoles p WHERE p.uroFecMod = :uroFecMod"),
+    @NamedQuery(name = "PgeUsuRoles.findByUsuRolId", query = "SELECT p FROM PgeUsuRoles p WHERE p.usuRolId = :usuRolId")})
+    @NamedQuery(name = "PgeUsuRoles.findByUsuId", query = "SELECT p FROM PgeUsuRoles p WHERE p.usuId.usuId = :usuId")
 public class PgeUsuRoles implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected PgeUsuRolesPK pgeUsuRolesPK;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -55,36 +57,29 @@ public class PgeUsuRoles implements Serializable {
     @Column(name = "uro_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date uroFecMod;
-    @JoinColumn(name = "usu_id", referencedColumnName = "usu_id", nullable = false, insertable = false, updatable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "usu_rol_id", nullable = false)
+    private Integer usuRolId;
+    @JoinColumn(name = "usu_id", referencedColumnName = "usu_id", nullable = false)
     @ManyToOne(optional = false)
-    private PgeUsuarios pgeUsuarios;
-    @JoinColumn(name = "rol_id", referencedColumnName = "rol_id", nullable = false, insertable = false, updatable = false)
+    private PgeUsuarios usuId;
+    @JoinColumn(name = "rol_id", referencedColumnName = "rol_id", nullable = false)
     @ManyToOne(optional = false)
-    private PgeRoles pgeRoles;
+    private PgeRoles rolId;
 
     public PgeUsuRoles() {
     }
 
-    public PgeUsuRoles(PgeUsuRolesPK pgeUsuRolesPK) {
-        this.pgeUsuRolesPK = pgeUsuRolesPK;
+    public PgeUsuRoles(Integer usuRolId) {
+        this.usuRolId = usuRolId;
     }
 
-    public PgeUsuRoles(PgeUsuRolesPK pgeUsuRolesPK, String uroUsuIns, Date uroFecIns) {
-        this.pgeUsuRolesPK = pgeUsuRolesPK;
+    public PgeUsuRoles(Integer usuRolId, String uroUsuIns, Date uroFecIns) {
+        this.usuRolId = usuRolId;
         this.uroUsuIns = uroUsuIns;
         this.uroFecIns = uroFecIns;
-    }
-
-    public PgeUsuRoles(int rolId, int usuId) {
-        this.pgeUsuRolesPK = new PgeUsuRolesPK(rolId, usuId);
-    }
-
-    public PgeUsuRolesPK getPgeUsuRolesPK() {
-        return pgeUsuRolesPK;
-    }
-
-    public void setPgeUsuRolesPK(PgeUsuRolesPK pgeUsuRolesPK) {
-        this.pgeUsuRolesPK = pgeUsuRolesPK;
     }
 
     public String getUroUsuIns() {
@@ -119,26 +114,34 @@ public class PgeUsuRoles implements Serializable {
         this.uroFecMod = uroFecMod;
     }
 
-    public PgeUsuarios getPgeUsuarios() {
-        return pgeUsuarios;
+    public Integer getUsuRolId() {
+        return usuRolId;
     }
 
-    public void setPgeUsuarios(PgeUsuarios pgeUsuarios) {
-        this.pgeUsuarios = pgeUsuarios;
+    public void setUsuRolId(Integer usuRolId) {
+        this.usuRolId = usuRolId;
     }
 
-    public PgeRoles getPgeRoles() {
-        return pgeRoles;
+    public PgeUsuarios getUsuId() {
+        return usuId;
     }
 
-    public void setPgeRoles(PgeRoles pgeRoles) {
-        this.pgeRoles = pgeRoles;
+    public void setUsuId(PgeUsuarios usuId) {
+        this.usuId = usuId;
+    }
+
+    public PgeRoles getRolId() {
+        return rolId;
+    }
+
+    public void setRolId(PgeRoles rolId) {
+        this.rolId = rolId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (pgeUsuRolesPK != null ? pgeUsuRolesPK.hashCode() : 0);
+        hash += (usuRolId != null ? usuRolId.hashCode() : 0);
         return hash;
     }
 
@@ -149,7 +152,7 @@ public class PgeUsuRoles implements Serializable {
             return false;
         }
         PgeUsuRoles other = (PgeUsuRoles) object;
-        if ((this.pgeUsuRolesPK == null && other.pgeUsuRolesPK != null) || (this.pgeUsuRolesPK != null && !this.pgeUsuRolesPK.equals(other.pgeUsuRolesPK))) {
+        if ((this.usuRolId == null && other.usuRolId != null) || (this.usuRolId != null && !this.usuRolId.equals(other.usuRolId))) {
             return false;
         }
         return true;
@@ -157,7 +160,7 @@ public class PgeUsuRoles implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.model.PgeUsuRoles[ pgeUsuRolesPK=" + pgeUsuRolesPK + " ]";
+        return "com.fpuna.py.travelware.model.PgeUsuRoles[ usuRolId=" + usuRolId + " ]";
     }
     
 }

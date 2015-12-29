@@ -41,6 +41,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeRoles.findByRolUsuMod", query = "SELECT p FROM PgeRoles p WHERE p.rolUsuMod = :rolUsuMod"),
     @NamedQuery(name = "PgeRoles.findByRolFecMod", query = "SELECT p FROM PgeRoles p WHERE p.rolFecMod = :rolFecMod")})
 public class PgeRoles implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rolId")
+    private List<PgeUsuRoles> pgeUsuRolesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -175,6 +177,14 @@ public class PgeRoles implements Serializable {
             menus.add(permisoAct.getPgeMenus());
         }
         return menus;
+    }
+
+    public List<PgeUsuRoles> getPgeUsuRolesList() {
+        return pgeUsuRolesList;
+    }
+
+    public void setPgeUsuRolesList(List<PgeUsuRoles> pgeUsuRolesList) {
+        this.pgeUsuRolesList = pgeUsuRolesList;
     }
     
 }
