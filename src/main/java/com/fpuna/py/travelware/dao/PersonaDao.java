@@ -6,12 +6,11 @@
 package com.fpuna.py.travelware.dao;
 
 import com.fpuna.py.travelware.model.PgePersonas;
-import java.io.Serializable;
 
 /**
  *
  * @author eencina
  */
 public interface PersonaDao extends GenericDao<PgePersonas, Integer>{
-    
+    public PgePersonas getByNroDoc(Integer nroDoc);
 }

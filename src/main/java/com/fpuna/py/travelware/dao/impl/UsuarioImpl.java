@@ -66,8 +66,9 @@ public class UsuarioImpl implements UsuarioDao{
     public boolean delete(PgeUsuarios object) {
         try {
             int id = object.getUsuId();
-            
-            em.remove(em.find(PgeUsuarios.class, id));
+            object.setUsuEst('I');
+            em.merge(object);
+      //      em.remove(em.find(PgeUsuarios.class, id));
             em.flush();
             logger.info("Se elimina el usuario con el id:"+id);
             return true;
@@ -80,7 +81,7 @@ public class UsuarioImpl implements UsuarioDao{
     @Override
     public List<PgeUsuarios> getAll() {
         try {
-            return em.createQuery("SELECT u from PgeUsuarios u").getResultList();
+            return em.createQuery("SELECT u from PgeUsuarios u WHERE u.usuEst=\'A\' ").getResultList();
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: getAll ", e);
             return null;

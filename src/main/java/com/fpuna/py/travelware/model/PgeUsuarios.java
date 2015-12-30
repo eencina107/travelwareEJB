@@ -37,8 +37,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "PgeUsuarios.findAll", query = "SELECT p FROM PgeUsuarios p"),
     @NamedQuery(name = "PgeUsuarios.findByUsuId", query = "SELECT p FROM PgeUsuarios p WHERE p.usuId = :usuId"),
-    @NamedQuery(name = "PgeUsuarios.findByUsuNomApe", query = "SELECT p FROM PgeUsuarios p WHERE p.usuNomApe = :usuNomApe"),
-    @NamedQuery(name = "PgeUsuarios.findByUsuCat", query = "SELECT p FROM PgeUsuarios p WHERE p.usuCat = :usuCat"),
     @NamedQuery(name = "PgeUsuarios.findByUsuEst", query = "SELECT p FROM PgeUsuarios p WHERE p.usuEst = :usuEst"),
     @NamedQuery(name = "PgeUsuarios.findByUsuFecIng", query = "SELECT p FROM PgeUsuarios p WHERE p.usuFecIng = :usuFecIng"),
     @NamedQuery(name = "PgeUsuarios.findByUsuCod", query = "SELECT p FROM PgeUsuarios p WHERE p.usuCod = :usuCod"),
@@ -55,14 +53,6 @@ public class PgeUsuarios implements Serializable {
     @Basic(optional = false)
     @Column(name = "usu_id", nullable = false)
     private Integer usuId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "usu_nom_ape", nullable = false, length = 100)
-    private String usuNomApe;
-    @Size(max = 2)
-    @Column(name = "usu_cat", length = 2)
-    private String usuCat;
     @Column(name = "usu_est")
     private Character usuEst;
     @Basic(optional = false)
@@ -112,7 +102,6 @@ public class PgeUsuarios implements Serializable {
 
     public PgeUsuarios(Integer usuId, String usuNomApe, Date usuFecIng, String usuCod, String usuUsuIns, Date usuFecIns) {
         this.usuId = usuId;
-        this.usuNomApe = usuNomApe;
         this.usuFecIng = usuFecIng;
         this.usuCod = usuCod;
         this.usuUsuIns = usuUsuIns;
@@ -125,22 +114,6 @@ public class PgeUsuarios implements Serializable {
 
     public void setUsuId(Integer usuId) {
         this.usuId = usuId;
-    }
-
-    public String getUsuNomApe() {
-        return usuNomApe;
-    }
-
-    public void setUsuNomApe(String usuNomApe) {
-        this.usuNomApe = usuNomApe;
-    }
-
-    public String getUsuCat() {
-        return usuCat;
-    }
-
-    public void setUsuCat(String usuCat) {
-        this.usuCat = usuCat;
     }
 
     public Character getUsuEst() {

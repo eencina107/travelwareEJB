@@ -83,5 +83,15 @@ public class PersonaImpl implements PersonaDao{
             return null;
         }
     }
+
+    @Override
+    public PgePersonas getByNroDoc(Integer nroDoc) {
+        try {
+            return (PgePersonas) em.createNamedQuery("PgePersonas.findByPerNroDoc").setParameter("perNroDoc", nroDoc.toString()).getSingleResult();
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getByNroDoc ", e);
+            return null;
+        }
+    }
     
 }
