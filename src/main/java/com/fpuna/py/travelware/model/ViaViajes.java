@@ -7,9 +7,7 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,7 +30,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "ViaViajes.findAll", query = "SELECT v FROM ViaViajes v"),
     @NamedQuery(name = "ViaViajes.findByViaId", query = "SELECT v FROM ViaViajes v WHERE v.viaId = :viaId"),
-    @NamedQuery(name = "ViaViajes.findByViaDest", query = "SELECT v FROM ViaViajes v WHERE v.viaDest = :viaDest"),
     @NamedQuery(name = "ViaViajes.findByViaDesc", query = "SELECT v FROM ViaViajes v WHERE v.viaDesc = :viaDesc"),
     @NamedQuery(name = "ViaViajes.findByViaFecSali", query = "SELECT v FROM ViaViajes v WHERE v.viaFecSali = :viaFecSali"),
     @NamedQuery(name = "ViaViajes.findByViaFecReg", query = "SELECT v FROM ViaViajes v WHERE v.viaFecReg = :viaFecReg"),
@@ -48,11 +44,6 @@ public class ViaViajes implements Serializable {
     @Basic(optional = false)
     @Column(name = "via_id", nullable = false)
     private Integer viaId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "via_dest", nullable = false, length = 50)
-    private String viaDest;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2147483647)
@@ -84,8 +75,6 @@ public class ViaViajes implements Serializable {
     @Column(name = "via_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date viaFecMod;
-    @OneToMany(mappedBy = "viaId")
-    private List<PagComprobantesDet> pagComprobantesDetList;
 
     public ViaViajes() {
     }
@@ -94,9 +83,8 @@ public class ViaViajes implements Serializable {
         this.viaId = viaId;
     }
 
-    public ViaViajes(Integer viaId, String viaDest, String viaDesc, Date viaFecSali, Date viaFecReg, String viaUsuIns, Date viaFecIns) {
+    public ViaViajes(Integer viaId, String viaDesc, Date viaFecSali, Date viaFecReg, String viaUsuIns, Date viaFecIns) {
         this.viaId = viaId;
-        this.viaDest = viaDest;
         this.viaDesc = viaDesc;
         this.viaFecSali = viaFecSali;
         this.viaFecReg = viaFecReg;
@@ -110,14 +98,6 @@ public class ViaViajes implements Serializable {
 
     public void setViaId(Integer viaId) {
         this.viaId = viaId;
-    }
-
-    public String getViaDest() {
-        return viaDest;
-    }
-
-    public void setViaDest(String viaDest) {
-        this.viaDest = viaDest;
     }
 
     public String getViaDesc() {
@@ -174,14 +154,6 @@ public class ViaViajes implements Serializable {
 
     public void setViaFecMod(Date viaFecMod) {
         this.viaFecMod = viaFecMod;
-    }
-
-    public List<PagComprobantesDet> getPagComprobantesDetList() {
-        return pagComprobantesDetList;
-    }
-
-    public void setPagComprobantesDetList(List<PagComprobantesDet> pagComprobantesDetList) {
-        this.pagComprobantesDetList = pagComprobantesDetList;
     }
 
     @Override
