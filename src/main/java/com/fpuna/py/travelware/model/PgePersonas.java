@@ -5,6 +5,7 @@
  */
 package com.fpuna.py.travelware.model;
 
+import com.fpuna.py.travelware.model.ViaPasaportes;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,6 +49,14 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgePersonas.findByPerFecMod", query = "SELECT p FROM PgePersonas p WHERE p.perFecMod = :perFecMod"),
     @NamedQuery(name = "PgePersonas.findByPerDoc", query = "SELECT p FROM PgePersonas p WHERE p.perDoc = :perDoc")})
 public class PgePersonas implements Serializable {
+    @OneToMany(mappedBy = "perId")
+    private List<PgeDirecciones> pgeDireccionesList;
+    @OneToMany(mappedBy = "perId")
+    private List<ViaGastos> viaGastosList;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "perId")
+    private ViaPasaportes viaPasaportes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perId")
+    private List<ViaPasaportes> viaPasaportesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "perId")
     private List<PgeUsuarios> pgeUsuariosList;
     private static final long serialVersionUID = 1L;
@@ -264,6 +274,38 @@ public class PgePersonas implements Serializable {
 
     public void setPgeUsuariosList(List<PgeUsuarios> pgeUsuariosList) {
         this.pgeUsuariosList = pgeUsuariosList;
+    }
+
+    public List<ViaPasaportes> getViaPasaportesList() {
+        return viaPasaportesList;
+    }
+
+    public void setViaPasaportesList(List<ViaPasaportes> viaPasaportesList) {
+        this.viaPasaportesList = viaPasaportesList;
+    }
+
+    public ViaPasaportes getViaPasaportes() {
+        return viaPasaportes;
+    }
+
+    public void setViaPasaportes(ViaPasaportes viaPasaportes) {
+        this.viaPasaportes = viaPasaportes;
+    }
+
+    public List<PgeDirecciones> getPgeDireccionesList() {
+        return pgeDireccionesList;
+    }
+
+    public void setPgeDireccionesList(List<PgeDirecciones> pgeDireccionesList) {
+        this.pgeDireccionesList = pgeDireccionesList;
+    }
+
+    public List<ViaGastos> getViaGastosList() {
+        return viaGastosList;
+    }
+
+    public void setViaGastosList(List<ViaGastos> viaGastosList) {
+        this.viaGastosList = viaGastosList;
     }
     
 }

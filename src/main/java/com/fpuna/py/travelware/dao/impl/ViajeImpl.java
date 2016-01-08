@@ -29,10 +29,10 @@ public class ViajeImpl implements ViajeDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta el viaje con id: "+object.getViaId());
+            System.out.println("Se inserta el viaje con id: "+object.getViaId());
             return object;
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: create ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: create "+ e);
             return null;
         }
     }
@@ -42,7 +42,7 @@ public class ViajeImpl implements ViajeDao{
         try {
             return em.find(ViaViajes.class, id);
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getById "+ e);
             return null;
         }
     }
@@ -52,10 +52,10 @@ public class ViajeImpl implements ViajeDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualiza el viaje con id: "+object.getViaId());
+            System.out.println("Se actualiza el viaje con id: "+object.getViaId());
             return object;
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: update "+ e);
             return null;
         }
     }
@@ -66,10 +66,10 @@ public class ViajeImpl implements ViajeDao{
             int id = object.getViaId();
             em.remove(em.find(ViaViajes.class, id));
             em.flush();
-            logger.info("Se elimina el viaje con id: "+id);
+            System.out.println("Se elimina el viaje con id: "+id);
             return true;
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: delete ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: delete "+ e);
             return false;
         }
     }
@@ -79,7 +79,17 @@ public class ViajeImpl implements ViajeDao{
         try {
             return em.createQuery("select v from ViaViajes v").getResultList();
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: getAll ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getAll "+ e);
+            return null;
+        }
+    }
+
+    @Override
+    public ViaViajes getByName(String value) {
+        try {
+            return (ViaViajes) em.createNamedQuery("ViaViajes.findByViaDesc").setParameter("viaDesc", value).getSingleResult();
+        } catch (Exception e) {
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getAll "+ e);
             return null;
         }
     }

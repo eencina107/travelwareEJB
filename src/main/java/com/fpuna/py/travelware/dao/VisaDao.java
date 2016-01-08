@@ -5,14 +5,15 @@
  */
 package com.fpuna.py.travelware.dao;
 
-import com.fpuna.py.travelware.model.ViaPasViajes;
-import java.io.Serializable;
+import com.fpuna.py.travelware.model.ViaPasaportes;
+import com.fpuna.py.travelware.model.ViaVisas;
 import java.util.List;
 
 /**
  *
  * @author eencina
  */
-public interface PasajeroViajeDao extends GenericDao<ViaPasViajes, Integer>{
-    
+public interface VisaDao extends GenericDao<ViaVisas, Integer>{
+    List<ViaVisas> getAll(ViaPasaportes patId);
+    Integer getMaxByPasaporte(ViaPasaportes pasaporte);
 }

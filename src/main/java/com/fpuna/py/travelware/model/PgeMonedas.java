@@ -41,6 +41,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeMonedas.findByMonUsuMod", query = "SELECT p FROM PgeMonedas p WHERE p.monUsuMod = :monUsuMod"),
     @NamedQuery(name = "PgeMonedas.findByMonFecMod", query = "SELECT p FROM PgeMonedas p WHERE p.monFecMod = :monFecMod")})
 public class PgeMonedas implements Serializable {
+    @OneToMany(mappedBy = "monId")
+    private List<ViaGastos> viaGastosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
     private List<ViaPreViajes> viaPreViajesList;
     private static final long serialVersionUID = 1L;
@@ -175,6 +177,14 @@ public class PgeMonedas implements Serializable {
 
     public void setViaPreViajesList(List<ViaPreViajes> viaPreViajesList) {
         this.viaPreViajesList = viaPreViajesList;
+    }
+
+    public List<ViaGastos> getViaGastosList() {
+        return viaGastosList;
+    }
+
+    public void setViaGastosList(List<ViaGastos> viaGastosList) {
+        this.viaGastosList = viaGastosList;
     }
     
 }

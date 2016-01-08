@@ -7,7 +7,9 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,6 +41,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ViaViajes.findByViaUsuMod", query = "SELECT v FROM ViaViajes v WHERE v.viaUsuMod = :viaUsuMod"),
     @NamedQuery(name = "ViaViajes.findByViaFecMod", query = "SELECT v FROM ViaViajes v WHERE v.viaFecMod = :viaFecMod")})
 public class ViaViajes implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaId")
+    private List<ViaPreViajes> viaPreViajesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaId")
+    private List<ViaPasajeros> viaPasajerosList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -179,6 +186,22 @@ public class ViaViajes implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.ViaViajes[ viaId=" + viaId + " ]";
+    }
+
+    public List<ViaPreViajes> getViaPreViajesList() {
+        return viaPreViajesList;
+    }
+
+    public void setViaPreViajesList(List<ViaPreViajes> viaPreViajesList) {
+        this.viaPreViajesList = viaPreViajesList;
+    }
+
+    public List<ViaPasajeros> getViaPasajerosList() {
+        return viaPasajerosList;
+    }
+
+    public void setViaPasajerosList(List<ViaPasajeros> viaPasajerosList) {
+        this.viaPasajerosList = viaPasajerosList;
     }
     
 }

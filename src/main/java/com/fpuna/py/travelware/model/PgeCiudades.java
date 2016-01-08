@@ -44,6 +44,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeCiudades.findByCiuUsuMod", query = "SELECT p FROM PgeCiudades p WHERE p.ciuUsuMod = :ciuUsuMod"),
     @NamedQuery(name = "PgeCiudades.findByCiuFecMod", query = "SELECT p FROM PgeCiudades p WHERE p.ciuFecMod = :ciuFecMod")})
 public class PgeCiudades implements Serializable {
+    @OneToMany(mappedBy = "ciuId")
+    private List<PgeDirecciones> pgeDireccionesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -209,6 +211,14 @@ public class PgeCiudades implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PgeCiudades[ ciuId=" + ciuId + " ]";
+    }
+
+    public List<PgeDirecciones> getPgeDireccionesList() {
+        return pgeDireccionesList;
+    }
+
+    public void setPgeDireccionesList(List<PgeDirecciones> pgeDireccionesList) {
+        this.pgeDireccionesList = pgeDireccionesList;
     }
     
 }

@@ -5,7 +5,6 @@
  */
 package com.fpuna.py.travelware.dao.impl;
 
-import com.fpuna.py.travelware.dao.PasajeroDao;
 import com.fpuna.py.travelware.dao.PasaporteDao;
 import com.fpuna.py.travelware.model.ViaPasaportes;
 import java.util.List;
@@ -30,7 +29,7 @@ public class PasaporteImpl implements PasaporteDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta el pasaporte nro:"+object.getViaPasaportesPK().getPatNroSec()+" de la persona con id:"+object.getViaPasaportesPK().getPerId());
+            logger.info("Se inserta el pasaporte nro:"+object.getPatId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: create ", e);
@@ -40,7 +39,7 @@ public class PasaporteImpl implements PasaporteDao{
 
     public ViaPasaportes getById(Integer nroSec, Integer perId) {
         try {
-            return (ViaPasaportes) em.createQuery("SELECT p from ViaPasaportes p WHERE P.viaPasaportesPK.patNroSec = :nroSec AND p.viaPasaportesPK.perId = :perId").setParameter("perId", perId).setParameter("nroSec", nroSec).getSingleResult();
+            return (ViaPasaportes) em.createQuery("SELECT p from ViaPasaportes p WHERE P.patNroSec = :nroSec AND p.perId = :perId").setParameter("perId", perId).setParameter("nroSec", nroSec).getSingleResult();
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
             return null;
@@ -52,7 +51,7 @@ public class PasaporteImpl implements PasaporteDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualiza el pasaporte con indice:"+object.getViaPasaportesPK().getPatNroSec()+" de la persona con id:"+object.getViaPasaportesPK().getPerId());
+            logger.info("Se actualiza el pasaporte con indice:"+object.getPatId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
@@ -63,10 +62,9 @@ public class PasaporteImpl implements PasaporteDao{
     @Override
     public boolean delete(ViaPasaportes object) {
         try {
-            int perId = object.getViaPasaportesPK().getPerId();
-            int nroSec = object.getViaPasaportesPK().getPatNroSec();
-            em.remove(em.find(ViaPasaportes.class, object));
-            logger.info("Se elimina el pasaporte con indice:"+nroSec+" de la persona con id:"+perId);
+            int perId = object.getPerId().getPerId();
+            em.remove(em.find(ViaPasaportes.class, object.getPatId()));
+            logger.info("Se elimina el pasaporte de la persona con id:"+perId);
             return true;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: delete ", e);
@@ -86,7 +84,12 @@ public class PasaporteImpl implements PasaporteDao{
 
     @Override
     public ViaPasaportes getById(Integer id) {
-        throw new UnsupportedOperationException("ERROR. Metodo no soportado."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return em.find(ViaPasaportes.class, id);
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getAll ", e);
+            return null;
+        }
     }
     
 }

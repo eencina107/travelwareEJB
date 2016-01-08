@@ -41,6 +41,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgePaises.findByPaiUsuMod", query = "SELECT p FROM PgePaises p WHERE p.paiUsuMod = :paiUsuMod"),
     @NamedQuery(name = "PgePaises.findByPaiFecMod", query = "SELECT p FROM PgePaises p WHERE p.paiFecMod = :paiFecMod")})
 public class PgePaises implements Serializable {
+    @OneToMany(mappedBy = "paiId")
+    private List<ViaVisas> viaVisasList;
+    @OneToMany(mappedBy = "paiId")
+    private List<PgeDirecciones> pgeDireccionesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paiId")
     private List<PgePersonas> pgePersonasList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "paiId")
@@ -206,6 +210,22 @@ public class PgePaises implements Serializable {
 
     public void setPgePersonasList(List<PgePersonas> pgePersonasList) {
         this.pgePersonasList = pgePersonasList;
+    }
+
+    public List<PgeDirecciones> getPgeDireccionesList() {
+        return pgeDireccionesList;
+    }
+
+    public void setPgeDireccionesList(List<PgeDirecciones> pgeDireccionesList) {
+        this.pgeDireccionesList = pgeDireccionesList;
+    }
+
+    public List<ViaVisas> getViaVisasList() {
+        return viaVisasList;
+    }
+
+    public void setViaVisasList(List<ViaVisas> viaVisasList) {
+        this.viaVisasList = viaVisasList;
     }
     
 }

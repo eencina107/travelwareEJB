@@ -7,18 +7,22 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -27,30 +31,27 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "via_pasaportes", catalog = "travelware", schema = "public")
+@Table(name = "via_pasaportes", catalog = "travelware", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"per_id"})})
 @NamedQueries({
     @NamedQuery(name = "ViaPasaportes.findAll", query = "SELECT v FROM ViaPasaportes v"),
-    @NamedQuery(name = "ViaPasaportes.findByPerId", query = "SELECT v FROM ViaPasaportes v WHERE v.viaPasaportesPK.perId = :perId"),
-    @NamedQuery(name = "ViaPasaportes.findByPatNroSec", query = "SELECT v FROM ViaPasaportes v WHERE v.viaPasaportesPK.patNroSec = :patNroSec"),
     @NamedQuery(name = "ViaPasaportes.findByPatNroPas", query = "SELECT v FROM ViaPasaportes v WHERE v.patNroPas = :patNroPas"),
     @NamedQuery(name = "ViaPasaportes.findByPatFecEmi", query = "SELECT v FROM ViaPasaportes v WHERE v.patFecEmi = :patFecEmi"),
     @NamedQuery(name = "ViaPasaportes.findByPatFecVen", query = "SELECT v FROM ViaPasaportes v WHERE v.patFecVen = :patFecVen"),
     @NamedQuery(name = "ViaPasaportes.findByPatUsuIns", query = "SELECT v FROM ViaPasaportes v WHERE v.patUsuIns = :patUsuIns"),
     @NamedQuery(name = "ViaPasaportes.findByPatFecIns", query = "SELECT v FROM ViaPasaportes v WHERE v.patFecIns = :patFecIns"),
     @NamedQuery(name = "ViaPasaportes.findByPatUsuMod", query = "SELECT v FROM ViaPasaportes v WHERE v.patUsuMod = :patUsuMod"),
-    @NamedQuery(name = "ViaPasaportes.findByPatFecMod", query = "SELECT v FROM ViaPasaportes v WHERE v.patFecMod = :patFecMod")})
+    @NamedQuery(name = "ViaPasaportes.findByPatFecMod", query = "SELECT v FROM ViaPasaportes v WHERE v.patFecMod = :patFecMod"),
+    @NamedQuery(name = "ViaPasaportes.findByPatId", query = "SELECT v FROM ViaPasaportes v WHERE v.patId = :patId")})
 public class ViaPasaportes implements Serializable {
+    @OneToMany(mappedBy = "patId")
+    private List<ViaVisas> viaVisasList;
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ViaPasaportesPK viaPasaportesPK;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
     @Column(name = "pat_nro_pas", nullable = false, length = 15)
     private String patNroPas;
-    @Lob
-    @Column(name = "pat_img_pas")
-    private byte[] patImgPas;
     @Column(name = "pat_fec_emi")
     @Temporal(TemporalType.DATE)
     private Date patFecEmi;
@@ -73,34 +74,27 @@ public class ViaPasaportes implements Serializable {
     @Column(name = "pat_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date patFecMod;
-    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private PgePersonas pgePersonas;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "pat_id", nullable = false)
+    private Integer patId;
+    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false)
+    @OneToOne(optional = false)
+    private PgePersonas perId;
 
     public ViaPasaportes() {
     }
 
-    public ViaPasaportes(ViaPasaportesPK viaPasaportesPK) {
-        this.viaPasaportesPK = viaPasaportesPK;
+    public ViaPasaportes(Integer patId) {
+        this.patId = patId;
     }
 
-    public ViaPasaportes(ViaPasaportesPK viaPasaportesPK, String patNroPas, String patUsuIns, Date patFecIns) {
-        this.viaPasaportesPK = viaPasaportesPK;
+    public ViaPasaportes(Integer patId, String patNroPas, String patUsuIns, Date patFecIns) {
+        this.patId = patId;
         this.patNroPas = patNroPas;
         this.patUsuIns = patUsuIns;
         this.patFecIns = patFecIns;
-    }
-
-    public ViaPasaportes(int perId, int patNroSec) {
-        this.viaPasaportesPK = new ViaPasaportesPK(perId, patNroSec);
-    }
-
-    public ViaPasaportesPK getViaPasaportesPK() {
-        return viaPasaportesPK;
-    }
-
-    public void setViaPasaportesPK(ViaPasaportesPK viaPasaportesPK) {
-        this.viaPasaportesPK = viaPasaportesPK;
     }
 
     public String getPatNroPas() {
@@ -109,14 +103,6 @@ public class ViaPasaportes implements Serializable {
 
     public void setPatNroPas(String patNroPas) {
         this.patNroPas = patNroPas;
-    }
-
-    public byte[] getPatImgPas() {
-        return patImgPas;
-    }
-
-    public void setPatImgPas(byte[] patImgPas) {
-        this.patImgPas = patImgPas;
     }
 
     public Date getPatFecEmi() {
@@ -167,18 +153,26 @@ public class ViaPasaportes implements Serializable {
         this.patFecMod = patFecMod;
     }
 
-    public PgePersonas getPgePersonas() {
-        return pgePersonas;
+    public Integer getPatId() {
+        return patId;
     }
 
-    public void setPgePersonas(PgePersonas pgePersonas) {
-        this.pgePersonas = pgePersonas;
+    public void setPatId(Integer patId) {
+        this.patId = patId;
+    }
+
+    public PgePersonas getPerId() {
+        return perId;
+    }
+
+    public void setPerId(PgePersonas perId) {
+        this.perId = perId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (viaPasaportesPK != null ? viaPasaportesPK.hashCode() : 0);
+        hash += (patId != null ? patId.hashCode() : 0);
         return hash;
     }
 
@@ -189,7 +183,7 @@ public class ViaPasaportes implements Serializable {
             return false;
         }
         ViaPasaportes other = (ViaPasaportes) object;
-        if ((this.viaPasaportesPK == null && other.viaPasaportesPK != null) || (this.viaPasaportesPK != null && !this.viaPasaportesPK.equals(other.viaPasaportesPK))) {
+        if ((this.patId == null && other.patId != null) || (this.patId != null && !this.patId.equals(other.patId))) {
             return false;
         }
         return true;
@@ -197,7 +191,15 @@ public class ViaPasaportes implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.model.ViaPasaportes[ viaPasaportesPK=" + viaPasaportesPK + " ]";
+        return "com.fpuna.py.travelware.model.ViaPasaportes[ patId=" + patId + " ]";
+    }
+
+    public List<ViaVisas> getViaVisasList() {
+        return viaVisasList;
+    }
+
+    public void setViaVisasList(List<ViaVisas> viaVisasList) {
+        this.viaVisasList = viaVisasList;
     }
     
 }

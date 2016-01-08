@@ -5,12 +5,12 @@
  */
 package com.fpuna.py.travelware.dao;
 
-import com.fpuna.py.travelware.model.ViaViajes;
+import com.fpuna.py.travelware.model.ViaGastos;
 
 /**
  *
  * @author eencina
  */
-public interface ViajeDao extends GenericDao<ViaViajes, Integer>{
-    ViaViajes getByName(String value);
+public interface GastoDao extends GenericDao<ViaGastos, Integer>{
+    
 }
