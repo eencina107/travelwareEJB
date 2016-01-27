@@ -123,5 +123,23 @@ public class UsuarioImpl implements UsuarioDao{
             return null;
         }
     }
+
+    @Override
+    public PgeUsuarios changePass(String username, String newPassword) {
+        PgeUsuarios usuario;
+        try {
+            usuario = (PgeUsuarios) em.createNamedQuery("PgeUsuarios.findByUsuCod").setParameter("usuCod", username).getSingleResult();
+            
+            String hashIngresado;
+            hashIngresado = (String) em.createNativeQuery("SELECT md5(\'"+newPassword+"\')").getSingleResult();
+            
+            usuario.setUsuPass(hashIngresado);
+            
+            return update(usuario);
+            
+        } catch (Exception e) {
+            return null;
+        }
+    }
     
 }

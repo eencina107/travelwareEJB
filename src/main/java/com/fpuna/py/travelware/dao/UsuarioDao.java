@@ -15,5 +15,6 @@ import java.security.NoSuchAlgorithmException;
  */
 public interface UsuarioDao extends GenericDao<PgeUsuarios, Integer>{
     public PgeUsuarios autenticate(String username, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException;
+    public PgeUsuarios changePass(String username, String newPassword);
     public PgeUsuarios getByName(String name);
 }
