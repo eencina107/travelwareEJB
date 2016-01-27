@@ -7,6 +7,7 @@ package com.fpuna.py.travelware.dao.impl;
 
 import com.fpuna.py.travelware.dao.PasajeroDao;
 import com.fpuna.py.travelware.model.ViaPasajeros;
+import com.fpuna.py.travelware.model.ViaViajes;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,10 +30,10 @@ public class PasajeroImpl implements PasajeroDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta el pasajero con id:"+object.getPerId());
+            System.out.println("Se inserta el pasajero con id:"+object.getPerId());
             return object;
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: create ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: create "+ e);
             return null;
         }
     }
@@ -42,7 +43,7 @@ public class PasajeroImpl implements PasajeroDao{
         try {
             return em.find(ViaPasajeros.class, id);
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getById "+ e);
             return null;
         }
     }
@@ -52,10 +53,10 @@ public class PasajeroImpl implements PasajeroDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualiza el pasajero con id:"+object.getPerId());
+            System.out.println("Se actualiza el pasajero con id:"+object.getPerId());
             return object;
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: update "+ e);
             return null;
         }
     }
@@ -63,13 +64,13 @@ public class PasajeroImpl implements PasajeroDao{
     @Override
     public boolean delete(ViaPasajeros object) {
         try {
-            int id = object.getPerId();
+            int id = object.getPerId().getPerId();
             em.remove(em.find(ViaPasajeros.class, id));
             em.flush();
-            logger.info("Se elimina el pasajero con id:"+id);
+            System.out.println("Se elimina el pasajero con id:"+id);
             return true;
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: delete ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: delete "+ e);
             return false;
         }
     }
@@ -79,7 +80,17 @@ public class PasajeroImpl implements PasajeroDao{
         try {
             return em.createQuery("select p from ViaPasajeros p").getResultList();
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: getAll ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getAll(viajeSelected) "+ e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<ViaPasajeros> getAll(ViaViajes viajeSelected) {
+        try {
+            return em.createQuery("select p from ViaPasajeros p WHERE p.viaId=:viaId").setParameter("viaId", viajeSelected).getResultList();
+        } catch (Exception e) {
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getAll(viajeSelected) "+ e);
             return null;
         }
     }

@@ -6,12 +6,17 @@
 package com.fpuna.py.travelware.dao;
 
 import com.fpuna.py.travelware.model.ViaPasajeros;
+import com.fpuna.py.travelware.model.ViaViajes;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
  * @author eencina
  */
 public interface PasajeroDao extends GenericDao<ViaPasajeros, Integer>{
+
+    public List<ViaPasajeros> getAll(ViaViajes viajeSelected);
+
     
 }

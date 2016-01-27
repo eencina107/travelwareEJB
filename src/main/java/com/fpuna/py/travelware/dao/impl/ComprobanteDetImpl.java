@@ -5,32 +5,30 @@
  */
 package com.fpuna.py.travelware.dao.impl;
 
-import com.fpuna.py.travelware.dao.GastoDao;
-import com.fpuna.py.travelware.model.ViaGastos;
-import com.fpuna.py.travelware.model.ViaPasajeros;
+import com.fpuna.py.travelware.dao.ComprobanteDetDao;
+import com.fpuna.py.travelware.model.PagComprobantes;
+import com.fpuna.py.travelware.model.PagComprobantesDet;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.apache.log4j.Logger;
 
 /**
  *
  * @author eencina
  */
-@Stateless
-public class GastoImpl implements GastoDao{
-    final static Logger logger = Logger.getLogger(GastoImpl.class);
-    
+public class ComprobanteDetImpl implements ComprobanteDetDao{
+
     @PersistenceContext(unitName = "TravelwarePU")
     private EntityManager em;
-
+    
     @Override
-    public ViaGastos create(ViaGastos object) {
+    public PagComprobantesDet create(PagComprobantesDet object) {
         try {
             em.persist(object);
             em.flush();
-            System.out.println("Se inserta el gasto con id:"+object.getGasId());
+            System.out.println("Se inserta el detalle "+object.getCdeNroDet()
+                    +" del comprobante:"+object.getComId().getComIdTran()
+                    +" - Id="+object.getComDetId());
             return object;
         } catch (Exception e) {
             System.out.println("ERROR:"+this.getClass().getName()+" METHOD: create "+e);
@@ -39,9 +37,9 @@ public class GastoImpl implements GastoDao{
     }
 
     @Override
-    public ViaGastos getById(Integer id) {
+    public PagComprobantesDet getById(Integer id) {
         try {
-            return em.find(ViaGastos.class, id);
+            return em.find(PagComprobantesDet.class, id);
         } catch (Exception e) {
             System.out.println("ERROR:"+this.getClass().getName()+" METHOD: getById "+e);
             return null;
@@ -49,11 +47,11 @@ public class GastoImpl implements GastoDao{
     }
 
     @Override
-    public ViaGastos update(ViaGastos object) {
+    public PagComprobantesDet update(PagComprobantesDet object) {
         try {
             em.merge(object);
             em.flush();
-            System.out.println("Se actualiza el gasto con id: "+object.getGasId());
+            System.out.println("Se actualiza el detalle "+object.getCdeNroDet()+" del comprobante con id:" +object.getComId()+" - Id="+object.getComDetId());
             return object;
         } catch (Exception e) {
             System.out.println("ERROR: "+this.getClass().getName()+" METHOD: update "+e);
@@ -62,12 +60,12 @@ public class GastoImpl implements GastoDao{
     }
 
     @Override
-    public boolean delete(ViaGastos object) {
+    public boolean delete(PagComprobantesDet object) {
         try {
-            int id = object.getGasId();
-            em.remove(em.find(ViaGastos.class, id));
+            int id=object.getComDetId();
+            em.remove(em.find(PagComprobantesDet.class, id));
             em.flush();
-            System.out.println("Se elimina el gasto con id: "+id);
+            System.out.println("Se elimina el detalle de comprobante con id="+id);
             return true;
         } catch (Exception e) {
             System.out.println("ERROR: CLASS "+this.getClass().getName()+" METHOD: delete"+e);
@@ -76,9 +74,10 @@ public class GastoImpl implements GastoDao{
     }
 
     @Override
-    public List<ViaGastos> getAll() {
+    public List<PagComprobantesDet> getAll() {
+       
         try {
-            return em.createQuery("SELECT v FROM ViaGastos v").getResultList();
+            return em.createQuery("SELECT cd FROM PagComprobantesDet cd").getResultList();
         } catch (Exception e) {
             System.out.println("ERROR: CLASS "+this.getClass().getName()+" METHOD: getall "+e);
             return null;
@@ -86,11 +85,11 @@ public class GastoImpl implements GastoDao{
     }
 
     @Override
-    public List<ViaGastos> getAll(ViaPasajeros pasajeroSelected) {
+    public List<PagComprobantesDet> getAll(PagComprobantes comprobante) {
         try {
-            return em.createQuery("SELECT v FROM ViaGastos v WHERE v.pviId=:pviId").setParameter("pviId", pasajeroSelected.getPviId()).getResultList();
+            return em.createQuery("SELECT cd FROM PagComprobantesDet cd WHERE cd.comId=:comId ORDER BY cd.cdeNroDet").getResultList();
         } catch (Exception e) {
-            System.out.println("ERROR: CLASS "+this.getClass().getName()+" METHOD: getAll(ViaPasajeros) "+e);
+            System.out.println("ERROR: CLASS "+this.getClass().getName()+" METHOD: getall(PagComprobantes comprobante) "+e);
             return null;
         }
     }

@@ -29,10 +29,10 @@ public class MonedaImpl implements MonedaDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta la moneda con id:"+object.getMonId());
+            System.out.println("Se inserta la moneda con id:"+object.getMonId());
             return object;
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: create ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: create "+ e);
             return null;
         }
     }
@@ -42,7 +42,7 @@ public class MonedaImpl implements MonedaDao{
         try {
             return em.find(PgeMonedas.class, id);
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getById "+ e);
             return null;
         }
     }
@@ -52,10 +52,10 @@ public class MonedaImpl implements MonedaDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualiza la moneda con id:"+object.getMonId());
+            System.out.println("Se actualiza la moneda con id:"+object.getMonId());
             return object;
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: update "+ e);
             return null;
         }
     }
@@ -66,9 +66,10 @@ public class MonedaImpl implements MonedaDao{
             int id = object.getMonId();
             em.remove(em.find(PgeMonedas.class, id));
             em.flush();
+            System.out.println("Se elimina la moneda con el id:"+id);
             return true;
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: delete ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: delete "+ e);
             return false;
         }
     }
@@ -78,7 +79,17 @@ public class MonedaImpl implements MonedaDao{
         try {
             return em.createQuery("SELECT p from PgeMonedas p").getResultList();
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: getAll ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getAll "+ e);
+            return null;
+        }
+    }
+
+    @Override
+    public PgeMonedas getByName(String value) {
+        try {
+            return (PgeMonedas) em.createNamedQuery("PgeMonedas.findByMonDesc").setParameter("monDesc", value).getSingleResult();
+        } catch (Exception e) {
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getByName "+ e);
             return null;
         }
     }

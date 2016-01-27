@@ -17,7 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,10 +33,7 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(columnNames = {"via_id", "per_id"})})
 @NamedQueries({
     @NamedQuery(name = "ViaPasajeros.findAll", query = "SELECT v FROM ViaPasajeros v"),
-    @NamedQuery(name = "ViaPasajeros.findByPerId", query = "SELECT v FROM ViaPasajeros v WHERE v.perId = :perId"),
     @NamedQuery(name = "ViaPasajeros.findByPasRel", query = "SELECT v FROM ViaPasajeros v WHERE v.pasRel = :pasRel"),
-    @NamedQuery(name = "ViaPasajeros.findByPreId", query = "SELECT v FROM ViaPasajeros v WHERE v.preId = :preId"),
-    @NamedQuery(name = "ViaPasajeros.findByMonId", query = "SELECT v FROM ViaPasajeros v WHERE v.monId = :monId"),
     @NamedQuery(name = "ViaPasajeros.findByPviUsuIns", query = "SELECT v FROM ViaPasajeros v WHERE v.pviUsuIns = :pviUsuIns"),
     @NamedQuery(name = "ViaPasajeros.findByPviFecIns", query = "SELECT v FROM ViaPasajeros v WHERE v.pviFecIns = :pviFecIns"),
     @NamedQuery(name = "ViaPasajeros.findByPviUsuMod", query = "SELECT v FROM ViaPasajeros v WHERE v.pviUsuMod = :pviUsuMod"),
@@ -49,20 +45,8 @@ public class ViaPasajeros implements Serializable {
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "per_id", nullable = false)
-    private int perId;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "pas_rel", nullable = false)
     private Character pasRel;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "pre_id", nullable = false)
-    private int preId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "mon_id", nullable = false)
-    private int monId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -73,14 +57,10 @@ public class ViaPasajeros implements Serializable {
     @Column(name = "pvi_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date pviFecIns;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "pvi_usu_mod", nullable = false, length = 10)
+    @Size(max = 10)
+    @Column(name = "pvi_usu_mod", length = 10)
     private String pviUsuMod;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "pvi_fec_mod", nullable = false)
+    @Column(name = "pvi_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date pviFecMod;
     @Id
@@ -96,9 +76,9 @@ public class ViaPasajeros implements Serializable {
     @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false)
     @ManyToOne(optional = false)
     private ViaViajes viaId;
-    @JoinColumn(name = "pvi_id", referencedColumnName = "pre_id", nullable = false, insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private ViaPreViajes viaPreViajes;
+    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false)
+    @ManyToOne(optional = false)
+    private PgePersonas perId;
 
     public ViaPasajeros() {
     }
@@ -107,24 +87,11 @@ public class ViaPasajeros implements Serializable {
         this.pviId = pviId;
     }
 
-    public ViaPasajeros(Integer pviId, int perId, Character pasRel, int preId, int monId, String pviUsuIns, Date pviFecIns, String pviUsuMod, Date pviFecMod) {
+    public ViaPasajeros(Integer pviId, Character pasRel, String pviUsuIns, Date pviFecIns) {
         this.pviId = pviId;
-        this.perId = perId;
         this.pasRel = pasRel;
-        this.preId = preId;
-        this.monId = monId;
         this.pviUsuIns = pviUsuIns;
         this.pviFecIns = pviFecIns;
-        this.pviUsuMod = pviUsuMod;
-        this.pviFecMod = pviFecMod;
-    }
-
-    public int getPerId() {
-        return perId;
-    }
-
-    public void setPerId(int perId) {
-        this.perId = perId;
     }
 
     public Character getPasRel() {
@@ -133,22 +100,6 @@ public class ViaPasajeros implements Serializable {
 
     public void setPasRel(Character pasRel) {
         this.pasRel = pasRel;
-    }
-
-    public int getPreId() {
-        return preId;
-    }
-
-    public void setPreId(int preId) {
-        this.preId = preId;
-    }
-
-    public int getMonId() {
-        return monId;
-    }
-
-    public void setMonId(int monId) {
-        this.monId = monId;
     }
 
     public String getPviUsuIns() {
@@ -215,12 +166,12 @@ public class ViaPasajeros implements Serializable {
         this.viaId = viaId;
     }
 
-    public ViaPreViajes getViaPreViajes() {
-        return viaPreViajes;
+    public PgePersonas getPerId() {
+        return perId;
     }
 
-    public void setViaPreViajes(ViaPreViajes viaPreViajes) {
-        this.viaPreViajes = viaPreViajes;
+    public void setPerId(PgePersonas perId) {
+        this.perId = perId;
     }
 
     @Override

@@ -6,6 +6,7 @@
 package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -39,10 +40,13 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ViaViajes.findByViaUsuIns", query = "SELECT v FROM ViaViajes v WHERE v.viaUsuIns = :viaUsuIns"),
     @NamedQuery(name = "ViaViajes.findByViaFecIns", query = "SELECT v FROM ViaViajes v WHERE v.viaFecIns = :viaFecIns"),
     @NamedQuery(name = "ViaViajes.findByViaUsuMod", query = "SELECT v FROM ViaViajes v WHERE v.viaUsuMod = :viaUsuMod"),
-    @NamedQuery(name = "ViaViajes.findByViaFecMod", query = "SELECT v FROM ViaViajes v WHERE v.viaFecMod = :viaFecMod")})
+    @NamedQuery(name = "ViaViajes.findByViaFecMod", query = "SELECT v FROM ViaViajes v WHERE v.viaFecMod = :viaFecMod"),
+    @NamedQuery(name = "ViaViajes.findByViaCost", query = "SELECT v FROM ViaViajes v WHERE v.viaCost = :viaCost")})
 public class ViaViajes implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaId")
-    private List<ViaPreViajes> viaPreViajesList;
+    private List<PagCobros> pagCobrosList;
+    @OneToMany(mappedBy = "viaId")
+    private List<PagComprobantesDet> pagComprobantesDetList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaId")
     private List<ViaPasajeros> viaPasajerosList;
     private static final long serialVersionUID = 1L;
@@ -82,6 +86,9 @@ public class ViaViajes implements Serializable {
     @Column(name = "via_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date viaFecMod;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "via_cost", precision = 18, scale = 2)
+    private BigDecimal viaCost;
 
     public ViaViajes() {
     }
@@ -163,6 +170,14 @@ public class ViaViajes implements Serializable {
         this.viaFecMod = viaFecMod;
     }
 
+    public BigDecimal getViaCost() {
+        return viaCost;
+    }
+
+    public void setViaCost(BigDecimal viaCost) {
+        this.viaCost = viaCost;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -188,20 +203,28 @@ public class ViaViajes implements Serializable {
         return "com.fpuna.py.travelware.model.ViaViajes[ viaId=" + viaId + " ]";
     }
 
-    public List<ViaPreViajes> getViaPreViajesList() {
-        return viaPreViajesList;
-    }
-
-    public void setViaPreViajesList(List<ViaPreViajes> viaPreViajesList) {
-        this.viaPreViajesList = viaPreViajesList;
-    }
-
     public List<ViaPasajeros> getViaPasajerosList() {
         return viaPasajerosList;
     }
 
     public void setViaPasajerosList(List<ViaPasajeros> viaPasajerosList) {
         this.viaPasajerosList = viaPasajerosList;
+    }
+
+    public List<PagComprobantesDet> getPagComprobantesDetList() {
+        return pagComprobantesDetList;
+    }
+
+    public void setPagComprobantesDetList(List<PagComprobantesDet> pagComprobantesDetList) {
+        this.pagComprobantesDetList = pagComprobantesDetList;
+    }
+
+    public List<PagCobros> getPagCobrosList() {
+        return pagCobrosList;
+    }
+
+    public void setPagCobrosList(List<PagCobros> pagCobrosList) {
+        this.pagCobrosList = pagCobrosList;
     }
     
 }

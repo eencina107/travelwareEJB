@@ -7,6 +7,7 @@ package com.fpuna.py.travelware.model;
 
 import com.fpuna.py.travelware.model.ViaPasaportes;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -49,10 +50,14 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgePersonas.findByPerFecMod", query = "SELECT p FROM PgePersonas p WHERE p.perFecMod = :perFecMod"),
     @NamedQuery(name = "PgePersonas.findByPerDoc", query = "SELECT p FROM PgePersonas p WHERE p.perDoc = :perDoc")})
 public class PgePersonas implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perId")
+    private List<PagCobros> pagCobrosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perId")
+    private List<PagComprobantes> pagComprobantesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "perId")
+    private List<ViaPasajeros> viaPasajerosList;
     @OneToMany(mappedBy = "perId")
     private List<PgeDirecciones> pgeDireccionesList;
-    @OneToMany(mappedBy = "perId")
-    private List<ViaGastos> viaGastosList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "perId")
     private ViaPasaportes viaPasaportes;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "perId")
@@ -300,12 +305,36 @@ public class PgePersonas implements Serializable {
         this.pgeDireccionesList = pgeDireccionesList;
     }
 
-    public List<ViaGastos> getViaGastosList() {
-        return viaGastosList;
+    public List<ViaPasajeros> getViaPasajerosList() {
+        return viaPasajerosList;
     }
 
-    public void setViaGastosList(List<ViaGastos> viaGastosList) {
-        this.viaGastosList = viaGastosList;
+    public void setViaPasajerosList(List<ViaPasajeros> viaPasajerosList) {
+        this.viaPasajerosList = viaPasajerosList;
+    }
+
+
+    public List<PagComprobantes> getPagComprobantesList() {
+        return pagComprobantesList;
+    }
+
+    public void setPagComprobantesList(List<PagComprobantes> pagComprobantesList) {
+        this.pagComprobantesList = pagComprobantesList;
     }
     
+    public List<ViaViajes> getViaViajesList(){
+        List<ViaViajes> viajes = new ArrayList<>();
+        for (ViaPasajeros pas:this.viaPasajerosList){
+            viajes.add(pas.getViaId());
+        }
+        return viajes;
+    }
+
+    public List<PagCobros> getPagCobrosList() {
+        return pagCobrosList;
+    }
+
+    public void setPagCobrosList(List<PagCobros> pagCobrosList) {
+        this.pagCobrosList = pagCobrosList;
+    }
 }

@@ -6,12 +6,14 @@
 package com.fpuna.py.travelware.dao;
 
 import com.fpuna.py.travelware.model.PagComprobantes;
-import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  *
  * @author eencina
  */
 public interface ComprobanteDao extends GenericDao<PagComprobantes, Integer>{
-    
+    PagComprobantes getByNroDoc(Integer nroDoc, String conc);
+    BigDecimal getLastCotizacion();
+    Integer getLastNroDoc();
 }

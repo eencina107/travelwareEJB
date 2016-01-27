@@ -10,8 +10,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -19,6 +21,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -27,11 +30,11 @@ import javax.validation.constraints.Size;
  * @author eencina
  */
 @Entity
-@Table(name = "pag_comprobantes_det", catalog = "travelware", schema = "public")
+@Table(name = "pag_comprobantes_det", catalog = "travelware", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"com_id", "cde_nro_det"})})
 @NamedQueries({
     @NamedQuery(name = "PagComprobantesDet.findAll", query = "SELECT p FROM PagComprobantesDet p"),
-    @NamedQuery(name = "PagComprobantesDet.findByComId", query = "SELECT p FROM PagComprobantesDet p WHERE p.pagComprobantesDetPK.comId = :comId"),
-    @NamedQuery(name = "PagComprobantesDet.findByCdeNroDet", query = "SELECT p FROM PagComprobantesDet p WHERE p.pagComprobantesDetPK.cdeNroDet = :cdeNroDet"),
+    @NamedQuery(name = "PagComprobantesDet.findByCdeNroDet", query = "SELECT p FROM PagComprobantesDet p WHERE p.cdeNroDet = :cdeNroDet"),
     @NamedQuery(name = "PagComprobantesDet.findByCdeNumCuota", query = "SELECT p FROM PagComprobantesDet p WHERE p.cdeNumCuota = :cdeNumCuota"),
     @NamedQuery(name = "PagComprobantesDet.findByCdePorRde", query = "SELECT p FROM PagComprobantesDet p WHERE p.cdePorRde = :cdePorRde"),
     @NamedQuery(name = "PagComprobantesDet.findByCdeExe", query = "SELECT p FROM PagComprobantesDet p WHERE p.cdeExe = :cdeExe"),
@@ -41,11 +44,14 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PagComprobantesDet.findByCdeUsuIns", query = "SELECT p FROM PagComprobantesDet p WHERE p.cdeUsuIns = :cdeUsuIns"),
     @NamedQuery(name = "PagComprobantesDet.findByCdeFecIns", query = "SELECT p FROM PagComprobantesDet p WHERE p.cdeFecIns = :cdeFecIns"),
     @NamedQuery(name = "PagComprobantesDet.findByCdeUsuMod", query = "SELECT p FROM PagComprobantesDet p WHERE p.cdeUsuMod = :cdeUsuMod"),
-    @NamedQuery(name = "PagComprobantesDet.findByCdeFecMod", query = "SELECT p FROM PagComprobantesDet p WHERE p.cdeFecMod = :cdeFecMod")})
+    @NamedQuery(name = "PagComprobantesDet.findByCdeFecMod", query = "SELECT p FROM PagComprobantesDet p WHERE p.cdeFecMod = :cdeFecMod"),
+    @NamedQuery(name = "PagComprobantesDet.findByComDetId", query = "SELECT p FROM PagComprobantesDet p WHERE p.comDetId = :comDetId")})
 public class PagComprobantesDet implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected PagComprobantesDetPK pagComprobantesDetPK;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "cde_nro_det", nullable = false)
+    private int cdeNroDet;
     @Basic(optional = false)
     @NotNull
     @Column(name = "cde_num_cuota", nullable = false)
@@ -85,25 +91,28 @@ public class PagComprobantesDet implements Serializable {
     @Column(name = "cde_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date cdeFecMod;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "com_det_id", nullable = false)
+    private Integer comDetId;
     @JoinColumn(name = "via_id", referencedColumnName = "via_id")
     @ManyToOne
     private ViaViajes viaId;
-    @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false)
+    @JoinColumn(name = "com_id", referencedColumnName = "com_id_tran", nullable = false)
     @ManyToOne(optional = false)
-    private PgePersonas perId;
-    @JoinColumn(name = "com_id", referencedColumnName = "com_id_tran", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private PagComprobantes pagComprobantes;
+    private PagComprobantes comId;
 
     public PagComprobantesDet() {
     }
 
-    public PagComprobantesDet(PagComprobantesDetPK pagComprobantesDetPK) {
-        this.pagComprobantesDetPK = pagComprobantesDetPK;
+    public PagComprobantesDet(Integer comDetId) {
+        this.comDetId = comDetId;
     }
 
-    public PagComprobantesDet(PagComprobantesDetPK pagComprobantesDetPK, int cdeNumCuota, BigDecimal cdeExe, BigDecimal cdeGra, BigDecimal cdeIva, BigDecimal cdeTot, String cdeUsuIns, Date cdeFecIns) {
-        this.pagComprobantesDetPK = pagComprobantesDetPK;
+    public PagComprobantesDet(Integer comDetId, int cdeNroDet, int cdeNumCuota, BigDecimal cdeExe, BigDecimal cdeGra, BigDecimal cdeIva, BigDecimal cdeTot, String cdeUsuIns, Date cdeFecIns) {
+        this.comDetId = comDetId;
+        this.cdeNroDet = cdeNroDet;
         this.cdeNumCuota = cdeNumCuota;
         this.cdeExe = cdeExe;
         this.cdeGra = cdeGra;
@@ -113,16 +122,12 @@ public class PagComprobantesDet implements Serializable {
         this.cdeFecIns = cdeFecIns;
     }
 
-    public PagComprobantesDet(int comId, int cdeNroDet) {
-        this.pagComprobantesDetPK = new PagComprobantesDetPK(comId, cdeNroDet);
+    public int getCdeNroDet() {
+        return cdeNroDet;
     }
 
-    public PagComprobantesDetPK getPagComprobantesDetPK() {
-        return pagComprobantesDetPK;
-    }
-
-    public void setPagComprobantesDetPK(PagComprobantesDetPK pagComprobantesDetPK) {
-        this.pagComprobantesDetPK = pagComprobantesDetPK;
+    public void setCdeNroDet(int cdeNroDet) {
+        this.cdeNroDet = cdeNroDet;
     }
 
     public int getCdeNumCuota() {
@@ -205,6 +210,14 @@ public class PagComprobantesDet implements Serializable {
         this.cdeFecMod = cdeFecMod;
     }
 
+    public Integer getComDetId() {
+        return comDetId;
+    }
+
+    public void setComDetId(Integer comDetId) {
+        this.comDetId = comDetId;
+    }
+
     public ViaViajes getViaId() {
         return viaId;
     }
@@ -213,26 +226,18 @@ public class PagComprobantesDet implements Serializable {
         this.viaId = viaId;
     }
 
-    public PgePersonas getPerId() {
-        return perId;
+    public PagComprobantes getComId() {
+        return comId;
     }
 
-    public void setPerId(PgePersonas perId) {
-        this.perId = perId;
-    }
-
-    public PagComprobantes getPagComprobantes() {
-        return pagComprobantes;
-    }
-
-    public void setPagComprobantes(PagComprobantes pagComprobantes) {
-        this.pagComprobantes = pagComprobantes;
+    public void setComId(PagComprobantes comId) {
+        this.comId = comId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (pagComprobantesDetPK != null ? pagComprobantesDetPK.hashCode() : 0);
+        hash += (comDetId != null ? comDetId.hashCode() : 0);
         return hash;
     }
 
@@ -243,7 +248,7 @@ public class PagComprobantesDet implements Serializable {
             return false;
         }
         PagComprobantesDet other = (PagComprobantesDet) object;
-        if ((this.pagComprobantesDetPK == null && other.pagComprobantesDetPK != null) || (this.pagComprobantesDetPK != null && !this.pagComprobantesDetPK.equals(other.pagComprobantesDetPK))) {
+        if ((this.comDetId == null && other.comDetId != null) || (this.comDetId != null && !this.comDetId.equals(other.comDetId))) {
             return false;
         }
         return true;
@@ -251,7 +256,7 @@ public class PagComprobantesDet implements Serializable {
 
     @Override
     public String toString() {
-        return "com.fpuna.py.travelware.model.PagComprobantesDet[ pagComprobantesDetPK=" + pagComprobantesDetPK + " ]";
+        return "com.fpuna.py.travelware.model.PagComprobantesDet[ comDetId=" + comDetId + " ]";
     }
     
 }

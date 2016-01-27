@@ -6,7 +6,10 @@
 package com.fpuna.py.travelware.dao.impl;
 
 import com.fpuna.py.travelware.dao.ViajeDao;
+import com.fpuna.py.travelware.model.PgePersonas;
+import com.fpuna.py.travelware.model.ViaPasajeros;
 import com.fpuna.py.travelware.model.ViaViajes;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -93,5 +96,9 @@ public class ViajeImpl implements ViajeDao{
             return null;
         }
     }
+
+
+
+
     
 }

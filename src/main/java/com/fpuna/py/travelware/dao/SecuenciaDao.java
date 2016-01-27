@@ -5,15 +5,11 @@
  */
 package com.fpuna.py.travelware.dao;
 
-import com.fpuna.py.travelware.model.PgePersonas;
-import com.fpuna.py.travelware.model.ViaViajes;
-import java.util.List;
-
 /**
  *
  * @author eencina
  */
-public interface ViajeDao extends GenericDao<ViaViajes, Integer>{
-    ViaViajes getByName(String value);
-    
+public interface SecuenciaDao {
+    Integer getSec(String clave); //recupera la secuencia de acuerdo al nombre de tabla
+    boolean actSec(String clave); //actualiza la secuencia
 }

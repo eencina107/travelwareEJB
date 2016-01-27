@@ -7,6 +7,7 @@ package com.fpuna.py.travelware.dao.impl;
 
 import com.fpuna.py.travelware.dao.ComprobanteDao;
 import com.fpuna.py.travelware.model.PagComprobantes;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -82,6 +83,26 @@ public class ComprobanteImpl implements ComprobanteDao{
             logger.error("CLASS "+this.getClass().getName()+" METHOD: getAll ", e);
             return null;
         }
+    }
+
+    @Override
+    public PagComprobantes getByNroDoc(Integer nroDoc, String conc) {
+        try {
+            return (PagComprobantes) em.createQuery("SELECT c from PagComprobantes c WHERE c.comConc=:conc AND c.comNumDoc=:numDoc").setParameter("conc", conc).setParameter("numDoc", nroDoc.toString()).getSingleResult();
+        } catch (Exception e) {
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getAll "+ e);
+            return null;
+        }
+    }
+
+    @Override
+    public BigDecimal getLastCotizacion() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Integer getLastNroDoc() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "via_gastos", catalog = "travelware", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"per_id", "gas_nro"})})
+    @UniqueConstraint(columnNames = {"pvi_id", "gas_nro"})})
 @NamedQueries({
     @NamedQuery(name = "ViaGastos.findAll", query = "SELECT v FROM ViaGastos v"),
     @NamedQuery(name = "ViaGastos.findByGasId", query = "SELECT v FROM ViaGastos v WHERE v.gasId = :gasId"),
@@ -49,9 +49,9 @@ public class ViaGastos implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "gas_monto", precision = 18, scale = 2)
     private BigDecimal gasMonto;
-    @JoinColumn(name = "per_id", referencedColumnName = "per_id")
+    @JoinColumn(name = "pvi_id", referencedColumnName = "pvi_id")
     @ManyToOne
-    private PgePersonas perId;
+    private ViaPasajeros pviId;
     @JoinColumn(name = "mon_id", referencedColumnName = "mon_id")
     @ManyToOne
     private PgeMonedas monId;
@@ -95,12 +95,12 @@ public class ViaGastos implements Serializable {
         this.gasMonto = gasMonto;
     }
 
-    public PgePersonas getPerId() {
-        return perId;
+    public ViaPasajeros getPviId() {
+        return pviId;
     }
 
-    public void setPerId(PgePersonas perId) {
-        this.perId = perId;
+    public void setPviId(ViaPasajeros pviId) {
+        this.pviId = pviId;
     }
 
     public PgeMonedas getMonId() {

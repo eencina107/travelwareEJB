@@ -52,7 +52,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PagComprobantes.findByComTotGra", query = "SELECT p FROM PagComprobantes p WHERE p.comTotGra = :comTotGra"),
     @NamedQuery(name = "PagComprobantes.findByComTotImp", query = "SELECT p FROM PagComprobantes p WHERE p.comTotImp = :comTotImp"),
     @NamedQuery(name = "PagComprobantes.findByComTotTot", query = "SELECT p FROM PagComprobantes p WHERE p.comTotTot = :comTotTot"),
-    @NamedQuery(name = "PagComprobantes.findByViaId", query = "SELECT p FROM PagComprobantes p WHERE p.viaId = :viaId")})
+    @NamedQuery(name = "PagComprobantes.findByComUsuIns", query = "SELECT p FROM PagComprobantes p WHERE p.comUsuIns = :comUsuIns"),
+    @NamedQuery(name = "PagComprobantes.findByComFecIns", query = "SELECT p FROM PagComprobantes p WHERE p.comFecIns = :comFecIns"),
+    @NamedQuery(name = "PagComprobantes.findByComUsuMod", query = "SELECT p FROM PagComprobantes p WHERE p.comUsuMod = :comUsuMod"),
+    @NamedQuery(name = "PagComprobantes.findByComFecMod", query = "SELECT p FROM PagComprobantes p WHERE p.comFecMod = :comFecMod")})
 public class PagComprobantes implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -105,9 +108,23 @@ public class PagComprobantes implements Serializable {
     private BigDecimal comTotImp;
     @Column(name = "com_tot_tot", precision = 18, scale = 2)
     private BigDecimal comTotTot;
-    @Column(name = "via_id")
-    private Integer viaId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pagComprobantes")
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
+    @Column(name = "com_usu_ins", nullable = false, length = 10)
+    private String comUsuIns;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "com_fec_ins", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date comFecIns;
+    @Size(max = 10)
+    @Column(name = "com_usu_mod", length = 10)
+    private String comUsuMod;
+    @Column(name = "com_fec_mod")
+    @Temporal(TemporalType.DATE)
+    private Date comFecMod;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "comId")
     private List<PagComprobantesDet> pagComprobantesDetList;
     @JoinColumn(name = "per_id", referencedColumnName = "per_id", nullable = false)
     @ManyToOne(optional = false)
@@ -123,13 +140,15 @@ public class PagComprobantes implements Serializable {
         this.comIdTran = comIdTran;
     }
 
-    public PagComprobantes(Integer comIdTran, String comConc, int comNumDoc, String comTipDoc, Character comEstado, Date comFecEmis) {
+    public PagComprobantes(Integer comIdTran, String comConc, int comNumDoc, String comTipDoc, Character comEstado, Date comFecEmis, String comUsuIns, Date comFecIns) {
         this.comIdTran = comIdTran;
         this.comConc = comConc;
         this.comNumDoc = comNumDoc;
         this.comTipDoc = comTipDoc;
         this.comEstado = comEstado;
         this.comFecEmis = comFecEmis;
+        this.comUsuIns = comUsuIns;
+        this.comFecIns = comFecIns;
     }
 
     public Integer getComIdTran() {
@@ -252,12 +271,36 @@ public class PagComprobantes implements Serializable {
         this.comTotTot = comTotTot;
     }
 
-    public Integer getViaId() {
-        return viaId;
+    public String getComUsuIns() {
+        return comUsuIns;
     }
 
-    public void setViaId(Integer viaId) {
-        this.viaId = viaId;
+    public void setComUsuIns(String comUsuIns) {
+        this.comUsuIns = comUsuIns;
+    }
+
+    public Date getComFecIns() {
+        return comFecIns;
+    }
+
+    public void setComFecIns(Date comFecIns) {
+        this.comFecIns = comFecIns;
+    }
+
+    public String getComUsuMod() {
+        return comUsuMod;
+    }
+
+    public void setComUsuMod(String comUsuMod) {
+        this.comUsuMod = comUsuMod;
+    }
+
+    public Date getComFecMod() {
+        return comFecMod;
+    }
+
+    public void setComFecMod(Date comFecMod) {
+        this.comFecMod = comFecMod;
     }
 
     public List<PagComprobantesDet> getPagComprobantesDetList() {

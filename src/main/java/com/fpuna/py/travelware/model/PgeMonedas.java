@@ -41,6 +41,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeMonedas.findByMonUsuMod", query = "SELECT p FROM PgeMonedas p WHERE p.monUsuMod = :monUsuMod"),
     @NamedQuery(name = "PgeMonedas.findByMonFecMod", query = "SELECT p FROM PgeMonedas p WHERE p.monFecMod = :monFecMod")})
 public class PgeMonedas implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
+    private List<PagCobros> pagCobrosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
+    private List<PagComprobantes> pagComprobantesList;
     @OneToMany(mappedBy = "monId")
     private List<ViaGastos> viaGastosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
@@ -185,6 +189,22 @@ public class PgeMonedas implements Serializable {
 
     public void setViaGastosList(List<ViaGastos> viaGastosList) {
         this.viaGastosList = viaGastosList;
+    }
+
+    public List<PagComprobantes> getPagComprobantesList() {
+        return pagComprobantesList;
+    }
+
+    public void setPagComprobantesList(List<PagComprobantes> pagComprobantesList) {
+        this.pagComprobantesList = pagComprobantesList;
+    }
+
+    public List<PagCobros> getPagCobrosList() {
+        return pagCobrosList;
+    }
+
+    public void setPagCobrosList(List<PagCobros> pagCobrosList) {
+        this.pagCobrosList = pagCobrosList;
     }
     
 }

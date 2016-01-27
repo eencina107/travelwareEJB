@@ -6,12 +6,11 @@
 package com.fpuna.py.travelware.dao;
 
 import com.fpuna.py.travelware.model.PgeMonedas;
-import java.io.Serializable;
 
 /**
  *
  * @author eencina
  */
 public interface MonedaDao extends GenericDao<PgeMonedas, Integer>{
-    
+    PgeMonedas getByName(String value);
 }
