@@ -7,9 +7,7 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,16 +36,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeMonedas.findByMonUsuIns", query = "SELECT p FROM PgeMonedas p WHERE p.monUsuIns = :monUsuIns"),
     @NamedQuery(name = "PgeMonedas.findByMonFecIns", query = "SELECT p FROM PgeMonedas p WHERE p.monFecIns = :monFecIns"),
     @NamedQuery(name = "PgeMonedas.findByMonUsuMod", query = "SELECT p FROM PgeMonedas p WHERE p.monUsuMod = :monUsuMod"),
-    @NamedQuery(name = "PgeMonedas.findByMonFecMod", query = "SELECT p FROM PgeMonedas p WHERE p.monFecMod = :monFecMod")})
+    @NamedQuery(name = "PgeMonedas.findByMonFecMod", query = "SELECT p FROM PgeMonedas p WHERE p.monFecMod = :monFecMod"),
+    @NamedQuery(name = "PgeMonedas.findByMonAbreviatura", query = "SELECT p FROM PgeMonedas p WHERE p.monAbreviatura = :monAbreviatura")})
 public class PgeMonedas implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
-    private List<PagCobros> pagCobrosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
-    private List<PagComprobantes> pagComprobantesList;
-    @OneToMany(mappedBy = "monId")
-    private List<ViaGastos> viaGastosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
-    private List<ViaPreViajes> viaPreViajesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,6 +66,9 @@ public class PgeMonedas implements Serializable {
     @Column(name = "mon_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date monFecMod;
+    @Size(max = 3)
+    @Column(name = "mon_abreviatura", length = 3)
+    private String monAbreviatura;
     @JoinColumn(name = "pai_id", referencedColumnName = "pai_id", nullable = false)
     @ManyToOne(optional = false)
     private PgePaises paiId;
@@ -142,6 +135,14 @@ public class PgeMonedas implements Serializable {
         this.monFecMod = monFecMod;
     }
 
+    public String getMonAbreviatura() {
+        return monAbreviatura;
+    }
+
+    public void setMonAbreviatura(String monAbreviatura) {
+        this.monAbreviatura = monAbreviatura;
+    }
+
     public PgePaises getPaiId() {
         return paiId;
     }
@@ -173,38 +174,6 @@ public class PgeMonedas implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PgeMonedas[ monId=" + monId + " ]";
-    }
-
-    public List<ViaPreViajes> getViaPreViajesList() {
-        return viaPreViajesList;
-    }
-
-    public void setViaPreViajesList(List<ViaPreViajes> viaPreViajesList) {
-        this.viaPreViajesList = viaPreViajesList;
-    }
-
-    public List<ViaGastos> getViaGastosList() {
-        return viaGastosList;
-    }
-
-    public void setViaGastosList(List<ViaGastos> viaGastosList) {
-        this.viaGastosList = viaGastosList;
-    }
-
-    public List<PagComprobantes> getPagComprobantesList() {
-        return pagComprobantesList;
-    }
-
-    public void setPagComprobantesList(List<PagComprobantes> pagComprobantesList) {
-        this.pagComprobantesList = pagComprobantesList;
-    }
-
-    public List<PagCobros> getPagCobrosList() {
-        return pagCobrosList;
-    }
-
-    public void setPagCobrosList(List<PagCobros> pagCobrosList) {
-        this.pagCobrosList = pagCobrosList;
     }
     
 }

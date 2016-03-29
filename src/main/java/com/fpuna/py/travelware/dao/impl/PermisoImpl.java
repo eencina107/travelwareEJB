@@ -28,7 +28,7 @@ public class PermisoImpl implements PermisoDao{
     public PgePermisos create(PgePermisos object) {
         try {
             em.persist(object);
-            em.flush();
+            em.getTransaction().commit();
             logger.info("Se inserta el permiso del rol con id:"+object.getRolId()+" en el menu "+object.getPgeMenus().getMenId()+"-"+object.getPgeMenus().getMenSubId());
             return object;
         } catch (Exception e) {
@@ -51,10 +51,10 @@ public class PermisoImpl implements PermisoDao{
         try {
             em.merge(object);
             em.flush();
-            logger.info("Se actualiza el permiso de rol con id:"+object.getRolId()+" sobre el menu:"+object.getPgeMenus().getMenId()+"-"+object.getPgeMenus().getMenSubId());
+            System.out.println("Se actualiza el permiso de rol con id:"+object.getRolId()+" sobre el menu:"+object.getPgeMenus().getMenId()+"-"+object.getPgeMenus().getMenSubId());
             return object;
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: update ", e);
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: update "+ e);
             return null;
         }
     }
@@ -67,7 +67,7 @@ public class PermisoImpl implements PermisoDao{
             int submId = object.getPgeMenus().getMenSubId();
             
             em.remove(em.find(PgePermisos.class, object.getPrmId()));
-            em.flush();
+            em.getTransaction().commit();
             logger.info("Se elimina el permiso del rol con id:"+rolId+" sobre el menu:"+menuId+"-"+submId);
             return true;
         } catch (Exception e) {

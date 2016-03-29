@@ -43,7 +43,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PagCobros.findByCobUsuIns", query = "SELECT p FROM PagCobros p WHERE p.cobUsuIns = :cobUsuIns"),
     @NamedQuery(name = "PagCobros.findByCobFecIns", query = "SELECT p FROM PagCobros p WHERE p.cobFecIns = :cobFecIns"),
     @NamedQuery(name = "PagCobros.findByCobUsuMod", query = "SELECT p FROM PagCobros p WHERE p.cobUsuMod = :cobUsuMod"),
-    @NamedQuery(name = "PagCobros.findByCobFecMod", query = "SELECT p FROM PagCobros p WHERE p.cobFecMod = :cobFecMod")})
+    @NamedQuery(name = "PagCobros.findByCobFecMod", query = "SELECT p FROM PagCobros p WHERE p.cobFecMod = :cobFecMod"),
+    @NamedQuery(name = "PagCobros.findByCobMontoLetras", query = "SELECT p FROM PagCobros p WHERE p.cobMontoLetras = :cobMontoLetras")})
 public class PagCobros implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -90,6 +91,9 @@ public class PagCobros implements Serializable {
     @Column(name = "cob_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date cobFecMod;
+    @Size(max = 2147483647)
+    @Column(name = "cob_monto_letras", length = 2147483647)
+    private String cobMontoLetras;
     @JoinColumn(name = "via_id", referencedColumnName = "via_id", nullable = false)
     @ManyToOne(optional = false)
     private ViaViajes viaId;
@@ -209,6 +213,14 @@ public class PagCobros implements Serializable {
 
     public void setCobFecMod(Date cobFecMod) {
         this.cobFecMod = cobFecMod;
+    }
+
+    public String getCobMontoLetras() {
+        return cobMontoLetras;
+    }
+
+    public void setCobMontoLetras(String cobMontoLetras) {
+        this.cobMontoLetras = cobMontoLetras;
     }
 
     public ViaViajes getViaId() {
