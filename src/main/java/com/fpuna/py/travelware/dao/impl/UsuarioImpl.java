@@ -31,7 +31,7 @@ public class UsuarioImpl implements UsuarioDao{
         try {
             em.persist(object);
             em.flush();
-            logger.info("Se inserta el disertante con id:"+object.getUsuId());
+            logger.info("Se inserta el usuario con id:"+object.getUsuId());
             return object;
         } catch (Exception e) {
             logger.error("CLASS "+this.getClass().getName()+" METHOD: create ", e);

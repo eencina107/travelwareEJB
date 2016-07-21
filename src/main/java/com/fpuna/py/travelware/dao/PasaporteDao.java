@@ -5,13 +5,19 @@
  */
 package com.fpuna.py.travelware.dao;
 
+import com.fpuna.py.travelware.model.PgePersonas;
 import com.fpuna.py.travelware.model.ViaPasaportes;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author eencina
  */
 public interface PasaporteDao extends GenericDao<ViaPasaportes, Integer>{
-    
+    public List<ViaPasaportes> getAll(PgePersonas persona);
+    public Integer getCantPasaportes(PgePersonas persona);
+    public Long getCantPasaportesVencidos(Date fecha); 
+    public List<ViaPasaportes> getListaVencidos(Date fecha);
 }

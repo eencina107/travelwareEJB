@@ -86,11 +86,11 @@ public class GastoImpl implements GastoDao{
     }
 
     @Override
-    public List<ViaGastos> getAll(ViaPasajeros pasajeroSelected) {
+    public List<ViaGastos> getAll(ViaPasajeros pasajero) {
         try {
-            return em.createQuery("SELECT v FROM ViaGastos v WHERE v.pviId=:pviId").setParameter("pviId", pasajeroSelected.getPviId()).getResultList();
+            return em.createQuery("SELECT v FROM ViaGastos v WHERE v.pviId=:pviId").setParameter("pviId", pasajero).getResultList();
         } catch (Exception e) {
-            System.out.println("ERROR: CLASS "+this.getClass().getName()+" METHOD: getAll(ViaPasajeros) "+e);
+            System.out.println("ERROR: CLASS "+this.getClass().getName()+" METHOD: getAll(pasajero) "+e);
             return null;
         }
     }

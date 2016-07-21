@@ -6,8 +6,10 @@
 package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,11 +19,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,6 +43,20 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeMonedas.findByMonFecMod", query = "SELECT p FROM PgeMonedas p WHERE p.monFecMod = :monFecMod"),
     @NamedQuery(name = "PgeMonedas.findByMonAbreviatura", query = "SELECT p FROM PgeMonedas p WHERE p.monAbreviatura = :monAbreviatura")})
 public class PgeMonedas implements Serializable {
+    @OneToMany(mappedBy = "monId")
+    private Collection<ViaGastos> viaGastosCollection;
+    @OneToMany(mappedBy = "monId")
+    private Collection<ViaViajesDet> viaViajesDetCollection;
+    @OneToMany(mappedBy = "monId")
+    private Collection<ViaViajes> viaViajesCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
+    private Collection<ComMovCajas> comMovCajasCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
+    private Collection<ComCajas> comCajasCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
+    private Collection<ComPagos> comPagosCollection;
+    @OneToMany(mappedBy = "monId")
+    private Collection<ComFacturas> comFacturasCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -174,6 +192,69 @@ public class PgeMonedas implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PgeMonedas[ monId=" + monId + " ]";
+    }
+
+    @XmlTransient
+    public Collection<ComFacturas> getComFacturasCollection() {
+        return comFacturasCollection;
+    }
+
+    public void setComFacturasCollection(Collection<ComFacturas> comFacturasCollection) {
+        this.comFacturasCollection = comFacturasCollection;
+    }
+
+    @XmlTransient
+    public Collection<ComPagos> getComPagosCollection() {
+        return comPagosCollection;
+    }
+
+    public void setComPagosCollection(Collection<ComPagos> comPagosCollection) {
+        this.comPagosCollection = comPagosCollection;
+    }
+
+    @XmlTransient
+    public Collection<ComMovCajas> getComMovCajasCollection() {
+        return comMovCajasCollection;
+    }
+
+    public void setComMovCajasCollection(Collection<ComMovCajas> comMovCajasCollection) {
+        this.comMovCajasCollection = comMovCajasCollection;
+    }
+
+    @XmlTransient
+    public Collection<ComCajas> getComCajasCollection() {
+        return comCajasCollection;
+    }
+
+    public void setComCajasCollection(Collection<ComCajas> comCajasCollection) {
+        this.comCajasCollection = comCajasCollection;
+    }
+
+    @XmlTransient
+    public Collection<ViaViajes> getViaViajesCollection() {
+        return viaViajesCollection;
+    }
+
+    public void setViaViajesCollection(Collection<ViaViajes> viaViajesCollection) {
+        this.viaViajesCollection = viaViajesCollection;
+    }
+
+    @XmlTransient
+    public Collection<ViaViajesDet> getViaViajesDetCollection() {
+        return viaViajesDetCollection;
+    }
+
+    public void setViaViajesDetCollection(Collection<ViaViajesDet> viaViajesDetCollection) {
+        this.viaViajesDetCollection = viaViajesDetCollection;
+    }
+
+    @XmlTransient
+    public Collection<ViaGastos> getViaGastosCollection() {
+        return viaGastosCollection;
+    }
+
+    public void setViaGastosCollection(Collection<ViaGastos> viaGastosCollection) {
+        this.viaGastosCollection = viaGastosCollection;
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package com.fpuna.py.travelware.dao;
 
+import com.fpuna.py.travelware.model.PgePersonas;
 import com.fpuna.py.travelware.model.ViaPasajeros;
 import com.fpuna.py.travelware.model.ViaViajes;
 import java.io.Serializable;
@@ -17,6 +18,6 @@ import java.util.List;
 public interface PasajeroDao extends GenericDao<ViaPasajeros, Integer>{
 
     public List<ViaPasajeros> getAll(ViaViajes viajeSelected);
-
+    public ViaPasajeros getByViaIdPerId(ViaViajes viaje, PgePersonas persona);
     
 }

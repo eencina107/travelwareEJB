@@ -84,4 +84,13 @@ public class ModuloImpl implements ModuloDao{
         }
     }
     
+    @Override
+    public PgeModulos getByName(String name) {
+        try {
+            return (PgeModulos) em.createNamedQuery("PgeModulos.findByModDesc").setParameter("modDesc", name).getSingleResult();
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getByName ", e);
+            return null;
+        }
+    }
 }

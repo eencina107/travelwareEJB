@@ -5,13 +5,12 @@
  */
 package com.fpuna.py.travelware.dao;
 
-import com.fpuna.py.travelware.model.PgeModulos;
-import java.io.Serializable;
+import com.fpuna.py.travelware.model.ComProveedores;
 
 /**
  *
- * @author eencina
+ * @author damia_000
  */
-public interface ModuloDao extends GenericDao<PgeModulos, Integer>{
-    PgeModulos getByName(String name);
+public interface ProveedorDao extends GenericDao<ComProveedores, Integer>{
+    public ComProveedores getByName(String name);
 }

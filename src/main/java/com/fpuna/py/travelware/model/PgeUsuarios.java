@@ -47,6 +47,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeUsuarios.findByUsuFecMod", query = "SELECT p FROM PgeUsuarios p WHERE p.usuFecMod = :usuFecMod"),
     @NamedQuery(name = "PgeUsuarios.findByUsuPass", query = "SELECT p FROM PgeUsuarios p WHERE p.usuPass = :usuPass")})
 public class PgeUsuarios implements Serializable {
+    @OneToMany(mappedBy = "conIdUsuarioCont")
+    private List<ConContactos> conContactosList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -268,6 +270,14 @@ public class PgeUsuarios implements Serializable {
         }
         
         return menus;
+    }
+
+    public List<ConContactos> getConContactosList() {
+        return conContactosList;
+    }
+
+    public void setConContactosList(List<ConContactos> conContactosList) {
+        this.conContactosList = conContactosList;
     }
     
 }

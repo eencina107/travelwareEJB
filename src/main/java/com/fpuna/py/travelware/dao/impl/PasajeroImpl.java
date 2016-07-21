@@ -6,6 +6,7 @@
 package com.fpuna.py.travelware.dao.impl;
 
 import com.fpuna.py.travelware.dao.PasajeroDao;
+import com.fpuna.py.travelware.model.PgePersonas;
 import com.fpuna.py.travelware.model.ViaPasajeros;
 import com.fpuna.py.travelware.model.ViaViajes;
 import java.util.List;
@@ -64,7 +65,7 @@ public class PasajeroImpl implements PasajeroDao{
     @Override
     public boolean delete(ViaPasajeros object) {
         try {
-            int id = object.getPerId().getPerId();
+            int id = object.getPviId();
             em.remove(em.find(ViaPasajeros.class, id));
             em.flush();
             System.out.println("Se elimina el pasajero con id:"+id);
@@ -95,4 +96,13 @@ public class PasajeroImpl implements PasajeroDao{
         }
     }
     
+    @Override
+    public ViaPasajeros getByViaIdPerId(ViaViajes viaje, PgePersonas persona) {
+        try {
+            return (ViaPasajeros)em.createQuery("select p from ViaPasajeros p WHERE p.viaId=:viaId AND p.perId=:perId").setParameter("viaId", viaje).setParameter("perId", persona).getSingleResult();
+        } catch (Exception e) {
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getByViaIdPerId(viaje, persona) "+ e);
+            return null;
+        }
+    }
 }

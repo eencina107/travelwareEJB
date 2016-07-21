@@ -13,5 +13,5 @@ import java.io.Serializable;
  * @author eencina
  */
 public interface OrganizacionDao extends GenericDao<PgeOrganizaciones, Integer>{
-    
+    public PgeOrganizaciones getByName(String name);
 }

@@ -5,34 +5,28 @@
  */
 package com.fpuna.py.travelware.dao.impl;
 
-import com.fpuna.py.travelware.dao.ViajeDao;
-import com.fpuna.py.travelware.model.PgePersonas;
-import com.fpuna.py.travelware.model.ViaPasajeros;
-import com.fpuna.py.travelware.model.ViaViajes;
-import java.util.ArrayList;
+import com.fpuna.py.travelware.dao.CajaChicaDao;
+import com.fpuna.py.travelware.model.ComCajas;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.apache.log4j.Logger;
 
 /**
  *
- * @author eencina
+ * @author damia_000
  */
 @Stateless
-public class ViajeImpl implements ViajeDao{
-    final static Logger logger = Logger.getLogger(FidelidadImpl.class);
-    
+public class CajaChicaImpl implements CajaChicaDao{
     @PersistenceContext(unitName = "TravelwarePU")
     private EntityManager em;
 
     @Override
-    public ViaViajes create(ViaViajes object) {
+    public ComCajas create(ComCajas object) {
         try {
             em.persist(object);
             em.flush();
-            System.out.println("Se inserta el viaje con id: "+object.getViaId());
+            System.out.println("Se inserta Caja Chica");
             return object;
         } catch (Exception e) {
             System.out.println("CLASS "+this.getClass().getName()+" METHOD: create "+ e);
@@ -41,9 +35,9 @@ public class ViajeImpl implements ViajeDao{
     }
 
     @Override
-    public ViaViajes getById(Integer id) {
+    public ComCajas getById(Integer id) {
         try {
-            return em.find(ViaViajes.class, id);
+            return em.find(ComCajas.class, id);
         } catch (Exception e) {
             System.out.println("CLASS "+this.getClass().getName()+" METHOD: getById "+ e);
             return null;
@@ -51,11 +45,11 @@ public class ViajeImpl implements ViajeDao{
     }
 
     @Override
-    public ViaViajes update(ViaViajes object) {
+    public ComCajas update(ComCajas object) {
         try {
             em.merge(object);
             em.flush();
-            System.out.println("Se actualiza el viaje con id: "+object.getViaId());
+            System.out.println("Se actualiza caja chica");
             return object;
         } catch (Exception e) {
             System.out.println("CLASS "+this.getClass().getName()+" METHOD: update "+ e);
@@ -64,12 +58,11 @@ public class ViajeImpl implements ViajeDao{
     }
 
     @Override
-    public boolean delete(ViaViajes object) {
+    public boolean delete(ComCajas object) {
         try {
-            int id = object.getViaId();
-            em.remove(em.find(ViaViajes.class, id));
+            int id= object.getCajId();
+            em.remove(em.find(ComCajas.class, id));
             em.flush();
-            System.out.println("Se elimina el viaje con id: "+id);
             return true;
         } catch (Exception e) {
             System.out.println("CLASS "+this.getClass().getName()+" METHOD: delete "+ e);
@@ -78,33 +71,22 @@ public class ViajeImpl implements ViajeDao{
     }
 
     @Override
-    public List<ViaViajes> getAll() {
+    public List<ComCajas> getAll() {
         try {
-            return em.createQuery("select v from ViaViajes v").getResultList();
+            return em.createQuery("SELECT c from ComCajas c").getResultList();
         } catch (Exception e) {
             System.out.println("CLASS "+this.getClass().getName()+" METHOD: getAll "+ e);
             return null;
         }
-    }
-
-    @Override
-    public List<ViaViajes> getAllDisp() {
-        try {
-            return em.createQuery("select v from ViaViajes v where v.viaCantTot > v.viaCantVend and v.viaFecSali > current_timestamp").getResultList();
-        } catch (Exception e) {
-            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getAllDisp "+ e);
-            return null;
-        }
-    }
-
-    @Override
-    public ViaViajes getByName(String value) {
-        try {
-            return (ViaViajes) em.createNamedQuery("ViaViajes.findByViaDesc").setParameter("viaDesc", value).getSingleResult();
-        } catch (Exception e) {
-            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getAll "+ e);
-            return null;
-        }
-    }
+    } 
     
+    @Override
+    public ComCajas getByName(String value) {
+        try {
+            return (ComCajas) em.createNamedQuery("ComCajas.findByCajDesc").setParameter("cajDesc", value).getSingleResult();
+        } catch (Exception e) {
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getAll "+ e);
+            return null;
+        }
+    }
 }

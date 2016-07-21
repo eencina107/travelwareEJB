@@ -6,6 +6,7 @@
 package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -26,6 +27,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -49,6 +51,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeOrganizaciones.findByOrgFecMod", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgFecMod = :orgFecMod"),
     @NamedQuery(name = "PgeOrganizaciones.findByOrgLogo", query = "SELECT p FROM PgeOrganizaciones p WHERE p.orgLogo = :orgLogo")})
 public class PgeOrganizaciones implements Serializable {
+    @OneToMany(mappedBy = "orgId")
+    private Collection<ComProveedores> comProveedoresCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orgId")
     private List<ViaFidelidades> viaFidelidadesList;
     private static final long serialVersionUID = 1L;
@@ -260,6 +264,15 @@ public class PgeOrganizaciones implements Serializable {
 
     public void setViaFidelidadesList(List<ViaFidelidades> viaFidelidadesList) {
         this.viaFidelidadesList = viaFidelidadesList;
+    }
+
+    @XmlTransient
+    public Collection<ComProveedores> getComProveedoresCollection() {
+        return comProveedoresCollection;
+    }
+
+    public void setComProveedoresCollection(Collection<ComProveedores> comProveedoresCollection) {
+        this.comProveedoresCollection = comProveedoresCollection;
     }
     
 }

@@ -5,13 +5,14 @@
  */
 package com.fpuna.py.travelware.dao;
 
-import com.fpuna.py.travelware.model.PgeModulos;
+import com.fpuna.py.travelware.model.ComCajas;
 import java.io.Serializable;
 
 /**
  *
- * @author eencina
+ * @author damia_000
  */
-public interface ModuloDao extends GenericDao<PgeModulos, Integer>{
-    PgeModulos getByName(String name);
+public interface CajaChicaDao extends GenericDao<ComCajas, Integer>{
+    ComCajas getByName(String value);
+    
 }
