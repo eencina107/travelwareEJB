@@ -6,6 +6,7 @@
 package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,12 +18,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -42,6 +45,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ViaPasajeros.findByPasPrefAsi", query = "SELECT v FROM ViaPasajeros v WHERE v.pasPrefAsi = :pasPrefAsi"),
     @NamedQuery(name = "ViaPasajeros.findByPasPrefComi", query = "SELECT v FROM ViaPasajeros v WHERE v.pasPrefComi = :pasPrefComi")})
 public class ViaPasajeros implements Serializable {
+    @OneToMany(mappedBy = "pviId")
+    private Collection<ViaGastos> viaGastosCollection;
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @NotNull
@@ -197,6 +202,15 @@ public class ViaPasajeros implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.ViaPasajeros[ pviId=" + pviId + " ]";
+    }
+
+    @XmlTransient
+    public Collection<ViaGastos> getViaGastosCollection() {
+        return viaGastosCollection;
+    }
+
+    public void setViaGastosCollection(Collection<ViaGastos> viaGastosCollection) {
+        this.viaGastosCollection = viaGastosCollection;
     }
     
 }

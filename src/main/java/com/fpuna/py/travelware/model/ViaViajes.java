@@ -7,6 +7,7 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -16,6 +17,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -24,6 +27,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -41,8 +45,19 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ViaViajes.findByViaFecIns", query = "SELECT v FROM ViaViajes v WHERE v.viaFecIns = :viaFecIns"),
     @NamedQuery(name = "ViaViajes.findByViaUsuMod", query = "SELECT v FROM ViaViajes v WHERE v.viaUsuMod = :viaUsuMod"),
     @NamedQuery(name = "ViaViajes.findByViaFecMod", query = "SELECT v FROM ViaViajes v WHERE v.viaFecMod = :viaFecMod"),
-    @NamedQuery(name = "ViaViajes.findByViaCost", query = "SELECT v FROM ViaViajes v WHERE v.viaCost = :viaCost")})
+    @NamedQuery(name = "ViaViajes.findByViaCost", query = "SELECT v FROM ViaViajes v WHERE v.viaCost = :viaCost"),
+    @NamedQuery(name = "ViaViajes.findByViaCantTot", query = "SELECT v FROM ViaViajes v WHERE v.viaCantTot = :viaCantTot"),
+    @NamedQuery(name = "ViaViajes.findByViaCantVend", query = "SELECT v FROM ViaViajes v WHERE v.viaCantVend = :viaCantVend")})
 public class ViaViajes implements Serializable {
+    @JoinColumn(name = "mon_id", referencedColumnName = "mon_id")
+    @ManyToOne
+    private PgeMonedas monId;
+    @Column(name = "via_cant_vend")
+    private Integer viaCantVend;
+    @Column(name = "via_cant_tot")
+    private Integer viaCantTot;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaId")
+    private Collection<ViaViajesDet> viaViajesDetCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaId")
     private List<PagCobros> pagCobrosList;
     @OneToMany(mappedBy = "viaId")
@@ -225,6 +240,39 @@ public class ViaViajes implements Serializable {
 
     public void setPagCobrosList(List<PagCobros> pagCobrosList) {
         this.pagCobrosList = pagCobrosList;
+    }
+
+    public Integer getViaCantTot() {
+        return viaCantTot;
+    }
+
+    public void setViaCantTot(Integer viaCantTot) {
+        this.viaCantTot = viaCantTot;
+    }
+
+    @XmlTransient
+    public Collection<ViaViajesDet> getViaViajesDetCollection() {
+        return viaViajesDetCollection;
+    }
+
+    public void setViaViajesDetCollection(Collection<ViaViajesDet> viaViajesDetCollection) {
+        this.viaViajesDetCollection = viaViajesDetCollection;
+    }
+
+    public Integer getViaCantVend() {
+        return viaCantVend;
+    }
+
+    public void setViaCantVend(Integer viaCantVend) {
+        this.viaCantVend = viaCantVend;
+    }
+
+    public PgeMonedas getMonId() {
+        return monId;
+    }
+
+    public void setMonId(PgeMonedas monId) {
+        this.monId = monId;
     }
     
 }

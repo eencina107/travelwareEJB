@@ -8,6 +8,7 @@ package com.fpuna.py.travelware.model;
 import com.fpuna.py.travelware.model.ViaPasaportes;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -28,6 +29,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -50,6 +52,12 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgePersonas.findByPerFecMod", query = "SELECT p FROM PgePersonas p WHERE p.perFecMod = :perFecMod"),
     @NamedQuery(name = "PgePersonas.findByPerDoc", query = "SELECT p FROM PgePersonas p WHERE p.perDoc = :perDoc")})
 public class PgePersonas implements Serializable {
+    @OneToMany(mappedBy = "conIdPersonaCont")
+    private Collection<ConContactos> conContactosList;
+    @Column(name = "per_sex")
+    private Character perSex;
+    @OneToMany(mappedBy = "perId")
+    private Collection<ComProveedores> comProveedoresCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "perId")
     private List<PagCobros> pagCobrosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "perId")
@@ -336,5 +344,31 @@ public class PgePersonas implements Serializable {
 
     public void setPagCobrosList(List<PagCobros> pagCobrosList) {
         this.pagCobrosList = pagCobrosList;
+    }
+
+    @XmlTransient
+    public Collection<ComProveedores> getComProveedoresCollection() {
+        return comProveedoresCollection;
+    }
+
+    public void setComProveedoresCollection(Collection<ComProveedores> comProveedoresCollection) {
+        this.comProveedoresCollection = comProveedoresCollection;
+    }
+
+    public Character getPerSex() {
+        return perSex;
+    }
+
+    public void setPerSex(Character perSex) {
+        this.perSex = perSex;
+    }
+
+    @XmlTransient
+    public Collection<ConContactos> getConContactosList() {
+        return conContactosList;
+    }
+
+    public void setConContactosList(Collection<ConContactos> conContactosList) {
+        this.conContactosList = conContactosList;
     }
 }

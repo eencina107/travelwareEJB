@@ -6,7 +6,9 @@
 package com.fpuna.py.travelware.dao.impl;
 
 import com.fpuna.py.travelware.dao.PasaporteDao;
+import com.fpuna.py.travelware.model.PgePersonas;
 import com.fpuna.py.travelware.model.ViaPasaportes;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -83,13 +85,56 @@ public class PasaporteImpl implements PasaporteDao{
     }
 
     @Override
+    public List<ViaPasaportes> getAll(PgePersonas personaSelected) {
+        try {
+            return em.createQuery("select p from ViaPasaportes p WHERE p.perId=:perId").setParameter("perId", personaSelected).getResultList();
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getAll(personaSelected) ", e);
+            return null;
+        }
+    }
+    @Override
+    public Integer getCantPasaportes(PgePersonas personaSelected) {
+        try {
+            Long cant= (Long) em.createQuery("select COUNT(p) from ViaPasaportes p WHERE p.perId=:perId").setParameter("perId", personaSelected).getSingleResult();
+            return cant.intValue();
+        } catch (Exception e) {
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getCantPasaportes(personaSelected) "+ e);
+            return null;
+        }
+    }
+
+    @Override
     public ViaPasaportes getById(Integer id) {
         try {
             return em.find(ViaPasaportes.class, id);
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: getAll ", e);
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getById ", e);
             return null;
         }
     }
     
+    @Override
+    public Long getCantPasaportesVencidos(Date fecha) {
+        try {
+            return (Long) em.createQuery("SELECT COUNT(p) FROM ViaPasaportes p WHERE p.patFecVen >= :fecha")
+                    .setParameter("fecha", fecha)
+                    .getSingleResult();
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getCantPasaportesVencidos ", e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<ViaPasaportes> getListaVencidos(Date fecha) {
+        try {
+            return em.createQuery("SELECT p FROM ViaPasaportes p WHERE p.patFecVen <= :fecha")
+                    .setParameter("fecha", fecha)
+                    .getResultList();
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getCantPasaportesVencidos ", e);
+            return null;
+        }
+    }
 }

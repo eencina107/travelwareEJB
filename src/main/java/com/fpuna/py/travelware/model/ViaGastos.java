@@ -35,6 +35,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ViaGastos.findByGasTip", query = "SELECT v FROM ViaGastos v WHERE v.gasTip = :gasTip"),
     @NamedQuery(name = "ViaGastos.findByGasMonto", query = "SELECT v FROM ViaGastos v WHERE v.gasMonto = :gasMonto")})
 public class ViaGastos implements Serializable {
+    @JoinColumn(name = "con_id", referencedColumnName = "con_id")
+    @ManyToOne(optional = false)
+    private ViaConceptos conId;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -134,6 +137,14 @@ public class ViaGastos implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.ViaGastos[ gasId=" + gasId + " ]";
+    }
+
+    public ViaConceptos getConId() {
+        return conId;
+    }
+
+    public void setConId(ViaConceptos conId) {
+        this.conId = conId;
     }
     
 }

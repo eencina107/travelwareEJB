@@ -7,6 +7,7 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +28,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -47,6 +49,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PgeUsuarios.findByUsuFecMod", query = "SELECT p FROM PgeUsuarios p WHERE p.usuFecMod = :usuFecMod"),
     @NamedQuery(name = "PgeUsuarios.findByUsuPass", query = "SELECT p FROM PgeUsuarios p WHERE p.usuPass = :usuPass")})
 public class PgeUsuarios implements Serializable {
+    @OneToMany(mappedBy = "conIdUsuarioCont")
+    private Collection<ConContactos> conContactosList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -268,6 +272,15 @@ public class PgeUsuarios implements Serializable {
         }
         
         return menus;
+    }
+
+    @XmlTransient
+    public Collection<ConContactos> getConContactosList() {
+        return conContactosList;
+    }
+
+    public void setConContactosList(Collection<ConContactos> conContactosList) {
+        this.conContactosList = conContactosList;
     }
     
 }
