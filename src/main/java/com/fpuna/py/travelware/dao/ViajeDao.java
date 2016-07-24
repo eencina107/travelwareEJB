@@ -16,4 +16,5 @@ import java.util.List;
 public interface ViajeDao extends GenericDao<ViaViajes, Integer>{
     ViaViajes getByName(String value);
     List<ViaViajes> getAllDisp();
+    List<ViaViajes> getAllFuturos();
 }
