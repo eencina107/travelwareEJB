@@ -98,6 +98,16 @@ public class ViajeImpl implements ViajeDao{
     }
 
     @Override
+    public List<ViaViajes> getAllFuturos() {
+        try {
+            return em.createQuery("select v from ViaViajes v where v.viaCantTot > 0 and v.viaFecSali > current_timestamp").getResultList();
+        } catch (Exception e) {
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getAllDisp "+ e);
+            return null;
+        }
+    }
+
+    @Override
     public ViaViajes getByName(String value) {
         try {
             return (ViaViajes) em.createNamedQuery("ViaViajes.findByViaDesc").setParameter("viaDesc", value).getSingleResult();
