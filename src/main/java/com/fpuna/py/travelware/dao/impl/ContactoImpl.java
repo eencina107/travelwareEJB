@@ -8,8 +8,10 @@ package com.fpuna.py.travelware.dao.impl;
 import com.fpuna.py.travelware.dao.ContactoDao;
 import com.fpuna.py.travelware.model.ConContactos;
 import com.fpuna.py.travelware.model.PgeUsuarios;
+import javax.ejb.Stateless;
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
@@ -18,8 +20,9 @@ import org.apache.log4j.Logger;
  *
  * @author olimp
  */
+@Stateless
 public class ContactoImpl implements ContactoDao{
-    final static Logger logger = Logger.getLogger(PaisImpl.class);
+    final static Logger logger = Logger.getLogger(ContactoImpl.class);
     
     @PersistenceContext(unitName = "TravelwarePU")
     private EntityManager em;
