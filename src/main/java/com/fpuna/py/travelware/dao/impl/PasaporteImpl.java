@@ -113,11 +113,11 @@ public class PasaporteImpl implements PasaporteDao{
             return null;
         }
     }
-
+    
     @Override
     public Long getCantPasaportesVencidos(Date fecha) {
         try {
-            return (Long) em.createQuery("SELECT COUNT(p) FROM ViaPasaportes p WHERE p.patFecVen >= :fecha")
+            return (Long) em.createQuery("SELECT COUNT(p) FROM ViaPasaportes p WHERE p.patFecVen < :fecha")
                     .setParameter("fecha", fecha)
                     .getSingleResult();
         } catch (Exception e) {
@@ -129,13 +129,12 @@ public class PasaporteImpl implements PasaporteDao{
     @Override
     public List<ViaPasaportes> getListaVencidos(Date fecha) {
         try {
-            return em.createQuery("SELECT p FROM ViaPasaportes p WHERE p.patFecVen <= :fecha")
+            return em.createQuery("SELECT p FROM ViaPasaportes p WHERE p.patFecVen < :fecha")
                     .setParameter("fecha", fecha)
                     .getResultList();
         } catch (Exception e) {
-            logger.error("CLASS "+this.getClass().getName()+" METHOD: getCantPasaportesVencidos ", e);
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getListaVencidos ", e);
             return null;
         }
     }
-    
 }
