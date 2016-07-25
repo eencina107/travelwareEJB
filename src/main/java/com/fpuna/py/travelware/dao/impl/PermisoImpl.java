@@ -67,7 +67,7 @@ public class PermisoImpl implements PermisoDao{
             int submId = object.getPgeMenus().getMenSubId();
             
             em.remove(em.find(PgePermisos.class, object.getPrmId()));
-            em.getTransaction().commit();
+            em.flush();
             logger.info("Se elimina el permiso del rol con id:"+rolId+" sobre el menu:"+menuId+"-"+submId);
             return true;
         } catch (Exception e) {

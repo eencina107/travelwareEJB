@@ -89,6 +89,16 @@ public class UsuarioImpl implements UsuarioDao{
     }
     
     @Override
+    public List<PgeUsuarios> getAllTot() {
+        try {
+            return em.createQuery("SELECT u from PgeUsuarios u ").getResultList();
+        } catch (Exception e) {
+            logger.error("CLASS "+this.getClass().getName()+" METHOD: getAll ", e);
+            return null;
+        }
+    }
+    
+    @Override
     public PgeUsuarios autenticate (String username, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException{
         PgeUsuarios usuario;
         try{
