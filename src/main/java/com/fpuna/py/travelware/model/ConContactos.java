@@ -38,6 +38,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ConContactos.findByConObservacion", query = "SELECT c FROM ConContactos c WHERE c.conObservacion = :conObservacion"),
     @NamedQuery(name = "ConContactos.findByConEstado", query = "SELECT c FROM ConContactos c WHERE c.conEstado = :conEstado")})
 public class ConContactos implements Serializable {
+    @Column(name = "con_tipo")
+    private Character conTipo;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -147,6 +149,14 @@ public class ConContactos implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.ConContactos[ conId=" + conId + " ]";
+    }
+
+    public Character getConTipo() {
+        return conTipo;
+    }
+
+    public void setConTipo(Character conTipo) {
+        this.conTipo = conTipo;
     }
     
 }

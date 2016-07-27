@@ -52,6 +52,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PgePersonas.findByPerFecMod", query = "SELECT p FROM PgePersonas p WHERE p.perFecMod = :perFecMod"),
     @NamedQuery(name = "PgePersonas.findByPerDoc", query = "SELECT p FROM PgePersonas p WHERE p.perDoc = :perDoc")})
 public class PgePersonas implements Serializable {
+    @Size(max = 100)
+    @Column(name = "per_dir")
+    private String perDir;
+    @Size(max = 50)
+    @Column(name = "per_tel")
+    private String perTel;
     @OneToMany(mappedBy = "conIdPersonaCont")
     private Collection<ConContactos> conContactosList;
     @Column(name = "per_sex")
@@ -370,5 +376,21 @@ public class PgePersonas implements Serializable {
 
     public void setConContactosList(Collection<ConContactos> conContactosList) {
         this.conContactosList = conContactosList;
+    }
+
+    public String getPerDir() {
+        return perDir;
+    }
+
+    public void setPerDir(String perDir) {
+        this.perDir = perDir;
+    }
+
+    public String getPerTel() {
+        return perTel;
+    }
+
+    public void setPerTel(String perTel) {
+        this.perTel = perTel;
     }
 }

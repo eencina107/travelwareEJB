@@ -40,6 +40,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ViaViajesDet.findByVidCantVend", query = "SELECT v FROM ViaViajesDet v WHERE v.vidCantVend = :vidCantVend"),
     @NamedQuery(name = "ViaViajesDet.findByVidTip", query = "SELECT v FROM ViaViajesDet v WHERE v.vidTip = :vidTip")})
 public class ViaViajesDet implements Serializable {
+    @Size(max = 2147483647)
+    @Column(name = "vid_img")
+    private String vidImg;
     @Column(name = "vid_tip")
     private Character vidTip;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -229,6 +232,14 @@ public class ViaViajesDet implements Serializable {
 
     public void setVidTip(Character vidTip) {
         this.vidTip = vidTip;
+    }
+
+    public String getVidImg() {
+        return vidImg;
+    }
+
+    public void setVidImg(String vidImg) {
+        this.vidImg = vidImg;
     }
     
 }

@@ -49,6 +49,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ViaViajes.findByViaCantTot", query = "SELECT v FROM ViaViajes v WHERE v.viaCantTot = :viaCantTot"),
     @NamedQuery(name = "ViaViajes.findByViaCantVend", query = "SELECT v FROM ViaViajes v WHERE v.viaCantVend = :viaCantVend")})
 public class ViaViajes implements Serializable {
+    @Size(max = 2147483647)
+    @Column(name = "via_resumen")
+    private String viaResumen;
+    @Size(max = 2147483647)
+    @Column(name = "via_img")
+    private String viaImg;
     @JoinColumn(name = "mon_id", referencedColumnName = "mon_id")
     @ManyToOne
     private PgeMonedas monId;
@@ -273,6 +279,22 @@ public class ViaViajes implements Serializable {
 
     public void setMonId(PgeMonedas monId) {
         this.monId = monId;
+    }
+
+    public String getViaResumen() {
+        return viaResumen;
+    }
+
+    public void setViaResumen(String viaResumen) {
+        this.viaResumen = viaResumen;
+    }
+
+    public String getViaImg() {
+        return viaImg;
+    }
+
+    public void setViaImg(String viaImg) {
+        this.viaImg = viaImg;
     }
     
 }
