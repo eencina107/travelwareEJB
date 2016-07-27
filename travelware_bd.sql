@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.2
 -- Dumped by pg_dump version 9.5.2
 
--- Started on 2016-07-24 11:16:03
+-- Started on 2016-07-27 05:44:32
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -17,7 +17,7 @@ SET row_security = off;
 
 DROP DATABASE travelware;
 --
--- TOC entry 2738 (class 1262 OID 16393)
+-- TOC entry 2740 (class 1262 OID 16393)
 -- Name: travelware; Type: DATABASE; Schema: -; Owner: postgres
 --
 
@@ -47,7 +47,7 @@ CREATE SCHEMA public;
 ALTER SCHEMA public OWNER TO postgres;
 
 --
--- TOC entry 2739 (class 0 OID 0)
+-- TOC entry 2741 (class 0 OID 0)
 -- Dependencies: 7
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
 --
@@ -64,7 +64,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2741 (class 0 OID 0)
+-- TOC entry 2743 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -361,7 +361,9 @@ CREATE TABLE con_contactos (
     con_observacion text,
     con_id_usuario_cont integer,
     con_estado character(1),
-    CONSTRAINT contactos_ck01 CHECK (((con_estado = 'P'::bpchar) OR (con_estado = 'C'::bpchar) OR (con_estado = 'F'::bpchar)))
+    con_tipo character(1),
+    CONSTRAINT contactos_ck01 CHECK (((con_estado = 'P'::bpchar) OR (con_estado = 'C'::bpchar) OR (con_estado = 'F'::bpchar))),
+    CONSTRAINT contactos_ck02 CHECK (((con_tipo = 'D'::bpchar) OR (con_tipo = 'T'::bpchar) OR (con_tipo = 'E'::bpchar)))
 );
 
 
@@ -410,7 +412,7 @@ CREATE SEQUENCE pag_cobros_cob_id_seq
 ALTER TABLE pag_cobros_cob_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2742 (class 0 OID 0)
+-- TOC entry 2744 (class 0 OID 0)
 -- Dependencies: 182
 -- Name: pag_cobros_cob_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -466,7 +468,7 @@ CREATE SEQUENCE pag_comprobantes_com_id_tran_seq
 ALTER TABLE pag_comprobantes_com_id_tran_seq OWNER TO postgres;
 
 --
--- TOC entry 2743 (class 0 OID 0)
+-- TOC entry 2745 (class 0 OID 0)
 -- Dependencies: 184
 -- Name: pag_comprobantes_com_id_tran_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -515,7 +517,7 @@ CREATE SEQUENCE pag_comprobantes_det_com_det_id_seq
 ALTER TABLE pag_comprobantes_det_com_det_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2744 (class 0 OID 0)
+-- TOC entry 2746 (class 0 OID 0)
 -- Dependencies: 186
 -- Name: pag_comprobantes_det_com_det_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -559,7 +561,7 @@ CREATE SEQUENCE pge_atractivos_atr_id_seq
 ALTER TABLE pge_atractivos_atr_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2745 (class 0 OID 0)
+-- TOC entry 2747 (class 0 OID 0)
 -- Dependencies: 188
 -- Name: pge_atractivos_atr_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -583,7 +585,7 @@ CREATE SEQUENCE pge_atractivos_ciu_id_seq
 ALTER TABLE pge_atractivos_ciu_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2746 (class 0 OID 0)
+-- TOC entry 2748 (class 0 OID 0)
 -- Dependencies: 189
 -- Name: pge_atractivos_ciu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -644,7 +646,7 @@ CREATE SEQUENCE pge_ciudades_ciu_id_seq
 ALTER TABLE pge_ciudades_ciu_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2747 (class 0 OID 0)
+-- TOC entry 2749 (class 0 OID 0)
 -- Dependencies: 192
 -- Name: pge_ciudades_ciu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -668,7 +670,7 @@ CREATE SEQUENCE pge_ciudades_pai_id_seq
 ALTER TABLE pge_ciudades_pai_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2748 (class 0 OID 0)
+-- TOC entry 2750 (class 0 OID 0)
 -- Dependencies: 193
 -- Name: pge_ciudades_pai_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -711,7 +713,7 @@ CREATE SEQUENCE pge_cotizaciones_mon_id_seq
 ALTER TABLE pge_cotizaciones_mon_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2749 (class 0 OID 0)
+-- TOC entry 2751 (class 0 OID 0)
 -- Dependencies: 195
 -- Name: pge_cotizaciones_mon_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -760,7 +762,7 @@ CREATE SEQUENCE pge_datos_generales_gral_id_seq
 ALTER TABLE pge_datos_generales_gral_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2750 (class 0 OID 0)
+-- TOC entry 2752 (class 0 OID 0)
 -- Dependencies: 197
 -- Name: pge_datos_generales_gral_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -803,7 +805,7 @@ CREATE SEQUENCE pge_direcciones_dir_id_seq
 ALTER TABLE pge_direcciones_dir_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2751 (class 0 OID 0)
+-- TOC entry 2753 (class 0 OID 0)
 -- Dependencies: 199
 -- Name: pge_direcciones_dir_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -834,7 +836,7 @@ CREATE TABLE pge_menus (
 ALTER TABLE pge_menus OWNER TO postgres;
 
 --
--- TOC entry 2752 (class 0 OID 0)
+-- TOC entry 2754 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: COLUMN pge_menus.men_tipo; Type: COMMENT; Schema: public; Owner: postgres
 --
@@ -858,7 +860,7 @@ CREATE SEQUENCE pge_menus_men_cod_seq
 ALTER TABLE pge_menus_men_cod_seq OWNER TO postgres;
 
 --
--- TOC entry 2753 (class 0 OID 0)
+-- TOC entry 2755 (class 0 OID 0)
 -- Dependencies: 201
 -- Name: pge_menus_men_cod_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -901,7 +903,7 @@ CREATE SEQUENCE pge_modulos_mod_id_seq
 ALTER TABLE pge_modulos_mod_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2754 (class 0 OID 0)
+-- TOC entry 2756 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: pge_modulos_mod_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -944,7 +946,7 @@ CREATE SEQUENCE pge_monedas_mon_id_seq
 ALTER TABLE pge_monedas_mon_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2755 (class 0 OID 0)
+-- TOC entry 2757 (class 0 OID 0)
 -- Dependencies: 205
 -- Name: pge_monedas_mon_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -968,7 +970,7 @@ CREATE SEQUENCE pge_monedas_pai_id_seq
 ALTER TABLE pge_monedas_pai_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2756 (class 0 OID 0)
+-- TOC entry 2758 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: pge_monedas_pai_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1017,7 +1019,7 @@ CREATE SEQUENCE pge_organizaciones_ciu_id_seq
 ALTER TABLE pge_organizaciones_ciu_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2757 (class 0 OID 0)
+-- TOC entry 2759 (class 0 OID 0)
 -- Dependencies: 208
 -- Name: pge_organizaciones_ciu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1041,7 +1043,7 @@ CREATE SEQUENCE pge_organizaciones_org_id_seq
 ALTER TABLE pge_organizaciones_org_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2758 (class 0 OID 0)
+-- TOC entry 2760 (class 0 OID 0)
 -- Dependencies: 209
 -- Name: pge_organizaciones_org_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1084,7 +1086,7 @@ CREATE SEQUENCE pge_paises_pai_id_seq
 ALTER TABLE pge_paises_pai_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2759 (class 0 OID 0)
+-- TOC entry 2761 (class 0 OID 0)
 -- Dependencies: 211
 -- Name: pge_paises_pai_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1123,7 +1125,7 @@ CREATE SEQUENCE pge_permisos_prm_id_seq
 ALTER TABLE pge_permisos_prm_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2760 (class 0 OID 0)
+-- TOC entry 2762 (class 0 OID 0)
 -- Dependencies: 213
 -- Name: pge_permisos_prm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1152,6 +1154,8 @@ CREATE TABLE pge_personas (
     per_fec_mod timestamp without time zone DEFAULT now(),
     per_doc text,
     per_sex character(1),
+    per_dir character(100),
+    per_tel character(50),
     CONSTRAINT personas_ck01 CHECK (((per_sex = 'M'::bpchar) OR (per_sex = 'F'::bpchar)))
 );
 
@@ -1174,7 +1178,7 @@ CREATE SEQUENCE pge_personas_pai_id_seq
 ALTER TABLE pge_personas_pai_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2761 (class 0 OID 0)
+-- TOC entry 2763 (class 0 OID 0)
 -- Dependencies: 215
 -- Name: pge_personas_pai_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1198,7 +1202,7 @@ CREATE SEQUENCE pge_personas_per_id_seq
 ALTER TABLE pge_personas_per_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2762 (class 0 OID 0)
+-- TOC entry 2764 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: pge_personas_per_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1222,7 +1226,7 @@ CREATE SEQUENCE pge_personas_prf_id_seq
 ALTER TABLE pge_personas_prf_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2763 (class 0 OID 0)
+-- TOC entry 2765 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: pge_personas_prf_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1264,7 +1268,7 @@ CREATE SEQUENCE pge_profesiones_prf_id_seq
 ALTER TABLE pge_profesiones_prf_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2764 (class 0 OID 0)
+-- TOC entry 2766 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: pge_profesiones_prf_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1305,7 +1309,7 @@ CREATE SEQUENCE pge_roles_rol_id_seq
 ALTER TABLE pge_roles_rol_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2765 (class 0 OID 0)
+-- TOC entry 2767 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: pge_roles_rol_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1343,7 +1347,7 @@ CREATE SEQUENCE pge_secuencias_sec_id_seq
 ALTER TABLE pge_secuencias_sec_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2766 (class 0 OID 0)
+-- TOC entry 2768 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: pge_secuencias_sec_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1381,7 +1385,7 @@ CREATE SEQUENCE pge_tipo_org_tip_id_seq
 ALTER TABLE pge_tipo_org_tip_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2767 (class 0 OID 0)
+-- TOC entry 2769 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: pge_tipo_org_tip_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1423,7 +1427,7 @@ CREATE SEQUENCE pge_usu_roles_usu_rol_id_seq
 ALTER TABLE pge_usu_roles_usu_rol_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2768 (class 0 OID 0)
+-- TOC entry 2770 (class 0 OID 0)
 -- Dependencies: 227
 -- Name: pge_usu_roles_usu_rol_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1470,7 +1474,7 @@ CREATE SEQUENCE pge_usuarios_usu_id_seq
 ALTER TABLE pge_usuarios_usu_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2769 (class 0 OID 0)
+-- TOC entry 2771 (class 0 OID 0)
 -- Dependencies: 229
 -- Name: pge_usuarios_usu_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1515,7 +1519,7 @@ CREATE SEQUENCE via_actividades_act_id_seq
 ALTER TABLE via_actividades_act_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2770 (class 0 OID 0)
+-- TOC entry 2772 (class 0 OID 0)
 -- Dependencies: 231
 -- Name: via_actividades_act_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1611,7 +1615,7 @@ CREATE SEQUENCE via_fidelidades_fid_id_seq
 ALTER TABLE via_fidelidades_fid_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2771 (class 0 OID 0)
+-- TOC entry 2773 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: via_fidelidades_fid_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1653,7 +1657,7 @@ CREATE SEQUENCE via_gasto_gas_id_seq
 ALTER TABLE via_gasto_gas_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2772 (class 0 OID 0)
+-- TOC entry 2774 (class 0 OID 0)
 -- Dependencies: 236
 -- Name: via_gasto_gas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1699,7 +1703,7 @@ CREATE SEQUENCE via_pas_viajes_pvi_id_seq
 ALTER TABLE via_pas_viajes_pvi_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2773 (class 0 OID 0)
+-- TOC entry 2775 (class 0 OID 0)
 -- Dependencies: 238
 -- Name: via_pas_viajes_pvi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1743,7 +1747,7 @@ CREATE SEQUENCE via_pasaportes_pat_id_seq
 ALTER TABLE via_pasaportes_pat_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2774 (class 0 OID 0)
+-- TOC entry 2776 (class 0 OID 0)
 -- Dependencies: 240
 -- Name: via_pasaportes_pat_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1784,7 +1788,7 @@ CREATE SEQUENCE via_pre_viajes_pre_id_seq
 ALTER TABLE via_pre_viajes_pre_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2775 (class 0 OID 0)
+-- TOC entry 2777 (class 0 OID 0)
 -- Dependencies: 242
 -- Name: via_pre_viajes_pre_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1810,6 +1814,8 @@ CREATE TABLE via_viajes (
     via_cant_tot integer DEFAULT 0,
     via_cant_vend integer DEFAULT 0,
     mon_id integer,
+    via_resumen text,
+    via_img text,
     CONSTRAINT viajes_ck01 CHECK ((via_cant_tot >= 0)),
     CONSTRAINT viajes_ck02 CHECK (((via_cant_vend >= 0) AND (via_cant_vend <= via_cant_tot)))
 );
@@ -1852,6 +1858,7 @@ CREATE TABLE via_viajes_det (
     mon_id integer,
     vid_monto numeric(18,2),
     vid_tip character(1) DEFAULT 'I'::bpchar,
+    vid_img text,
     CONSTRAINT viajes_det_ck01 CHECK ((vid_cant_tot >= 0)),
     CONSTRAINT viajes_det_ck02 CHECK (((vid_cant_vend >= 0) AND (vid_cant_vend <= vid_cant_tot))),
     CONSTRAINT viajes_det_ck03 CHECK (((vid_tip = 'I'::bpchar) OR (vid_tip = 'N'::bpchar)))
@@ -1876,7 +1883,7 @@ CREATE SEQUENCE via_viajes_via_id_seq
 ALTER TABLE via_viajes_via_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2776 (class 0 OID 0)
+-- TOC entry 2778 (class 0 OID 0)
 -- Dependencies: 244
 -- Name: via_viajes_via_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1917,7 +1924,7 @@ CREATE SEQUENCE via_visas_vis_id_seq
 ALTER TABLE via_visas_vis_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2777 (class 0 OID 0)
+-- TOC entry 2779 (class 0 OID 0)
 -- Dependencies: 246
 -- Name: via_visas_vis_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -1926,7 +1933,7 @@ ALTER SEQUENCE via_visas_vis_id_seq OWNED BY via_visas.vis_id;
 
 
 --
--- TOC entry 2244 (class 2604 OID 17242)
+-- TOC entry 2245 (class 2604 OID 17242)
 -- Name: cob_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1934,7 +1941,7 @@ ALTER TABLE ONLY pag_cobros ALTER COLUMN cob_id SET DEFAULT nextval('pag_cobros_
 
 
 --
--- TOC entry 2245 (class 2604 OID 17243)
+-- TOC entry 2246 (class 2604 OID 17243)
 -- Name: com_id_tran; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1942,7 +1949,7 @@ ALTER TABLE ONLY pag_comprobantes ALTER COLUMN com_id_tran SET DEFAULT nextval('
 
 
 --
--- TOC entry 2248 (class 2604 OID 17244)
+-- TOC entry 2249 (class 2604 OID 17244)
 -- Name: com_det_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1950,7 +1957,7 @@ ALTER TABLE ONLY pag_comprobantes_det ALTER COLUMN com_det_id SET DEFAULT nextva
 
 
 --
--- TOC entry 2250 (class 2604 OID 17245)
+-- TOC entry 2251 (class 2604 OID 17245)
 -- Name: ciu_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1958,7 +1965,7 @@ ALTER TABLE ONLY pge_atractivos ALTER COLUMN ciu_id SET DEFAULT nextval('pge_atr
 
 
 --
--- TOC entry 2251 (class 2604 OID 17246)
+-- TOC entry 2252 (class 2604 OID 17246)
 -- Name: atr_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1966,7 +1973,7 @@ ALTER TABLE ONLY pge_atractivos ALTER COLUMN atr_id SET DEFAULT nextval('pge_atr
 
 
 --
--- TOC entry 2255 (class 2604 OID 17247)
+-- TOC entry 2256 (class 2604 OID 17247)
 -- Name: ciu_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1974,7 +1981,7 @@ ALTER TABLE ONLY pge_ciudades ALTER COLUMN ciu_id SET DEFAULT nextval('pge_ciuda
 
 
 --
--- TOC entry 2256 (class 2604 OID 17248)
+-- TOC entry 2257 (class 2604 OID 17248)
 -- Name: pai_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1982,7 +1989,7 @@ ALTER TABLE ONLY pge_ciudades ALTER COLUMN pai_id SET DEFAULT nextval('pge_ciuda
 
 
 --
--- TOC entry 2262 (class 2604 OID 17249)
+-- TOC entry 2263 (class 2604 OID 17249)
 -- Name: mon_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1990,7 +1997,7 @@ ALTER TABLE ONLY pge_cotizaciones ALTER COLUMN mon_id SET DEFAULT nextval('pge_c
 
 
 --
--- TOC entry 2263 (class 2604 OID 17250)
+-- TOC entry 2264 (class 2604 OID 17250)
 -- Name: gral_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1998,7 +2005,7 @@ ALTER TABLE ONLY pge_datos_generales ALTER COLUMN gral_id SET DEFAULT nextval('p
 
 
 --
--- TOC entry 2265 (class 2604 OID 17251)
+-- TOC entry 2266 (class 2604 OID 17251)
 -- Name: dir_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2006,7 +2013,7 @@ ALTER TABLE ONLY pge_direcciones ALTER COLUMN dir_id SET DEFAULT nextval('pge_di
 
 
 --
--- TOC entry 2267 (class 2604 OID 17252)
+-- TOC entry 2268 (class 2604 OID 17252)
 -- Name: men_cod; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2014,7 +2021,7 @@ ALTER TABLE ONLY pge_menus ALTER COLUMN men_cod SET DEFAULT nextval('pge_menus_m
 
 
 --
--- TOC entry 2271 (class 2604 OID 17253)
+-- TOC entry 2272 (class 2604 OID 17253)
 -- Name: mod_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2022,7 +2029,7 @@ ALTER TABLE ONLY pge_modulos ALTER COLUMN mod_id SET DEFAULT nextval('pge_modulo
 
 
 --
--- TOC entry 2273 (class 2604 OID 17254)
+-- TOC entry 2274 (class 2604 OID 17254)
 -- Name: mon_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2030,7 +2037,7 @@ ALTER TABLE ONLY pge_monedas ALTER COLUMN mon_id SET DEFAULT nextval('pge_moneda
 
 
 --
--- TOC entry 2274 (class 2604 OID 17255)
+-- TOC entry 2275 (class 2604 OID 17255)
 -- Name: pai_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2038,7 +2045,7 @@ ALTER TABLE ONLY pge_monedas ALTER COLUMN pai_id SET DEFAULT nextval('pge_moneda
 
 
 --
--- TOC entry 2277 (class 2604 OID 17256)
+-- TOC entry 2278 (class 2604 OID 17256)
 -- Name: org_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2046,7 +2053,7 @@ ALTER TABLE ONLY pge_organizaciones ALTER COLUMN org_id SET DEFAULT nextval('pge
 
 
 --
--- TOC entry 2278 (class 2604 OID 17257)
+-- TOC entry 2279 (class 2604 OID 17257)
 -- Name: ciu_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2054,7 +2061,7 @@ ALTER TABLE ONLY pge_organizaciones ALTER COLUMN ciu_id SET DEFAULT nextval('pge
 
 
 --
--- TOC entry 2280 (class 2604 OID 17258)
+-- TOC entry 2281 (class 2604 OID 17258)
 -- Name: pai_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2062,7 +2069,7 @@ ALTER TABLE ONLY pge_paises ALTER COLUMN pai_id SET DEFAULT nextval('pge_paises_
 
 
 --
--- TOC entry 2281 (class 2604 OID 17259)
+-- TOC entry 2282 (class 2604 OID 17259)
 -- Name: prm_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2070,7 +2077,7 @@ ALTER TABLE ONLY pge_permisos ALTER COLUMN prm_id SET DEFAULT nextval('pge_permi
 
 
 --
--- TOC entry 2284 (class 2604 OID 17260)
+-- TOC entry 2285 (class 2604 OID 17260)
 -- Name: per_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2078,7 +2085,7 @@ ALTER TABLE ONLY pge_personas ALTER COLUMN per_id SET DEFAULT nextval('pge_perso
 
 
 --
--- TOC entry 2285 (class 2604 OID 17261)
+-- TOC entry 2286 (class 2604 OID 17261)
 -- Name: pai_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2086,7 +2093,7 @@ ALTER TABLE ONLY pge_personas ALTER COLUMN pai_id SET DEFAULT nextval('pge_perso
 
 
 --
--- TOC entry 2286 (class 2604 OID 17262)
+-- TOC entry 2287 (class 2604 OID 17262)
 -- Name: prf_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2094,7 +2101,7 @@ ALTER TABLE ONLY pge_personas ALTER COLUMN prf_id SET DEFAULT nextval('pge_perso
 
 
 --
--- TOC entry 2289 (class 2604 OID 17263)
+-- TOC entry 2290 (class 2604 OID 17263)
 -- Name: prf_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2102,7 +2109,7 @@ ALTER TABLE ONLY pge_profesiones ALTER COLUMN prf_id SET DEFAULT nextval('pge_pr
 
 
 --
--- TOC entry 2291 (class 2604 OID 17264)
+-- TOC entry 2292 (class 2604 OID 17264)
 -- Name: rol_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2110,7 +2117,7 @@ ALTER TABLE ONLY pge_roles ALTER COLUMN rol_id SET DEFAULT nextval('pge_roles_ro
 
 
 --
--- TOC entry 2292 (class 2604 OID 17265)
+-- TOC entry 2293 (class 2604 OID 17265)
 -- Name: sec_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2118,7 +2125,7 @@ ALTER TABLE ONLY pge_secuencias ALTER COLUMN sec_id SET DEFAULT nextval('pge_sec
 
 
 --
--- TOC entry 2293 (class 2604 OID 17266)
+-- TOC entry 2294 (class 2604 OID 17266)
 -- Name: tip_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2126,7 +2133,7 @@ ALTER TABLE ONLY pge_tipo_org ALTER COLUMN tip_id SET DEFAULT nextval('pge_tipo_
 
 
 --
--- TOC entry 2295 (class 2604 OID 17267)
+-- TOC entry 2296 (class 2604 OID 17267)
 -- Name: usu_rol_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2134,7 +2141,7 @@ ALTER TABLE ONLY pge_usu_roles ALTER COLUMN usu_rol_id SET DEFAULT nextval('pge_
 
 
 --
--- TOC entry 2300 (class 2604 OID 17268)
+-- TOC entry 2301 (class 2604 OID 17268)
 -- Name: usu_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2142,7 +2149,7 @@ ALTER TABLE ONLY pge_usuarios ALTER COLUMN usu_id SET DEFAULT nextval('pge_usuar
 
 
 --
--- TOC entry 2304 (class 2604 OID 17269)
+-- TOC entry 2305 (class 2604 OID 17269)
 -- Name: act_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2150,7 +2157,7 @@ ALTER TABLE ONLY via_actividades ALTER COLUMN act_id SET DEFAULT nextval('via_ac
 
 
 --
--- TOC entry 2309 (class 2604 OID 17270)
+-- TOC entry 2310 (class 2604 OID 17270)
 -- Name: fid_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2158,7 +2165,7 @@ ALTER TABLE ONLY via_fidelidades ALTER COLUMN fid_id SET DEFAULT nextval('via_fi
 
 
 --
--- TOC entry 2310 (class 2604 OID 17271)
+-- TOC entry 2311 (class 2604 OID 17271)
 -- Name: gas_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2166,7 +2173,7 @@ ALTER TABLE ONLY via_gastos ALTER COLUMN gas_id SET DEFAULT nextval('via_gasto_g
 
 
 --
--- TOC entry 2314 (class 2604 OID 17272)
+-- TOC entry 2315 (class 2604 OID 17272)
 -- Name: pvi_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2174,7 +2181,7 @@ ALTER TABLE ONLY via_pasajeros ALTER COLUMN pvi_id SET DEFAULT nextval('via_pas_
 
 
 --
--- TOC entry 2318 (class 2604 OID 17273)
+-- TOC entry 2319 (class 2604 OID 17273)
 -- Name: pat_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2182,7 +2189,7 @@ ALTER TABLE ONLY via_pasaportes ALTER COLUMN pat_id SET DEFAULT nextval('via_pas
 
 
 --
--- TOC entry 2319 (class 2604 OID 17274)
+-- TOC entry 2320 (class 2604 OID 17274)
 -- Name: pre_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2190,7 +2197,7 @@ ALTER TABLE ONLY via_pre_viajes ALTER COLUMN pre_id SET DEFAULT nextval('via_pre
 
 
 --
--- TOC entry 2322 (class 2604 OID 17275)
+-- TOC entry 2323 (class 2604 OID 17275)
 -- Name: via_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2198,7 +2205,7 @@ ALTER TABLE ONLY via_viajes ALTER COLUMN via_id SET DEFAULT nextval('via_viajes_
 
 
 --
--- TOC entry 2327 (class 2604 OID 17276)
+-- TOC entry 2328 (class 2604 OID 17276)
 -- Name: vis_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2206,16 +2213,16 @@ ALTER TABLE ONLY via_visas ALTER COLUMN vis_id SET DEFAULT nextval('via_visas_vi
 
 
 --
--- TOC entry 2725 (class 0 OID 17642)
+-- TOC entry 2727 (class 0 OID 17642)
 -- Dependencies: 256
 -- Data for Name: com_cajas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO com_cajas (caj_id, caj_desc, caj_est, mon_id, caj_lim, caj_saldo, caj_usu_ins, caj_fec_ins, caj_usu_mod, caj_fec_mod) VALUES (1, 'Caja Chica - San Rafael Peregrinaciones SRL                                                         ', 'A', 6, 800000.00, 450000.00, 'damian    ', '2016-05-28 15:53:44.542677', 'damian    ', '2016-05-28 14:04:37.018');
+INSERT INTO com_cajas (caj_id, caj_desc, caj_est, mon_id, caj_lim, caj_saldo, caj_usu_ins, caj_fec_ins, caj_usu_mod, caj_fec_mod) VALUES (1, 'Caja Chica - San Rafael Peregrinaciones SRL                                                         ', 'A', 6, 900000.00, 450000.00, 'damian    ', '2016-05-28 15:53:44.542677', 'damian    ', '2016-07-25 14:13:06.235');
 
 
 --
--- TOC entry 2778 (class 0 OID 0)
+-- TOC entry 2780 (class 0 OID 0)
 -- Dependencies: 255
 -- Name: com_cajas_caj_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2224,7 +2231,7 @@ SELECT pg_catalog.setval('com_cajas_caj_id_seq', 1, true);
 
 
 --
--- TOC entry 2720 (class 0 OID 17578)
+-- TOC entry 2722 (class 0 OID 17578)
 -- Dependencies: 251
 -- Data for Name: com_facturas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2232,14 +2239,17 @@ SELECT pg_catalog.setval('com_cajas_caj_id_seq', 1, true);
 INSERT INTO com_facturas (fac_id, pro_id, fac_nro, fac_fecha, mon_id, fac_cambio, fac_tip, fac_iva_inc, fac_total, fac_desc, fac_est, fac_nro_tim, fac_fec_ven, fac_cond, fac_ruc, fac_saldo, fac_can_cuo, fac_img, fac_usu_ins, fac_fec_ins, fac_usu_mod, fac_fec_mod) VALUES (2, 2, '001-001-0000002     ', '2016-05-10', 3, 450.00, NULL, NULL, 55000.00, 'Fact. Nro. 2 de prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ', 'I', '11564400       ', '2016-05-31', 'C', NULL, 55000.00, 0, NULL, 'damian    ', '2016-05-12 18:04:20.552', 'damian    ', '2016-05-13 10:17:27.606');
 INSERT INTO com_facturas (fac_id, pro_id, fac_nro, fac_fecha, mon_id, fac_cambio, fac_tip, fac_iva_inc, fac_total, fac_desc, fac_est, fac_nro_tim, fac_fec_ven, fac_cond, fac_ruc, fac_saldo, fac_can_cuo, fac_img, fac_usu_ins, fac_fec_ins, fac_usu_mod, fac_fec_mod) VALUES (5, 2, '001-001-0000004     ', '2016-05-13', 6, 1.00, NULL, NULL, 55000.00, 'Fact. Nro. 4 de prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ', 'P', '11564400       ', '2016-05-31', 'C', NULL, 0.00, 0, NULL, 'damian    ', '2016-05-13 17:21:24.256', NULL, NULL);
 INSERT INTO com_facturas (fac_id, pro_id, fac_nro, fac_fecha, mon_id, fac_cambio, fac_tip, fac_iva_inc, fac_total, fac_desc, fac_est, fac_nro_tim, fac_fec_ven, fac_cond, fac_ruc, fac_saldo, fac_can_cuo, fac_img, fac_usu_ins, fac_fec_ins, fac_usu_mod, fac_fec_mod) VALUES (4, 2, '001-001-0000003     ', '2016-05-06', 6, 1.00, NULL, NULL, 220000.00, 'Fact. Nro. 3 de prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ', 'P', '11564400       ', '2016-05-31', 'R', NULL, 0.00, 2, NULL, 'damian    ', '2016-05-13 14:55:59.136', NULL, NULL);
-INSERT INTO com_facturas (fac_id, pro_id, fac_nro, fac_fecha, mon_id, fac_cambio, fac_tip, fac_iva_inc, fac_total, fac_desc, fac_est, fac_nro_tim, fac_fec_ven, fac_cond, fac_ruc, fac_saldo, fac_can_cuo, fac_img, fac_usu_ins, fac_fec_ins, fac_usu_mod, fac_fec_mod) VALUES (1, 2, '001-001-0000001     ', '2016-06-01', 5, 2500.00, NULL, NULL, 110000.00, 'Fact. Nro. 1 de prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ', 'I', '11564400       ', '2016-07-31', 'C', NULL, 80000.00, 0, NULL, 'damian    ', '2016-05-12 17:29:37.422', 'damian    ', '2016-05-22 17:03:05.345');
+INSERT INTO com_facturas (fac_id, pro_id, fac_nro, fac_fecha, mon_id, fac_cambio, fac_tip, fac_iva_inc, fac_total, fac_desc, fac_est, fac_nro_tim, fac_fec_ven, fac_cond, fac_ruc, fac_saldo, fac_can_cuo, fac_img, fac_usu_ins, fac_fec_ins, fac_usu_mod, fac_fec_mod) VALUES (12, 1, '001-001-0000001     ', '2016-07-04', 6, 1.00, NULL, NULL, 27500.00, 'Fact. Nro. 1 de prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ', 'I', '321            ', '2016-08-31', 'C', NULL, 27500.00, 2, NULL, 'damian    ', '2016-07-25 20:31:37.268', NULL, NULL);
 INSERT INTO com_facturas (fac_id, pro_id, fac_nro, fac_fecha, mon_id, fac_cambio, fac_tip, fac_iva_inc, fac_total, fac_desc, fac_est, fac_nro_tim, fac_fec_ven, fac_cond, fac_ruc, fac_saldo, fac_can_cuo, fac_img, fac_usu_ins, fac_fec_ins, fac_usu_mod, fac_fec_mod) VALUES (6, 2, '001-001-0000005     ', '2016-07-01', 3, 540.00, NULL, NULL, 250000.00, 'Fact. Nro. 5 de prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ', 'I', '11564400       ', '2016-07-31', 'C', NULL, 200000.00, 1, NULL, 'damian    ', '2016-07-09 10:07:20.155', NULL, NULL);
 INSERT INTO com_facturas (fac_id, pro_id, fac_nro, fac_fecha, mon_id, fac_cambio, fac_tip, fac_iva_inc, fac_total, fac_desc, fac_est, fac_nro_tim, fac_fec_ven, fac_cond, fac_ruc, fac_saldo, fac_can_cuo, fac_img, fac_usu_ins, fac_fec_ins, fac_usu_mod, fac_fec_mod) VALUES (7, 2, '001-001-0000006     ', '2016-07-07', 6, 1.00, NULL, NULL, 420000.00, 'Fact. Nro. 6 de prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ', 'I', '11564400       ', '2016-07-31', 'R', NULL, 420000.00, 10, NULL, 'damian    ', '2016-07-09 10:15:46.683', NULL, NULL);
+INSERT INTO com_facturas (fac_id, pro_id, fac_nro, fac_fecha, mon_id, fac_cambio, fac_tip, fac_iva_inc, fac_total, fac_desc, fac_est, fac_nro_tim, fac_fec_ven, fac_cond, fac_ruc, fac_saldo, fac_can_cuo, fac_img, fac_usu_ins, fac_fec_ins, fac_usu_mod, fac_fec_mod) VALUES (1, 2, '001-001-0000001     ', '2016-06-01', 5, 2500.00, NULL, NULL, 110000.00, 'Fact. Nro. 1 de prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ', 'I', '11564400       ', '2016-07-31', 'C', NULL, 79900.00, 0, NULL, 'damian    ', '2016-05-12 17:29:37.422', 'damian    ', '2016-05-22 17:03:05.345');
 INSERT INTO com_facturas (fac_id, pro_id, fac_nro, fac_fecha, mon_id, fac_cambio, fac_tip, fac_iva_inc, fac_total, fac_desc, fac_est, fac_nro_tim, fac_fec_ven, fac_cond, fac_ruc, fac_saldo, fac_can_cuo, fac_img, fac_usu_ins, fac_fec_ins, fac_usu_mod, fac_fec_mod) VALUES (9, 2, '001-001-0000007     ', '2016-07-01', 7, 4500.00, NULL, NULL, 100000.00, 'Paquete turistico a Disney                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ', 'I', '11             ', '2016-10-31', 'R', NULL, 100000.00, 10, NULL, 'damian    ', '2016-07-11 20:55:24.278', NULL, NULL);
+INSERT INTO com_facturas (fac_id, pro_id, fac_nro, fac_fecha, mon_id, fac_cambio, fac_tip, fac_iva_inc, fac_total, fac_desc, fac_est, fac_nro_tim, fac_fec_ven, fac_cond, fac_ruc, fac_saldo, fac_can_cuo, fac_img, fac_usu_ins, fac_fec_ins, fac_usu_mod, fac_fec_mod) VALUES (11, 5, '001-001-0000002     ', '2016-07-05', 5, 2500.00, NULL, NULL, 200000.00, 'Fact. Nro. 2 de prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ', 'I', '11564400       ', '2016-10-31', 'C', NULL, 200000.00, 6, NULL, 'damian    ', '2016-07-25 19:45:34.21', 'damian    ', '2016-07-25 20:22:07.104');
+INSERT INTO com_facturas (fac_id, pro_id, fac_nro, fac_fecha, mon_id, fac_cambio, fac_tip, fac_iva_inc, fac_total, fac_desc, fac_est, fac_nro_tim, fac_fec_ven, fac_cond, fac_ruc, fac_saldo, fac_can_cuo, fac_img, fac_usu_ins, fac_fec_ins, fac_usu_mod, fac_fec_mod) VALUES (13, 1, '001-001-0000002     ', '2016-07-19', 6, 1.00, NULL, NULL, 27500.00, 'Fact. Nro. 2 de prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ', 'I', '321            ', '2016-08-31', 'C', NULL, 27500.00, 1, NULL, 'damian    ', '2016-07-25 20:35:35.19', 'damian    ', '2016-07-25 21:16:44.145');
 
 
 --
--- TOC entry 2721 (class 0 OID 17602)
+-- TOC entry 2723 (class 0 OID 17602)
 -- Dependencies: 252
 -- Data for Name: com_facturas_det; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2253,7 +2263,7 @@ INSERT INTO com_facturas_det (fac_id, fad_id, fad_nro_sec, fad_desc, art_id, fad
 
 
 --
--- TOC entry 2779 (class 0 OID 0)
+-- TOC entry 2781 (class 0 OID 0)
 -- Dependencies: 250
 -- Name: com_facturas_det_fad_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2262,16 +2272,16 @@ SELECT pg_catalog.setval('com_facturas_det_fad_id_seq', 11, true);
 
 
 --
--- TOC entry 2780 (class 0 OID 0)
+-- TOC entry 2782 (class 0 OID 0)
 -- Dependencies: 249
 -- Name: com_facturas_fac_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('com_facturas_fac_id_seq', 9, true);
+SELECT pg_catalog.setval('com_facturas_fac_id_seq', 13, true);
 
 
 --
--- TOC entry 2727 (class 0 OID 17682)
+-- TOC entry 2729 (class 0 OID 17682)
 -- Dependencies: 258
 -- Data for Name: com_mov_cajas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2282,19 +2292,21 @@ INSERT INTO com_mov_cajas (mov_id, caj_id, mon_id, mov_cambio, mov_for_pago, mov
 INSERT INTO com_mov_cajas (mov_id, caj_id, mon_id, mov_cambio, mov_for_pago, mov_monto, mov_tip, mov_observacion, mov_monto_letras, mov_anulado, mov_usu_ins, mov_fec_ins, mov_usu_mod, mov_fec_mod) VALUES (4, 1, 6, 1.00, 'EFE', 800000.00, 'C', 'Reposicion de caja chica', 'ochocientos mil 00/100 Guaraníes.', 'N', 'damian    ', '2016-05-29 21:26:02.462', NULL, NULL);
 INSERT INTO com_mov_cajas (mov_id, caj_id, mon_id, mov_cambio, mov_for_pago, mov_monto, mov_tip, mov_observacion, mov_monto_letras, mov_anulado, mov_usu_ins, mov_fec_ins, mov_usu_mod, mov_fec_mod) VALUES (5, 1, 6, 1.00, 'EFE', 200000.00, 'D', 'Compra de tinta', 'doscientos mil 00/100 Guaraníes.', 'N', 'damian    ', '2016-05-29 21:39:12.686', NULL, NULL);
 INSERT INTO com_mov_cajas (mov_id, caj_id, mon_id, mov_cambio, mov_for_pago, mov_monto, mov_tip, mov_observacion, mov_monto_letras, mov_anulado, mov_usu_ins, mov_fec_ins, mov_usu_mod, mov_fec_mod) VALUES (6, 1, 6, 1.00, 'CHE', 150000.00, 'D', 'Compra de papel', 'ciento cincuenta mil 00/100 Guaraníes.', 'N', 'damian    ', '2016-06-23 20:37:24.104', NULL, NULL);
+INSERT INTO com_mov_cajas (mov_id, caj_id, mon_id, mov_cambio, mov_for_pago, mov_monto, mov_tip, mov_observacion, mov_monto_letras, mov_anulado, mov_usu_ins, mov_fec_ins, mov_usu_mod, mov_fec_mod) VALUES (7, 1, 6, 1.00, 'EFE', 100000.00, 'D', 'prueba', ' cien mil 00/100 Guaraníes.', 'S', 'damian    ', '2016-07-25 14:18:41.705', NULL, NULL);
+INSERT INTO com_mov_cajas (mov_id, caj_id, mon_id, mov_cambio, mov_for_pago, mov_monto, mov_tip, mov_observacion, mov_monto_letras, mov_anulado, mov_usu_ins, mov_fec_ins, mov_usu_mod, mov_fec_mod) VALUES (8, 1, 6, 1.00, 'EFE', 100000.00, 'C', 'preua', ' cien mil 00/100 Guaraníes.', 'S', 'damian    ', '2016-07-25 14:21:24.767', NULL, NULL);
 
 
 --
--- TOC entry 2781 (class 0 OID 0)
+-- TOC entry 2783 (class 0 OID 0)
 -- Dependencies: 257
 -- Name: com_mov_cajas_mov_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('com_mov_cajas_mov_id_seq', 6, true);
+SELECT pg_catalog.setval('com_mov_cajas_mov_id_seq', 8, true);
 
 
 --
--- TOC entry 2723 (class 0 OID 17617)
+-- TOC entry 2725 (class 0 OID 17617)
 -- Dependencies: 254
 -- Data for Name: com_pagos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2313,80 +2325,89 @@ INSERT INTO com_pagos (pgo_id, fac_id, pgo_tipo, pgo_nro, mon_id, pgo_cambio, pg
 INSERT INTO com_pagos (pgo_id, fac_id, pgo_tipo, pgo_nro, mon_id, pgo_cambio, pgo_monto, pgo_for_pago, pgo_observacion, pgo_anulado, pgo_usu_ins, pgo_fec_ins, pgo_usu_mod, pgo_fec_mod, pgo_monto_letras) VALUES (12, 1, 'CTA', '456789         ', 5, 1.00, 10000.00, 'EFE', 'prueba pago 2', 'N', 'damian    ', '2016-07-09 09:14:47.433', NULL, NULL, 'diez mil 00/100 Guaraníes.');
 INSERT INTO com_pagos (pgo_id, fac_id, pgo_tipo, pgo_nro, mon_id, pgo_cambio, pgo_monto, pgo_for_pago, pgo_observacion, pgo_anulado, pgo_usu_ins, pgo_fec_ins, pgo_usu_mod, pgo_fec_mod, pgo_monto_letras) VALUES (13, 1, 'CTA', '1              ', 5, 2500.00, 10000.00, 'EFE', 'prueba pago 3', 'N', 'damian    ', '2016-07-09 10:03:14.485', NULL, NULL, 'diez mil 00/100 Guaraníes.');
 INSERT INTO com_pagos (pgo_id, fac_id, pgo_tipo, pgo_nro, mon_id, pgo_cambio, pgo_monto, pgo_for_pago, pgo_observacion, pgo_anulado, pgo_usu_ins, pgo_fec_ins, pgo_usu_mod, pgo_fec_mod, pgo_monto_letras) VALUES (14, 6, 'CTA', '1              ', 3, 2500.00, 50000.00, 'EFE', 'prueba pago 1 fact. 5', 'N', 'damian    ', '2016-07-09 10:14:21.912', NULL, NULL, 'cincuenta mil 00/100 Guaraníes.');
-
-
---
--- TOC entry 2782 (class 0 OID 0)
--- Dependencies: 253
--- Name: com_pagos_pgo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('com_pagos_pgo_id_seq', 14, true);
-
-
---
--- TOC entry 2717 (class 0 OID 17550)
--- Dependencies: 248
--- Data for Name: com_proveedores; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO com_proveedores (pro_id, pro_desc, pro_est, per_id, org_id, pro_nro_tim, pro_fec_ven, pro_usu_ins, pro_fec_ins, pro_usu_mod, pro_fec_mod) VALUES (1, 'Eduardo                                                     ', 'A', 2, NULL, '12345          ', '2016-06-30', 'eduardo   ', '2016-05-11 16:14:44.785544', 'eduardo   ', '2016-05-11 17:25:27.956');
-INSERT INTO com_proveedores (pro_id, pro_desc, pro_est, per_id, org_id, pro_nro_tim, pro_fec_ven, pro_usu_ins, pro_fec_ins, pro_usu_mod, pro_fec_mod) VALUES (4, 'Ngesas                                                      ', 'A', 5, 5, '               ', NULL, 'eduardo   ', '2016-05-11 17:23:38.664', 'eduardo   ', '2016-05-11 20:30:38.196');
-INSERT INTO com_proveedores (pro_id, pro_desc, pro_est, per_id, org_id, pro_nro_tim, pro_fec_ven, pro_usu_ins, pro_fec_ins, pro_usu_mod, pro_fec_mod) VALUES (2, 'Damian                                                      ', 'A', 1, NULL, '654321         ', '2016-10-31', 'eduardo   ', '2016-05-11 16:25:23.313', 'damian    ', '2016-05-13 10:31:13.515');
-INSERT INTO com_proveedores (pro_id, pro_desc, pro_est, per_id, org_id, pro_nro_tim, pro_fec_ven, pro_usu_ins, pro_fec_ins, pro_usu_mod, pro_fec_mod) VALUES (5, 'Kudsa                                                       ', 'A', NULL, 13, '666555         ', '2016-12-31', 'eduardo   ', '2016-05-11 20:24:25.781', 'damian    ', '2016-05-13 10:36:38.297');
-
-
---
--- TOC entry 2783 (class 0 OID 0)
--- Dependencies: 247
--- Name: com_proveedores_pro_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('com_proveedores_pro_id_seq', 5, true);
-
-
---
--- TOC entry 2733 (class 0 OID 17839)
--- Dependencies: 264
--- Data for Name: con_contactos; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO con_contactos (con_id, con_fecha_contacto, con_id_persona_cont, con_exito, con_observacion, con_id_usuario_cont, con_estado) VALUES (1, '2016-07-22', 5, NULL, 'Llamar a ofrecer paquete.', 1, 'P');
-INSERT INTO con_contactos (con_id, con_fecha_contacto, con_id_persona_cont, con_exito, con_observacion, con_id_usuario_cont, con_estado) VALUES (3, '2016-07-22', 6, false, 'Debe actualizar su pasaporte. OK', 1, 'C');
-INSERT INTO con_contactos (con_id, con_fecha_contacto, con_id_persona_cont, con_exito, con_observacion, con_id_usuario_cont, con_estado) VALUES (4, '2016-07-22', 1, false, 'Requerir cobro. Hecho', 1, 'C');
+INSERT INTO com_pagos (pgo_id, fac_id, pgo_tipo, pgo_nro, mon_id, pgo_cambio, pgo_monto, pgo_for_pago, pgo_observacion, pgo_anulado, pgo_usu_ins, pgo_fec_ins, pgo_usu_mod, pgo_fec_mod, pgo_monto_letras) VALUES (15, 1, 'CTA', '1              ', 5, 2500.00, 100.00, 'CHE', 'pago de prueba', 'S', 'damian    ', '2016-07-25 14:08:16.031', NULL, NULL, ' cien 00/100 Guaraníes.');
 
 
 --
 -- TOC entry 2784 (class 0 OID 0)
--- Dependencies: 263
--- Name: con_contactos_con_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Dependencies: 253
+-- Name: com_pagos_pgo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('con_contactos_con_id_seq', 4, true);
+SELECT pg_catalog.setval('com_pagos_pgo_id_seq', 15, true);
 
 
 --
--- TOC entry 2650 (class 0 OID 16988)
--- Dependencies: 181
--- Data for Name: pag_cobros; Type: TABLE DATA; Schema: public; Owner: postgres
+-- TOC entry 2719 (class 0 OID 17550)
+-- Dependencies: 248
+-- Data for Name: com_proveedores; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO pag_cobros (cob_id, per_id, via_id, cob_tipo, cob_nro, mon_id, cob_cambio, cob_monto, cob_for_pago, cob_observacion, cob_anulado, cob_usu_ins, cob_fec_ins, cob_usu_mod, cob_fec_mod, cob_monto_letras) VALUES (4, 1, 2, 'CTA', '1              ', 3, 18.33, 5120.00, 'EFE', 'sdkjfdg', 'N', 'eduardo   ', '2016-01-26 15:57:05.084', 'damian    ', '2016-05-12 17:49:32.62', 'cinco mil ciento veinte 00/100 Guaraníes.');
-INSERT INTO pag_cobros (cob_id, per_id, via_id, cob_tipo, cob_nro, mon_id, cob_cambio, cob_monto, cob_for_pago, cob_observacion, cob_anulado, cob_usu_ins, cob_fec_ins, cob_usu_mod, cob_fec_mod, cob_monto_letras) VALUES (5, 1, 2, 'CTA', '1              ', 3, 450.00, 100.00, 'EFE', 'pago 2', 'N', 'damian    ', '2016-05-12 20:11:30.219', NULL, NULL, ' cien 00/100 Guaraníes.');
-INSERT INTO pag_cobros (cob_id, per_id, via_id, cob_tipo, cob_nro, mon_id, cob_cambio, cob_monto, cob_for_pago, cob_observacion, cob_anulado, cob_usu_ins, cob_fec_ins, cob_usu_mod, cob_fec_mod, cob_monto_letras) VALUES (6, 1, 2, 'CTA', '12             ', 3, 450.00, 50.00, 'EFE', 'pago 3', 'N', 'damian    ', '2016-05-12 20:12:02.162', NULL, NULL, 'cincuenta 00/100 Guaraníes.');
+INSERT INTO com_proveedores (pro_id, pro_desc, pro_est, per_id, org_id, pro_nro_tim, pro_fec_ven, pro_usu_ins, pro_fec_ins, pro_usu_mod, pro_fec_mod) VALUES (2, 'Damian                                                      ', 'A', 1, NULL, '654321         ', '2016-10-31', 'eduardo   ', '2016-05-11 16:25:23.313', 'damian    ', '2016-05-13 10:31:13.515');
+INSERT INTO com_proveedores (pro_id, pro_desc, pro_est, per_id, org_id, pro_nro_tim, pro_fec_ven, pro_usu_ins, pro_fec_ins, pro_usu_mod, pro_fec_mod) VALUES (5, 'Kudsa                                                       ', 'A', NULL, 13, '666555         ', '2016-12-31', 'eduardo   ', '2016-05-11 20:24:25.781', 'damian    ', '2016-05-13 10:36:38.297');
+INSERT INTO com_proveedores (pro_id, pro_desc, pro_est, per_id, org_id, pro_nro_tim, pro_fec_ven, pro_usu_ins, pro_fec_ins, pro_usu_mod, pro_fec_mod) VALUES (1, 'Eduardo                                                     ', 'A', 2, NULL, '12345          ', '2017-06-30', 'eduardo   ', '2016-05-11 16:14:44.785544', 'damian    ', '2016-07-25 10:20:41.809');
 
 
 --
 -- TOC entry 2785 (class 0 OID 0)
+-- Dependencies: 247
+-- Name: com_proveedores_pro_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('com_proveedores_pro_id_seq', 9, true);
+
+
+--
+-- TOC entry 2735 (class 0 OID 17839)
+-- Dependencies: 264
+-- Data for Name: con_contactos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO con_contactos (con_id, con_fecha_contacto, con_id_persona_cont, con_exito, con_observacion, con_id_usuario_cont, con_estado, con_tipo) VALUES (6, '2016-07-24', 1, false, 'prueba', 4, 'P', NULL);
+INSERT INTO con_contactos (con_id, con_fecha_contacto, con_id_persona_cont, con_exito, con_observacion, con_id_usuario_cont, con_estado, con_tipo) VALUES (9, '2016-07-26', 1, false, 'prueba', 1, 'P', NULL);
+INSERT INTO con_contactos (con_id, con_fecha_contacto, con_id_persona_cont, con_exito, con_observacion, con_id_usuario_cont, con_estado, con_tipo) VALUES (11, '2016-07-27', 7, false, 'Pasar a cobrar', 2, 'P', 'D');
+INSERT INTO con_contactos (con_id, con_fecha_contacto, con_id_persona_cont, con_exito, con_observacion, con_id_usuario_cont, con_estado, con_tipo) VALUES (7, '2016-07-25', 2, false, 'llamar a requerir', 2, 'C', 'T');
+INSERT INTO con_contactos (con_id, con_fecha_contacto, con_id_persona_cont, con_exito, con_observacion, con_id_usuario_cont, con_estado, con_tipo) VALUES (5, '2016-07-24', 5, false, 'llamar a requerir', 1, 'P', 'T');
+INSERT INTO con_contactos (con_id, con_fecha_contacto, con_id_persona_cont, con_exito, con_observacion, con_id_usuario_cont, con_estado, con_tipo) VALUES (1, '2016-07-22', 5, NULL, 'Llamar a ofrecer paquete.', 1, 'C', 'T');
+INSERT INTO con_contactos (con_id, con_fecha_contacto, con_id_persona_cont, con_exito, con_observacion, con_id_usuario_cont, con_estado, con_tipo) VALUES (3, '2016-07-22', 6, false, 'Debe actualizar su pasaporte. OK', 1, 'C', 'T');
+INSERT INTO con_contactos (con_id, con_fecha_contacto, con_id_persona_cont, con_exito, con_observacion, con_id_usuario_cont, con_estado, con_tipo) VALUES (4, '2016-07-22', 1, false, 'Requerir cobro. Hecho', 1, 'C', 'D');
+INSERT INTO con_contactos (con_id, con_fecha_contacto, con_id_persona_cont, con_exito, con_observacion, con_id_usuario_cont, con_estado, con_tipo) VALUES (10, '2016-07-27', 1, false, 'Visitar al cliente para ofrecer paquete.
+Ya realizo varios viajes previos.', 1, 'P', 'D');
+
+
+--
+-- TOC entry 2786 (class 0 OID 0)
+-- Dependencies: 263
+-- Name: con_contactos_con_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('con_contactos_con_id_seq', 11, true);
+
+
+--
+-- TOC entry 2652 (class 0 OID 16988)
+-- Dependencies: 181
+-- Data for Name: pag_cobros; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO pag_cobros (cob_id, per_id, via_id, cob_tipo, cob_nro, mon_id, cob_cambio, cob_monto, cob_for_pago, cob_observacion, cob_anulado, cob_usu_ins, cob_fec_ins, cob_usu_mod, cob_fec_mod, cob_monto_letras) VALUES (5, 1, 2, 'CTA', '1              ', 3, 450.00, 100.00, 'EFE', 'pago 2', 'N', 'damian    ', '2016-05-12 20:11:30.219', NULL, NULL, ' cien 00/100 Guaraníes.');
+INSERT INTO pag_cobros (cob_id, per_id, via_id, cob_tipo, cob_nro, mon_id, cob_cambio, cob_monto, cob_for_pago, cob_observacion, cob_anulado, cob_usu_ins, cob_fec_ins, cob_usu_mod, cob_fec_mod, cob_monto_letras) VALUES (6, 1, 2, 'CTA', '12             ', 3, 450.00, 50.00, 'EFE', 'pago 3', 'N', 'damian    ', '2016-05-12 20:12:02.162', NULL, NULL, 'cincuenta 00/100 Guaraníes.');
+INSERT INTO pag_cobros (cob_id, per_id, via_id, cob_tipo, cob_nro, mon_id, cob_cambio, cob_monto, cob_for_pago, cob_observacion, cob_anulado, cob_usu_ins, cob_fec_ins, cob_usu_mod, cob_fec_mod, cob_monto_letras) VALUES (7, 2, 5, 'CTA', '1              ', 7, 4500.00, 500.00, 'EFE', 'pago 1', 'N', 'damian    ', '2016-07-24 20:58:46.51', NULL, NULL, 'quinientos 00/100 Guaraníes.');
+INSERT INTO pag_cobros (cob_id, per_id, via_id, cob_tipo, cob_nro, mon_id, cob_cambio, cob_monto, cob_for_pago, cob_observacion, cob_anulado, cob_usu_ins, cob_fec_ins, cob_usu_mod, cob_fec_mod, cob_monto_letras) VALUES (8, 1, 5, 'CTA', '1              ', 7, 4500.00, 200.00, 'EFE', 'pago 1 damian', 'N', 'damian    ', '2016-07-24 21:03:19.747', NULL, NULL, 'doscientos 00/100 Guaraníes.');
+INSERT INTO pag_cobros (cob_id, per_id, via_id, cob_tipo, cob_nro, mon_id, cob_cambio, cob_monto, cob_for_pago, cob_observacion, cob_anulado, cob_usu_ins, cob_fec_ins, cob_usu_mod, cob_fec_mod, cob_monto_letras) VALUES (4, 1, 2, 'CTA', '1              ', 3, 18.33, 5120.00, 'EFE', 'sdkjfdg', 'S', 'eduardo   ', '2016-01-26 15:57:05.084', 'damian    ', '2016-05-12 17:49:32.62', 'cinco mil ciento veinte 00/100 Guaraníes.');
+
+
+--
+-- TOC entry 2787 (class 0 OID 0)
 -- Dependencies: 182
 -- Name: pag_cobros_cob_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pag_cobros_cob_id_seq', 6, true);
+SELECT pg_catalog.setval('pag_cobros_cob_id_seq', 8, true);
 
 
 --
--- TOC entry 2652 (class 0 OID 16998)
+-- TOC entry 2654 (class 0 OID 16998)
 -- Dependencies: 183
 -- Data for Name: pag_comprobantes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2394,7 +2415,7 @@ SELECT pg_catalog.setval('pag_cobros_cob_id_seq', 6, true);
 
 
 --
--- TOC entry 2786 (class 0 OID 0)
+-- TOC entry 2788 (class 0 OID 0)
 -- Dependencies: 184
 -- Name: pag_comprobantes_com_id_tran_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2403,7 +2424,7 @@ SELECT pg_catalog.setval('pag_comprobantes_com_id_tran_seq', 1, false);
 
 
 --
--- TOC entry 2654 (class 0 OID 17006)
+-- TOC entry 2656 (class 0 OID 17006)
 -- Dependencies: 185
 -- Data for Name: pag_comprobantes_det; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2411,7 +2432,7 @@ SELECT pg_catalog.setval('pag_comprobantes_com_id_tran_seq', 1, false);
 
 
 --
--- TOC entry 2787 (class 0 OID 0)
+-- TOC entry 2789 (class 0 OID 0)
 -- Dependencies: 186
 -- Name: pag_comprobantes_det_com_det_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2420,7 +2441,7 @@ SELECT pg_catalog.setval('pag_comprobantes_det_com_det_id_seq', 1, false);
 
 
 --
--- TOC entry 2656 (class 0 OID 17013)
+-- TOC entry 2658 (class 0 OID 17013)
 -- Dependencies: 187
 -- Data for Name: pge_atractivos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2430,16 +2451,16 @@ INSERT INTO pge_atractivos (ciu_id, atr_id, atr_desc, atr_img, atr_ubi, atr_usu_
 
 
 --
--- TOC entry 2788 (class 0 OID 0)
+-- TOC entry 2790 (class 0 OID 0)
 -- Dependencies: 188
 -- Name: pge_atractivos_atr_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pge_atractivos_atr_id_seq', 4, true);
+SELECT pg_catalog.setval('pge_atractivos_atr_id_seq', 5, true);
 
 
 --
--- TOC entry 2789 (class 0 OID 0)
+-- TOC entry 2791 (class 0 OID 0)
 -- Dependencies: 189
 -- Name: pge_atractivos_ciu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2448,7 +2469,7 @@ SELECT pg_catalog.setval('pge_atractivos_ciu_id_seq', 1, false);
 
 
 --
--- TOC entry 2659 (class 0 OID 17024)
+-- TOC entry 2661 (class 0 OID 17024)
 -- Dependencies: 190
 -- Data for Name: pge_auditorias; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2456,25 +2477,27 @@ SELECT pg_catalog.setval('pge_atractivos_ciu_id_seq', 1, false);
 
 
 --
--- TOC entry 2660 (class 0 OID 17032)
+-- TOC entry 2662 (class 0 OID 17032)
 -- Dependencies: 191
 -- Data for Name: pge_ciudades; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO pge_ciudades (ciu_id, pai_id, ciu_desc, ciu_ubi, ciu_usu_ins, ciu_fec_ins, ciu_usu_mod, ciu_fec_mod) VALUES (1, 1, 'Asunción                           ', '-54.155412,-14.223566                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ', 'eduardo   ', '2015-11-25 14:34:18.832387', NULL, NULL);
+INSERT INTO pge_ciudades (ciu_id, pai_id, ciu_desc, ciu_ubi, ciu_usu_ins, ciu_fec_ins, ciu_usu_mod, ciu_fec_mod) VALUES (3, 1, 'San Lorenzo                        ', '-789                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ', 'damian    ', '2016-07-25 11:27:30.006', NULL, NULL);
+INSERT INTO pge_ciudades (ciu_id, pai_id, ciu_desc, ciu_ubi, ciu_usu_ins, ciu_fec_ins, ciu_usu_mod, ciu_fec_mod) VALUES (4, 1, 'Fernando de la Mora                ', '-465321                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ', 'damian    ', '2016-07-25 11:27:53.088', NULL, NULL);
 
 
 --
--- TOC entry 2790 (class 0 OID 0)
+-- TOC entry 2792 (class 0 OID 0)
 -- Dependencies: 192
 -- Name: pge_ciudades_ciu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pge_ciudades_ciu_id_seq', 2, true);
+SELECT pg_catalog.setval('pge_ciudades_ciu_id_seq', 5, true);
 
 
 --
--- TOC entry 2791 (class 0 OID 0)
+-- TOC entry 2793 (class 0 OID 0)
 -- Dependencies: 193
 -- Name: pge_ciudades_pai_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2483,7 +2506,7 @@ SELECT pg_catalog.setval('pge_ciudades_pai_id_seq', 1, false);
 
 
 --
--- TOC entry 2663 (class 0 OID 17043)
+-- TOC entry 2665 (class 0 OID 17043)
 -- Dependencies: 194
 -- Data for Name: pge_cotizaciones; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2491,7 +2514,7 @@ SELECT pg_catalog.setval('pge_ciudades_pai_id_seq', 1, false);
 
 
 --
--- TOC entry 2792 (class 0 OID 0)
+-- TOC entry 2794 (class 0 OID 0)
 -- Dependencies: 195
 -- Name: pge_cotizaciones_mon_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2500,7 +2523,7 @@ SELECT pg_catalog.setval('pge_cotizaciones_mon_id_seq', 1, false);
 
 
 --
--- TOC entry 2665 (class 0 OID 17053)
+-- TOC entry 2667 (class 0 OID 17053)
 -- Dependencies: 196
 -- Data for Name: pge_datos_generales; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2509,7 +2532,7 @@ INSERT INTO pge_datos_generales (gral_nomb_ext, gral_nomb_abrev, gral_tel1, gral
 
 
 --
--- TOC entry 2793 (class 0 OID 0)
+-- TOC entry 2795 (class 0 OID 0)
 -- Dependencies: 197
 -- Name: pge_datos_generales_gral_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2518,7 +2541,7 @@ SELECT pg_catalog.setval('pge_datos_generales_gral_id_seq', 1, true);
 
 
 --
--- TOC entry 2667 (class 0 OID 17062)
+-- TOC entry 2669 (class 0 OID 17062)
 -- Dependencies: 198
 -- Data for Name: pge_direcciones; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2526,7 +2549,7 @@ SELECT pg_catalog.setval('pge_datos_generales_gral_id_seq', 1, true);
 
 
 --
--- TOC entry 2794 (class 0 OID 0)
+-- TOC entry 2796 (class 0 OID 0)
 -- Dependencies: 199
 -- Name: pge_direcciones_dir_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2535,7 +2558,7 @@ SELECT pg_catalog.setval('pge_direcciones_dir_id_seq', 1, false);
 
 
 --
--- TOC entry 2669 (class 0 OID 17070)
+-- TOC entry 2671 (class 0 OID 17070)
 -- Dependencies: 200
 -- Data for Name: pge_menus; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2571,16 +2594,16 @@ INSERT INTO pge_menus (men_id, men_sub_id, men_descripcion, men_tipo, men_ubicac
 
 
 --
--- TOC entry 2795 (class 0 OID 0)
+-- TOC entry 2797 (class 0 OID 0)
 -- Dependencies: 201
 -- Name: pge_menus_men_cod_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pge_menus_men_cod_seq', 47, true);
+SELECT pg_catalog.setval('pge_menus_men_cod_seq', 48, true);
 
 
 --
--- TOC entry 2671 (class 0 OID 17077)
+-- TOC entry 2673 (class 0 OID 17077)
 -- Dependencies: 202
 -- Data for Name: pge_modulos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2593,16 +2616,16 @@ INSERT INTO pge_modulos (mod_id, mod_desc, mod_abr, mod_usu_ins, mod_fec_ins, mo
 
 
 --
--- TOC entry 2796 (class 0 OID 0)
+-- TOC entry 2798 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: pge_modulos_mod_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pge_modulos_mod_id_seq', 5, true);
+SELECT pg_catalog.setval('pge_modulos_mod_id_seq', 6, true);
 
 
 --
--- TOC entry 2673 (class 0 OID 17084)
+-- TOC entry 2675 (class 0 OID 17084)
 -- Dependencies: 204
 -- Data for Name: pge_monedas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2614,16 +2637,16 @@ INSERT INTO pge_monedas (mon_id, mon_desc, pai_id, mon_usu_ins, mon_fec_ins, mon
 
 
 --
--- TOC entry 2797 (class 0 OID 0)
+-- TOC entry 2799 (class 0 OID 0)
 -- Dependencies: 205
 -- Name: pge_monedas_mon_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pge_monedas_mon_id_seq', 7, true);
+SELECT pg_catalog.setval('pge_monedas_mon_id_seq', 9, true);
 
 
 --
--- TOC entry 2798 (class 0 OID 0)
+-- TOC entry 2800 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: pge_monedas_pai_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2632,19 +2655,19 @@ SELECT pg_catalog.setval('pge_monedas_pai_id_seq', 1, false);
 
 
 --
--- TOC entry 2676 (class 0 OID 17092)
+-- TOC entry 2678 (class 0 OID 17092)
 -- Dependencies: 207
 -- Data for Name: pge_organizaciones; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO pge_organizaciones (org_id, org_desc, org_dir, ciu_id, org_tel, org_sub_tipo, org_ubi, org_pag_web, org_usu_ins, org_fec_ins, org_usu_mod, org_fec_mod, org_logo, tip_org_id) VALUES (5, 'Bombonera                                                   ', 'Tangamandapio 375                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ', 1, '+55-7114-5214                 ', 'NN ', '-23473                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ', 'www.cabj.com.ar                                                                                                                                                                                                                                                ', 'eduardo   ', '2015-12-14 14:49:36.952', 'eduardo   ', '2016-01-15 15:04:07.043', 'image.jpg', 2);
 INSERT INTO pge_organizaciones (org_id, org_desc, org_dir, ciu_id, org_tel, org_sub_tipo, org_ubi, org_pag_web, org_usu_ins, org_fec_ins, org_usu_mod, org_fec_mod, org_logo, tip_org_id) VALUES (13, 'Olla Azulgrana                                              ', 'Quinta Proyectada                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ', 1, '370-850                       ', 'NN ', '-3654987                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ', 'www.cerro.com.py                                                                                                                                                                                                                                               ', 'eduardo   ', '2016-05-11 17:48:24.429', NULL, NULL, NULL, 2);
-INSERT INTO pge_organizaciones (org_id, org_desc, org_dir, ciu_id, org_tel, org_sub_tipo, org_ubi, org_pag_web, org_usu_ins, org_fec_ins, org_usu_mod, org_fec_mod, org_logo, tip_org_id) VALUES (14, 'Sheraton                                                    ', 'Av. Aviadores del Chaco                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ', 1, '888-555                       ', 'NN ', '-88789                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ', 'www.sheraton.com.py                                                                                                                                                                                                                                            ', 'eduardo   ', '2016-05-11 20:34:08.711', NULL, NULL, NULL, 1);
-INSERT INTO pge_organizaciones (org_id, org_desc, org_dir, ciu_id, org_tel, org_sub_tipo, org_ubi, org_pag_web, org_usu_ins, org_fec_ins, org_usu_mod, org_fec_mod, org_logo, tip_org_id) VALUES (15, 'Ibis Hotel                                                  ', 'Av. Aviadores del Chaco                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ', 1, '112-664                       ', 'NN ', '-996546                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ', 'www.ibis.com.py                                                                                                                                                                                                                                                ', 'eduardo   ', '2016-05-11 20:34:58.801', NULL, NULL, NULL, 1);
+INSERT INTO pge_organizaciones (org_id, org_desc, org_dir, ciu_id, org_tel, org_sub_tipo, org_ubi, org_pag_web, org_usu_ins, org_fec_ins, org_usu_mod, org_fec_mod, org_logo, tip_org_id) VALUES (5, 'Bombonera                                                   ', 'Tangamandapio 375                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ', 1, '+55-7114-5214                 ', 'NN ', '-23473                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ', 'www.cabj.com.ar                                                                                                                                                                                                                                                ', 'eduardo   ', '2015-12-14 14:49:36.952', 'eduardo   ', '2016-01-15 15:04:07.043', NULL, 2);
+INSERT INTO pge_organizaciones (org_id, org_desc, org_dir, ciu_id, org_tel, org_sub_tipo, org_ubi, org_pag_web, org_usu_ins, org_fec_ins, org_usu_mod, org_fec_mod, org_logo, tip_org_id) VALUES (15, 'Ibis Hotel                                                  ', 'Av. Aviadores del Chaco                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ', 1, '112-664                       ', 'NN ', '-996546                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ', 'www.ibis.com.py                                                                                                                                                                                                                                                ', 'eduardo   ', '2016-05-11 20:34:58.801', 'damian    ', '2016-07-27 04:52:15.804', 'close.png', 1);
+INSERT INTO pge_organizaciones (org_id, org_desc, org_dir, ciu_id, org_tel, org_sub_tipo, org_ubi, org_pag_web, org_usu_ins, org_fec_ins, org_usu_mod, org_fec_mod, org_logo, tip_org_id) VALUES (14, 'Sheraton                                                    ', 'Av. Aviadores del Chaco                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ', 1, '888-555                       ', 'NN ', '-88789                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ', 'www.sheraton.com.py                                                                                                                                                                                                                                            ', 'eduardo   ', '2016-05-11 20:34:08.711', 'damian    ', '2016-07-27 04:39:00.125', 'SHERATON.png', 1);
 
 
 --
--- TOC entry 2799 (class 0 OID 0)
+-- TOC entry 2801 (class 0 OID 0)
 -- Dependencies: 208
 -- Name: pge_organizaciones_ciu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2653,16 +2676,16 @@ SELECT pg_catalog.setval('pge_organizaciones_ciu_id_seq', 1, false);
 
 
 --
--- TOC entry 2800 (class 0 OID 0)
+-- TOC entry 2802 (class 0 OID 0)
 -- Dependencies: 209
 -- Name: pge_organizaciones_org_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pge_organizaciones_org_id_seq', 15, true);
+SELECT pg_catalog.setval('pge_organizaciones_org_id_seq', 16, true);
 
 
 --
--- TOC entry 2679 (class 0 OID 17104)
+-- TOC entry 2681 (class 0 OID 17104)
 -- Dependencies: 210
 -- Data for Name: pge_paises; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2678,21 +2701,23 @@ INSERT INTO pge_paises (pai_id, pai_desc, pai_nac, pai_ubi, pai_usu_ins, pai_fec
 INSERT INTO pge_paises (pai_id, pai_desc, pai_nac, pai_ubi, pai_usu_ins, pai_fec_ins, pai_usu_mod, pai_fec_mod) VALUES (12, 'Fredi                              ', 'Frediniana                              ', '4.1156602,-72.9316835                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ', 'eduardo   ', '2015-11-17 17:47:11.014', NULL, NULL);
 INSERT INTO pge_paises (pai_id, pai_desc, pai_nac, pai_ubi, pai_usu_ins, pai_fec_ins, pai_usu_mod, pai_fec_mod) VALUES (14, 'Estados Unidos                     ', 'Americana                               ', '31.7860603,-132.0853276                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ', 'damian    ', '2016-05-13 10:04:30.496', 'damian    ', '2016-05-13 10:09:43.882');
 INSERT INTO pge_paises (pai_id, pai_desc, pai_nac, pai_ubi, pai_usu_ins, pai_fec_ins, pai_usu_mod, pai_fec_mod) VALUES (13, 'Francia                            ', 'Francesa                                ', '46.1278502,-2.2790075                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ', 'eduardo   ', '2016-05-10 15:57:40.764', 'damian    ', '2016-07-08 19:58:10.913');
-INSERT INTO pge_paises (pai_id, pai_desc, pai_nac, pai_ubi, pai_usu_ins, pai_fec_ins, pai_usu_mod, pai_fec_mod) VALUES (16, 'Bolivia                            ', 'La paz                                  ', '5654                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ', 'damian    ', '2016-07-08 19:59:12.212', NULL, NULL);
 INSERT INTO pge_paises (pai_id, pai_desc, pai_nac, pai_ubi, pai_usu_ins, pai_fec_ins, pai_usu_mod, pai_fec_mod) VALUES (18, 'Argentina                          ', 'Argentina                               ', '68768                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ', 'damian    ', '2016-07-08 20:00:39.222', 'damian    ', '2016-07-09 10:09:31.158');
+INSERT INTO pge_paises (pai_id, pai_desc, pai_nac, pai_ubi, pai_usu_ins, pai_fec_ins, pai_usu_mod, pai_fec_mod) VALUES (25, 'Bolivia                            ', 'Boliviana                               ', '-532                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ', 'damian    ', '2016-07-27 04:01:31.473', NULL, NULL);
+INSERT INTO pge_paises (pai_id, pai_desc, pai_nac, pai_ubi, pai_usu_ins, pai_fec_ins, pai_usu_mod, pai_fec_mod) VALUES (21, 'México                             ', 'Mexicana                                ', '-789                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ', 'damian    ', '2016-07-25 11:04:27.444', 'damian    ', '2016-07-25 11:06:39.376');
+INSERT INTO pge_paises (pai_id, pai_desc, pai_nac, pai_ubi, pai_usu_ins, pai_fec_ins, pai_usu_mod, pai_fec_mod) VALUES (22, 'España                             ', 'Española                                ', '-456                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ', 'damian    ', '2016-07-25 11:07:00.948', NULL, NULL);
 
 
 --
--- TOC entry 2801 (class 0 OID 0)
+-- TOC entry 2803 (class 0 OID 0)
 -- Dependencies: 211
 -- Name: pge_paises_pai_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pge_paises_pai_id_seq', 18, true);
+SELECT pg_catalog.setval('pge_paises_pai_id_seq', 25, true);
 
 
 --
--- TOC entry 2681 (class 0 OID 17113)
+-- TOC entry 2683 (class 0 OID 17113)
 -- Dependencies: 212
 -- Data for Name: pge_permisos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2728,28 +2753,29 @@ INSERT INTO pge_permisos (rol_id, men_id, men_sub_id, prm_id) VALUES (1, 5, 6, 4
 
 
 --
--- TOC entry 2802 (class 0 OID 0)
+-- TOC entry 2804 (class 0 OID 0)
 -- Dependencies: 213
 -- Name: pge_permisos_prm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pge_permisos_prm_id_seq', 41, true);
+SELECT pg_catalog.setval('pge_permisos_prm_id_seq', 44, true);
 
 
 --
--- TOC entry 2683 (class 0 OID 17118)
+-- TOC entry 2685 (class 0 OID 17118)
 -- Dependencies: 214
 -- Data for Name: pge_personas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO pge_personas (per_id, per_nom, per_ape, per_nro_doc, pai_id, prf_id, per_fec_nac, per_lug_nac, per_email, per_usu_ins, per_fec_ins, per_usu_mod, per_fec_mod, per_doc, per_sex) VALUES (5, 'ngesas tsilat                      ', 'mills baerd                        ', '1552244     ', 11, 2, '1988-01-11', 'Mani Kui Town                 ', 'bananamiel@torvic.com                             ', 'eduardo   ', '2015-12-29 09:23:42.764', NULL, NULL, 'cfb_120978.jpg', NULL);
-INSERT INTO pge_personas (per_id, per_nom, per_ape, per_nro_doc, pai_id, prf_id, per_fec_nac, per_lug_nac, per_email, per_usu_ins, per_fec_ins, per_usu_mod, per_fec_mod, per_doc, per_sex) VALUES (6, 'kudsa                              ', 'djotra                             ', '4854842     ', 12, 2, '1988-02-29', 'Beilsa                        ', 'kdjotra@pepinito.com                              ', 'eduardo   ', '2015-12-30 09:17:24.822', NULL, NULL, 'hexagon-outline-xxl.png', NULL);
-INSERT INTO pge_personas (per_id, per_nom, per_ape, per_nro_doc, pai_id, prf_id, per_fec_nac, per_lug_nac, per_email, per_usu_ins, per_fec_ins, per_usu_mod, per_fec_mod, per_doc, per_sex) VALUES (1, 'damian augusto                     ', 'meza candia                        ', '4222540     ', 1, 1, '1993-02-26', 'fdo de la mora                ', 'damian.meza.py@hotmail.com                        ', 'eduardo   ', '2015-10-26 15:11:51.591297', 'damian    ', '2016-07-13 22:13:39.897', NULL, 'M');
-INSERT INTO pge_personas (per_id, per_nom, per_ape, per_nro_doc, pai_id, prf_id, per_fec_nac, per_lug_nac, per_email, per_usu_ins, per_fec_ins, per_usu_mod, per_fec_mod, per_doc, per_sex) VALUES (2, 'eduardo fabian                     ', 'encina velloso                     ', '4010943     ', 1, 1, '1993-05-06', 'asuncion                      ', 'eduardo.encina20@gmail.com                        ', 'eduardo   ', '2015-10-26 15:16:02.64924', 'damian    ', '2016-07-13 22:13:54.755', '03bourbon.jpg', 'M');
+INSERT INTO pge_personas (per_id, per_nom, per_ape, per_nro_doc, pai_id, prf_id, per_fec_nac, per_lug_nac, per_email, per_usu_ins, per_fec_ins, per_usu_mod, per_fec_mod, per_doc, per_sex, per_dir, per_tel) VALUES (1, 'damian augusto                     ', 'meza candia                        ', '4222540     ', 1, 1, '1993-02-26', 'fdo de la mora                ', 'damian.meza.py@hotmail.com                        ', 'eduardo   ', '2015-10-26 15:11:51.591297', 'damian    ', '2016-07-13 22:13:39.897', NULL, 'M', NULL, NULL);
+INSERT INTO pge_personas (per_id, per_nom, per_ape, per_nro_doc, pai_id, prf_id, per_fec_nac, per_lug_nac, per_email, per_usu_ins, per_fec_ins, per_usu_mod, per_fec_mod, per_doc, per_sex, per_dir, per_tel) VALUES (2, 'eduardo fabian                     ', 'encina velloso                     ', '4010943     ', 1, 1, '1993-05-06', 'asuncion                      ', 'eduardo.encina20@gmail.com                        ', 'eduardo   ', '2015-10-26 15:16:02.64924', 'damian    ', '2016-07-13 22:13:54.755', '03bourbon.jpg', 'M', NULL, NULL);
+INSERT INTO pge_personas (per_id, per_nom, per_ape, per_nro_doc, pai_id, prf_id, per_fec_nac, per_lug_nac, per_email, per_usu_ins, per_fec_ins, per_usu_mod, per_fec_mod, per_doc, per_sex, per_dir, per_tel) VALUES (6, 'kudsa                              ', 'djotra                             ', '4854842     ', 12, 2, '1988-02-29', 'Beilsa                        ', 'kdjotra@pepinito.com                              ', 'eduardo   ', '2015-12-30 09:17:24.822', 'damian    ', '2016-07-24 21:22:25.336', 'hexagon-outline-xxl.png', 'F', NULL, NULL);
+INSERT INTO pge_personas (per_id, per_nom, per_ape, per_nro_doc, pai_id, prf_id, per_fec_nac, per_lug_nac, per_email, per_usu_ins, per_fec_ins, per_usu_mod, per_fec_mod, per_doc, per_sex, per_dir, per_tel) VALUES (5, 'ngesas tsilat                      ', 'mills baerd                        ', '1552244     ', 11, 2, '1988-01-11', 'Mani Kui Town                 ', 'bananamiel@torvic.com                             ', 'eduardo   ', '2015-12-29 09:23:42.764', 'damian    ', '2016-07-24 21:22:43.79', 'cfb_120978.jpg', 'F', NULL, NULL);
+INSERT INTO pge_personas (per_id, per_nom, per_ape, per_nro_doc, pai_id, prf_id, per_fec_nac, per_lug_nac, per_email, per_usu_ins, per_fec_ins, per_usu_mod, per_fec_mod, per_doc, per_sex, per_dir, per_tel) VALUES (7, 'Alberto                            ', 'Riquelme                           ', '789554      ', 7, 2, '1987-07-26', 'Iquique                       ', 'alberto.riquelme@hotmail.com                      ', 'eduardo   ', '2016-07-25 08:34:36.366', NULL, NULL, NULL, 'M', NULL, NULL);
 
 
 --
--- TOC entry 2803 (class 0 OID 0)
+-- TOC entry 2805 (class 0 OID 0)
 -- Dependencies: 215
 -- Name: pge_personas_pai_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2758,16 +2784,16 @@ SELECT pg_catalog.setval('pge_personas_pai_id_seq', 1, false);
 
 
 --
--- TOC entry 2804 (class 0 OID 0)
+-- TOC entry 2806 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: pge_personas_per_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pge_personas_per_id_seq', 6, true);
+SELECT pg_catalog.setval('pge_personas_per_id_seq', 8, true);
 
 
 --
--- TOC entry 2805 (class 0 OID 0)
+-- TOC entry 2807 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: pge_personas_prf_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2776,26 +2802,27 @@ SELECT pg_catalog.setval('pge_personas_prf_id_seq', 1, false);
 
 
 --
--- TOC entry 2687 (class 0 OID 17132)
+-- TOC entry 2689 (class 0 OID 17132)
 -- Dependencies: 218
 -- Data for Name: pge_profesiones; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO pge_profesiones (prf_id, prf_desc, prf_obs, prf_usu_ins, prf_fec_ins, prf_usu_mod, prf_fec_mod) VALUES (1, 'programador                        ', 'desarrollo de travelware                          ', 'eduardo   ', '2015-10-26 15:05:13.670423', NULL, NULL);
-INSERT INTO pge_profesiones (prf_id, prf_desc, prf_obs, prf_usu_ins, prf_fec_ins, prf_usu_mod, prf_fec_mod) VALUES (2, 'contador                           ', 'administracion de contabilidad                    ', 'eduardo   ', '2015-11-20 10:43:08.337115', NULL, NULL);
+INSERT INTO pge_profesiones (prf_id, prf_desc, prf_obs, prf_usu_ins, prf_fec_ins, prf_usu_mod, prf_fec_mod) VALUES (1, 'Programador                        ', 'desarrollo de travelware                          ', 'eduardo   ', '2015-10-26 15:05:13.670423', 'damian    ', '2016-07-25 11:22:23.273');
+INSERT INTO pge_profesiones (prf_id, prf_desc, prf_obs, prf_usu_ins, prf_fec_ins, prf_usu_mod, prf_fec_mod) VALUES (2, 'Contador                           ', 'administracion de contabilidad                    ', 'eduardo   ', '2015-11-20 10:43:08.337115', 'damian    ', '2016-07-25 11:22:32.213');
+INSERT INTO pge_profesiones (prf_id, prf_desc, prf_obs, prf_usu_ins, prf_fec_ins, prf_usu_mod, prf_fec_mod) VALUES (4, 'Cantante                           ', 'cantante profesional                              ', 'damian    ', '2016-07-25 11:15:16.79', 'damian    ', '2016-07-25 11:22:39.756');
 
 
 --
--- TOC entry 2806 (class 0 OID 0)
+-- TOC entry 2808 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: pge_profesiones_prf_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pge_profesiones_prf_id_seq', 3, true);
+SELECT pg_catalog.setval('pge_profesiones_prf_id_seq', 6, true);
 
 
 --
--- TOC entry 2689 (class 0 OID 17138)
+-- TOC entry 2691 (class 0 OID 17138)
 -- Dependencies: 220
 -- Data for Name: pge_roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2805,7 +2832,7 @@ INSERT INTO pge_roles (rol_id, rol_desc, rol_usu_ins, rol_fec_ins, rol_usu_mod, 
 
 
 --
--- TOC entry 2807 (class 0 OID 0)
+-- TOC entry 2809 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: pge_roles_rol_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2814,7 +2841,7 @@ SELECT pg_catalog.setval('pge_roles_rol_id_seq', 3, true);
 
 
 --
--- TOC entry 2691 (class 0 OID 17144)
+-- TOC entry 2693 (class 0 OID 17144)
 -- Dependencies: 222
 -- Data for Name: pge_secuencias; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2824,7 +2851,7 @@ INSERT INTO pge_secuencias (sec_tabla, sec_orden, sec_id) VALUES ('pagos        
 
 
 --
--- TOC entry 2808 (class 0 OID 0)
+-- TOC entry 2810 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: pge_secuencias_sec_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2833,26 +2860,28 @@ SELECT pg_catalog.setval('pge_secuencias_sec_id_seq', 1, true);
 
 
 --
--- TOC entry 2693 (class 0 OID 17149)
+-- TOC entry 2695 (class 0 OID 17149)
 -- Dependencies: 224
 -- Data for Name: pge_tipo_org; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO pge_tipo_org (tip_codigo, tip_descripcion, tip_id) VALUES ('H ', 'Hotel                         ', 1);
 INSERT INTO pge_tipo_org (tip_codigo, tip_descripcion, tip_id) VALUES ('G ', 'Estadio de Futbol             ', 2);
+INSERT INTO pge_tipo_org (tip_codigo, tip_descripcion, tip_id) VALUES ('C ', 'Consulado                     ', 6);
+INSERT INTO pge_tipo_org (tip_codigo, tip_descripcion, tip_id) VALUES ('CA', 'Compañía Aérea                ', 10);
 
 
 --
--- TOC entry 2809 (class 0 OID 0)
+-- TOC entry 2811 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: pge_tipo_org_tip_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pge_tipo_org_tip_id_seq', 5, true);
+SELECT pg_catalog.setval('pge_tipo_org_tip_id_seq', 10, true);
 
 
 --
--- TOC entry 2695 (class 0 OID 17154)
+-- TOC entry 2697 (class 0 OID 17154)
 -- Dependencies: 226
 -- Data for Name: pge_usu_roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2860,40 +2889,43 @@ SELECT pg_catalog.setval('pge_tipo_org_tip_id_seq', 5, true);
 INSERT INTO pge_usu_roles (rol_id, usu_id, uro_usu_ins, uro_fec_ins, uro_usu_mod, uro_fec_mod, usu_rol_id) VALUES (1, 2, 'eduardo   ', '2015-11-06 09:26:06.711416', NULL, NULL, 1);
 INSERT INTO pge_usu_roles (rol_id, usu_id, uro_usu_ins, uro_fec_ins, uro_usu_mod, uro_fec_mod, usu_rol_id) VALUES (1, 4, 'eduardo   ', '2015-12-29 11:38:11.434', NULL, NULL, 13);
 INSERT INTO pge_usu_roles (rol_id, usu_id, uro_usu_ins, uro_fec_ins, uro_usu_mod, uro_fec_mod, usu_rol_id) VALUES (1, 1, 'eduardo   ', '2015-12-28 17:39:49.151', 'eduardo   ', '2016-05-12 11:25:53.112', 2);
+INSERT INTO pge_usu_roles (rol_id, usu_id, uro_usu_ins, uro_fec_ins, uro_usu_mod, uro_fec_mod, usu_rol_id) VALUES (3, 8, 'damian    ', '2016-07-25 16:40:27.162', 'damian    ', '2016-07-25 16:40:55.529', 17);
 
 
 --
--- TOC entry 2810 (class 0 OID 0)
+-- TOC entry 2812 (class 0 OID 0)
 -- Dependencies: 227
 -- Name: pge_usu_roles_usu_rol_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pge_usu_roles_usu_rol_id_seq', 13, true);
+SELECT pg_catalog.setval('pge_usu_roles_usu_rol_id_seq', 17, true);
 
 
 --
--- TOC entry 2697 (class 0 OID 17160)
+-- TOC entry 2699 (class 0 OID 17160)
 -- Dependencies: 228
 -- Data for Name: pge_usuarios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO pge_usuarios (usu_id, usu_est, per_id, usu_fec_ing, usu_cod, usu_cargo, usu_usu_ins, usu_fec_ins, usu_usu_mod, usu_fec_mod, usu_pass) VALUES (5, 'I', 6, '2015-12-30', 'kesa      ', 'pelotudo                                                    ', 'eduardo   ', '2015-12-30 10:05:23.447', 'eduardo   ', '2015-12-30 10:41:14.754', NULL);
 INSERT INTO pge_usuarios (usu_id, usu_est, per_id, usu_fec_ing, usu_cod, usu_cargo, usu_usu_ins, usu_fec_ins, usu_usu_mod, usu_fec_mod, usu_pass) VALUES (1, 'A', 1, '2015-10-26', 'damian    ', 'programador                                                 ', 'eduardo   ', '2015-10-26 15:14:22.47863', NULL, NULL, '202cb962ac59075b964b07152d234b70');
-INSERT INTO pge_usuarios (usu_id, usu_est, per_id, usu_fec_ing, usu_cod, usu_cargo, usu_usu_ins, usu_fec_ins, usu_usu_mod, usu_fec_mod, usu_pass) VALUES (2, 'A', 1, '2015-10-26', 'eduardo   ', 'programador                                                 ', 'eduardo   ', '2015-10-26 15:16:49.613423', NULL, NULL, '698d51a19d8a121ce581499d7b701668');
 INSERT INTO pge_usuarios (usu_id, usu_est, per_id, usu_fec_ing, usu_cod, usu_cargo, usu_usu_ins, usu_fec_ins, usu_usu_mod, usu_fec_mod, usu_pass) VALUES (4, 'A', 6, '2015-12-29', 'rajeem    ', 'contador                                                    ', 'eduardo   ', '2015-12-29 09:29:37.912014', 'eduardo   ', '2016-05-11 14:36:42.983', NULL);
+INSERT INTO pge_usuarios (usu_id, usu_est, per_id, usu_fec_ing, usu_cod, usu_cargo, usu_usu_ins, usu_fec_ins, usu_usu_mod, usu_fec_mod, usu_pass) VALUES (2, 'A', 2, '2015-10-26', 'eduardo   ', 'programador                                                 ', 'eduardo   ', '2015-10-26 15:16:49.613423', 'damian    ', '2016-07-24 20:47:06.974', '698d51a19d8a121ce581499d7b701668');
+INSERT INTO pge_usuarios (usu_id, usu_est, per_id, usu_fec_ing, usu_cod, usu_cargo, usu_usu_ins, usu_fec_ins, usu_usu_mod, usu_fec_mod, usu_pass) VALUES (6, 'I', 7, '2016-07-25', 'albert    ', 'auxiliar administrativo                                     ', 'damian    ', '2016-07-25 15:10:50.526', 'damian    ', '2016-07-25 15:11:07.636', NULL);
+INSERT INTO pge_usuarios (usu_id, usu_est, per_id, usu_fec_ing, usu_cod, usu_cargo, usu_usu_ins, usu_fec_ins, usu_usu_mod, usu_fec_mod, usu_pass) VALUES (8, 'A', 7, '2016-07-25', 'alber     ', 'aux administrativo                                          ', 'damian    ', '2016-07-25 16:35:01.429', 'damian    ', '2016-07-25 17:08:42.566', NULL);
 
 
 --
--- TOC entry 2811 (class 0 OID 0)
+-- TOC entry 2813 (class 0 OID 0)
 -- Dependencies: 229
 -- Name: pge_usuarios_usu_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('pge_usuarios_usu_id_seq', 5, true);
+SELECT pg_catalog.setval('pge_usuarios_usu_id_seq', 10, true);
 
 
 --
--- TOC entry 2699 (class 0 OID 17173)
+-- TOC entry 2701 (class 0 OID 17173)
 -- Dependencies: 230
 -- Data for Name: via_actividades; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2901,7 +2933,7 @@ SELECT pg_catalog.setval('pge_usuarios_usu_id_seq', 5, true);
 
 
 --
--- TOC entry 2812 (class 0 OID 0)
+-- TOC entry 2814 (class 0 OID 0)
 -- Dependencies: 231
 -- Name: via_actividades_act_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2910,7 +2942,7 @@ SELECT pg_catalog.setval('via_actividades_act_id_seq', 1, false);
 
 
 --
--- TOC entry 2701 (class 0 OID 17183)
+-- TOC entry 2703 (class 0 OID 17183)
 -- Dependencies: 232
 -- Data for Name: via_auditorias; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2918,7 +2950,7 @@ SELECT pg_catalog.setval('via_actividades_act_id_seq', 1, false);
 
 
 --
--- TOC entry 2729 (class 0 OID 17709)
+-- TOC entry 2731 (class 0 OID 17709)
 -- Dependencies: 260
 -- Data for Name: via_conceptos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2932,16 +2964,16 @@ INSERT INTO via_conceptos (con_id, con_desc, con_est, con_req, con_usu_ins, con_
 
 
 --
--- TOC entry 2813 (class 0 OID 0)
+-- TOC entry 2815 (class 0 OID 0)
 -- Dependencies: 259
 -- Name: via_conceptos_con_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('via_conceptos_con_id_seq', 7, true);
+SELECT pg_catalog.setval('via_conceptos_con_id_seq', 8, true);
 
 
 --
--- TOC entry 2702 (class 0 OID 17191)
+-- TOC entry 2704 (class 0 OID 17191)
 -- Dependencies: 233
 -- Data for Name: via_fidelidades; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2949,7 +2981,7 @@ SELECT pg_catalog.setval('via_conceptos_con_id_seq', 7, true);
 
 
 --
--- TOC entry 2814 (class 0 OID 0)
+-- TOC entry 2816 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: via_fidelidades_fid_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -2958,16 +2990,16 @@ SELECT pg_catalog.setval('via_fidelidades_fid_id_seq', 1, false);
 
 
 --
--- TOC entry 2815 (class 0 OID 0)
+-- TOC entry 2817 (class 0 OID 0)
 -- Dependencies: 236
 -- Name: via_gasto_gas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('via_gasto_gas_id_seq', 16, true);
+SELECT pg_catalog.setval('via_gasto_gas_id_seq', 22, true);
 
 
 --
--- TOC entry 2704 (class 0 OID 17198)
+-- TOC entry 2706 (class 0 OID 17198)
 -- Dependencies: 235
 -- Data for Name: via_gastos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -2978,19 +3010,22 @@ INSERT INTO via_gastos (gas_id, pvi_id, gas_nro, gas_tip, mon_id, gas_monto, con
 INSERT INTO via_gastos (gas_id, pvi_id, gas_nro, gas_tip, mon_id, gas_monto, con_id) VALUES (14, 34, 14, 'Paq', 7, 450.00, 2);
 INSERT INTO via_gastos (gas_id, pvi_id, gas_nro, gas_tip, mon_id, gas_monto, con_id) VALUES (15, 34, 16, 'Pro', 7, 10.00, 5);
 INSERT INTO via_gastos (gas_id, pvi_id, gas_nro, gas_tip, mon_id, gas_monto, con_id) VALUES (16, 34, 18, 'Pas', 7, 550.00, 1);
+INSERT INTO via_gastos (gas_id, pvi_id, gas_nro, gas_tip, mon_id, gas_monto, con_id) VALUES (17, 35, 14, 'Paq', 7, 450.00, 2);
+INSERT INTO via_gastos (gas_id, pvi_id, gas_nro, gas_tip, mon_id, gas_monto, con_id) VALUES (18, 35, 16, 'Pro', 7, 10.00, 5);
+INSERT INTO via_gastos (gas_id, pvi_id, gas_nro, gas_tip, mon_id, gas_monto, con_id) VALUES (19, 35, 18, 'Pas', 7, 550.00, 1);
 
 
 --
--- TOC entry 2816 (class 0 OID 0)
+-- TOC entry 2818 (class 0 OID 0)
 -- Dependencies: 238
 -- Name: via_pas_viajes_pvi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('via_pas_viajes_pvi_id_seq', 34, true);
+SELECT pg_catalog.setval('via_pas_viajes_pvi_id_seq', 36, true);
 
 
 --
--- TOC entry 2706 (class 0 OID 17203)
+-- TOC entry 2708 (class 0 OID 17203)
 -- Dependencies: 237
 -- Data for Name: via_pasajeros; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -3000,10 +3035,11 @@ INSERT INTO via_pasajeros (via_id, per_id, pas_rel, pvi_usu_ins, pvi_fec_ins, pv
 INSERT INTO via_pasajeros (via_id, per_id, pas_rel, pvi_usu_ins, pvi_fec_ins, pvi_usu_mod, pvi_fec_mod, pvi_id, pas_pref_asi, pas_pref_comi) VALUES (2, 5, 'P', 'damian    ', '2016-07-09 14:50:42.669', NULL, NULL, 5, 'P', 'Soyo                ');
 INSERT INTO via_pasajeros (via_id, per_id, pas_rel, pvi_usu_ins, pvi_fec_ins, pvi_usu_mod, pvi_fec_mod, pvi_id, pas_pref_asi, pas_pref_comi) VALUES (5, 2, 'P', 'damian    ', '2016-07-13 21:49:53.866', NULL, NULL, 33, 'P', 'Ensalada de papa    ');
 INSERT INTO via_pasajeros (via_id, per_id, pas_rel, pvi_usu_ins, pvi_fec_ins, pvi_usu_mod, pvi_fec_mod, pvi_id, pas_pref_asi, pas_pref_comi) VALUES (5, 1, 'P', 'damian    ', '2016-07-13 22:04:11.645', NULL, NULL, 34, 'V', 'Ensalada de papa    ');
+INSERT INTO via_pasajeros (via_id, per_id, pas_rel, pvi_usu_ins, pvi_fec_ins, pvi_usu_mod, pvi_fec_mod, pvi_id, pas_pref_asi, pas_pref_comi) VALUES (5, 6, 'P', 'damian    ', '2016-07-24 21:20:25.425', 'damian    ', '2016-07-25 13:54:25.135', 35, 'V', 'pascualina          ');
 
 
 --
--- TOC entry 2708 (class 0 OID 17212)
+-- TOC entry 2710 (class 0 OID 17212)
 -- Dependencies: 239
 -- Data for Name: via_pasaportes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -3011,19 +3047,21 @@ INSERT INTO via_pasajeros (via_id, per_id, pas_rel, pvi_usu_ins, pvi_fec_ins, pv
 INSERT INTO via_pasaportes (per_id, pat_nro_pas, pat_fec_emi, pat_fec_ven, pat_usu_ins, pat_fec_ins, pat_usu_mod, pat_fec_mod, pat_id) VALUES (1, 'df6s7d6g       ', '2013-01-01', '2016-01-30', 'eduardo   ', '2016-01-04 13:16:11.99', NULL, NULL, 3);
 INSERT INTO via_pasaportes (per_id, pat_nro_pas, pat_fec_emi, pat_fec_ven, pat_usu_ins, pat_fec_ins, pat_usu_mod, pat_fec_mod, pat_id) VALUES (5, 'hsdf7y87e      ', '2015-11-10', '2016-07-15', 'eduardo   ', '2016-01-06 10:41:27.949', NULL, NULL, 4);
 INSERT INTO via_pasaportes (per_id, pat_nro_pas, pat_fec_emi, pat_fec_ven, pat_usu_ins, pat_fec_ins, pat_usu_mod, pat_fec_mod, pat_id) VALUES (2, 'ceceolkfd      ', '2016-07-01', '2017-08-31', 'damian    ', '2016-07-09 14:53:24.428', NULL, NULL, 7);
+INSERT INTO via_pasaportes (per_id, pat_nro_pas, pat_fec_emi, pat_fec_ven, pat_usu_ins, pat_fec_ins, pat_usu_mod, pat_fec_mod, pat_id) VALUES (6, 'qwereq         ', '2016-07-01', '2016-09-30', 'damian    ', '2016-07-24 18:54:54.03', 'damian    ', '2016-07-25 13:50:34.304', 10);
+INSERT INTO via_pasaportes (per_id, pat_nro_pas, pat_fec_emi, pat_fec_ven, pat_usu_ins, pat_fec_ins, pat_usu_mod, pat_fec_mod, pat_id) VALUES (7, 'fdgdsf         ', '2016-07-01', '2016-12-31', 'damian    ', '2016-07-25 13:51:03.581', NULL, NULL, 12);
 
 
 --
--- TOC entry 2817 (class 0 OID 0)
+-- TOC entry 2819 (class 0 OID 0)
 -- Dependencies: 240
 -- Name: via_pasaportes_pat_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('via_pasaportes_pat_id_seq', 8, true);
+SELECT pg_catalog.setval('via_pasaportes_pat_id_seq', 12, true);
 
 
 --
--- TOC entry 2710 (class 0 OID 17219)
+-- TOC entry 2712 (class 0 OID 17219)
 -- Dependencies: 241
 -- Data for Name: via_pre_viajes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -3032,7 +3070,7 @@ INSERT INTO via_pre_viajes (via_id, pre_id, mon_id, pre_precio, pre_nombre, pre_
 
 
 --
--- TOC entry 2818 (class 0 OID 0)
+-- TOC entry 2820 (class 0 OID 0)
 -- Dependencies: 242
 -- Name: via_pre_viajes_pre_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -3041,31 +3079,31 @@ SELECT pg_catalog.setval('via_pre_viajes_pre_id_seq', 8, true);
 
 
 --
--- TOC entry 2712 (class 0 OID 17227)
+-- TOC entry 2714 (class 0 OID 17227)
 -- Dependencies: 243
 -- Data for Name: via_viajes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO via_viajes (via_id, via_desc, via_fec_sali, via_fec_reg, via_usu_ins, via_fec_ins, via_usu_mod, via_fec_mod, via_cost, via_cant_tot, via_cant_vend, mon_id) VALUES (3, 'Prueba 1', '2016-04-11', '2016-04-25', 'eduardo   ', '2016-01-12 15:56:36.481', 'eduardo   ', '2016-01-14 13:45:13.069', 5000.00, NULL, NULL, NULL);
-INSERT INTO via_viajes (via_id, via_desc, via_fec_sali, via_fec_reg, via_usu_ins, via_fec_ins, via_usu_mod, via_fec_mod, via_cost, via_cant_tot, via_cant_vend, mon_id) VALUES (6, 'Viaje a Tierra Santa', '2016-09-06', '2016-09-21', 'damian    ', '2016-07-12 20:50:22.078', NULL, NULL, 2500.00, 0, 0, 7);
-INSERT INTO via_viajes (via_id, via_desc, via_fec_sali, via_fec_reg, via_usu_ins, via_fec_ins, via_usu_mod, via_fec_mod, via_cost, via_cant_tot, via_cant_vend, mon_id) VALUES (2, 'prueba 2', '2016-01-18', '2016-02-05', 'eduardo   ', '2015-12-30 14:56:02.247', 'damian    ', '2016-07-11 21:21:58.555', 1600.00, 0, 0, 5);
-INSERT INTO via_viajes (via_id, via_desc, via_fec_sali, via_fec_reg, via_usu_ins, via_fec_ins, via_usu_mod, via_fec_mod, via_cost, via_cant_tot, via_cant_vend, mon_id) VALUES (5, 'Viaje a Disney', '2016-08-12', '2016-08-24', 'damian    ', '2016-07-11 21:25:09.606', NULL, NULL, 1500.00, 100, 2, 7);
+INSERT INTO via_viajes (via_id, via_desc, via_fec_sali, via_fec_reg, via_usu_ins, via_fec_ins, via_usu_mod, via_fec_mod, via_cost, via_cant_tot, via_cant_vend, mon_id, via_resumen, via_img) VALUES (3, 'Prueba 1', '2016-04-11', '2016-04-25', 'eduardo   ', '2016-01-12 15:56:36.481', 'eduardo   ', '2016-01-14 13:45:13.069', 5000.00, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO via_viajes (via_id, via_desc, via_fec_sali, via_fec_reg, via_usu_ins, via_fec_ins, via_usu_mod, via_fec_mod, via_cost, via_cant_tot, via_cant_vend, mon_id, via_resumen, via_img) VALUES (2, 'prueba 2', '2016-01-18', '2016-02-05', 'eduardo   ', '2015-12-30 14:56:02.247', 'damian    ', '2016-07-11 21:21:58.555', 1600.00, 0, 0, 5, NULL, NULL);
+INSERT INTO via_viajes (via_id, via_desc, via_fec_sali, via_fec_reg, via_usu_ins, via_fec_ins, via_usu_mod, via_fec_mod, via_cost, via_cant_tot, via_cant_vend, mon_id, via_resumen, via_img) VALUES (5, 'Viaje a Disney', '2016-08-12', '2016-08-24', 'damian    ', '2016-07-11 21:25:09.606', 'damian    ', '2016-07-27 05:36:19.308', 1500.00, 100, 3, 7, 'Vamos a conocer lo mejor del mundo Disney. Acompañanos a esta hermosa experiencia de diversión y magia.', NULL);
+INSERT INTO via_viajes (via_id, via_desc, via_fec_sali, via_fec_reg, via_usu_ins, via_fec_ins, via_usu_mod, via_fec_mod, via_cost, via_cant_tot, via_cant_vend, mon_id, via_resumen, via_img) VALUES (6, 'Viaje a Tierra Santa', '2016-09-06', '2016-09-21', 'damian    ', '2016-07-12 20:50:22.078', 'damian    ', '2016-07-27 05:37:28.664', 2500.00, 0, 0, 7, 'En este recorrido seguiremos las huellas de Jesus en su camino al calvario.', NULL);
 
 
 --
--- TOC entry 2731 (class 0 OID 17783)
+-- TOC entry 2733 (class 0 OID 17783)
 -- Dependencies: 262
 -- Data for Name: via_viajes_det; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO via_viajes_det (via_id, vid_id, vid_desc, con_id, vid_cant_tot, fad_id, vid_usu_ins, vid_fec_ins, vid_usu_mod, vid_fec_mod, vid_cant_vend, mon_id, vid_monto, vid_tip) VALUES (5, 14, 'Entradas a Disney                                                                                   ', 2, 100, 11, 'damian    ', '2016-07-12 21:56:39.518', NULL, NULL, 0, 7, 450.00, 'I');
-INSERT INTO via_viajes_det (via_id, vid_id, vid_desc, con_id, vid_cant_tot, fad_id, vid_usu_ins, vid_fec_ins, vid_usu_mod, vid_fec_mod, vid_cant_vend, mon_id, vid_monto, vid_tip) VALUES (5, 16, 'Propina Chefer                                                                                      ', 5, 0, NULL, 'damian    ', '2016-07-12 21:58:33.142', NULL, NULL, 0, 7, 10.00, 'I');
-INSERT INTO via_viajes_det (via_id, vid_id, vid_desc, con_id, vid_cant_tot, fad_id, vid_usu_ins, vid_fec_ins, vid_usu_mod, vid_fec_mod, vid_cant_vend, mon_id, vid_monto, vid_tip) VALUES (5, 18, 'Pasaje                                                                                              ', 1, 100, 10, 'damian    ', '2016-07-12 23:54:45.988', NULL, NULL, 0, 7, 550.00, 'I');
-INSERT INTO via_viajes_det (via_id, vid_id, vid_desc, con_id, vid_cant_tot, fad_id, vid_usu_ins, vid_fec_ins, vid_usu_mod, vid_fec_mod, vid_cant_vend, mon_id, vid_monto, vid_tip) VALUES (5, 20, 'Entrada a Juegos                                                                                    ', 7, 0, NULL, 'damian    ', '2016-07-13 00:33:48.065', NULL, NULL, 0, 7, NULL, 'N');
+INSERT INTO via_viajes_det (via_id, vid_id, vid_desc, con_id, vid_cant_tot, fad_id, vid_usu_ins, vid_fec_ins, vid_usu_mod, vid_fec_mod, vid_cant_vend, mon_id, vid_monto, vid_tip, vid_img) VALUES (5, 14, 'Entradas a Disney                                                                                   ', 2, 100, 11, 'damian    ', '2016-07-12 21:56:39.518', NULL, NULL, 0, 7, 450.00, 'I', NULL);
+INSERT INTO via_viajes_det (via_id, vid_id, vid_desc, con_id, vid_cant_tot, fad_id, vid_usu_ins, vid_fec_ins, vid_usu_mod, vid_fec_mod, vid_cant_vend, mon_id, vid_monto, vid_tip, vid_img) VALUES (5, 16, 'Propina Chefer                                                                                      ', 5, 0, NULL, 'damian    ', '2016-07-12 21:58:33.142', NULL, NULL, 0, 7, 10.00, 'I', NULL);
+INSERT INTO via_viajes_det (via_id, vid_id, vid_desc, con_id, vid_cant_tot, fad_id, vid_usu_ins, vid_fec_ins, vid_usu_mod, vid_fec_mod, vid_cant_vend, mon_id, vid_monto, vid_tip, vid_img) VALUES (5, 18, 'Pasaje                                                                                              ', 1, 100, 10, 'damian    ', '2016-07-12 23:54:45.988', NULL, NULL, 0, 7, 550.00, 'I', NULL);
+INSERT INTO via_viajes_det (via_id, vid_id, vid_desc, con_id, vid_cant_tot, fad_id, vid_usu_ins, vid_fec_ins, vid_usu_mod, vid_fec_mod, vid_cant_vend, mon_id, vid_monto, vid_tip, vid_img) VALUES (5, 20, 'Entrada a Juegos                                                                                    ', 7, 0, NULL, 'damian    ', '2016-07-13 00:33:48.065', NULL, NULL, 0, 7, NULL, 'N', NULL);
 
 
 --
--- TOC entry 2819 (class 0 OID 0)
+-- TOC entry 2821 (class 0 OID 0)
 -- Dependencies: 261
 -- Name: via_viajes_det_vid_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -3074,16 +3112,16 @@ SELECT pg_catalog.setval('via_viajes_det_vid_id_seq', 20, true);
 
 
 --
--- TOC entry 2820 (class 0 OID 0)
+-- TOC entry 2822 (class 0 OID 0)
 -- Dependencies: 244
 -- Name: via_viajes_via_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('via_viajes_via_id_seq', 6, true);
+SELECT pg_catalog.setval('via_viajes_via_id_seq', 7, true);
 
 
 --
--- TOC entry 2714 (class 0 OID 17237)
+-- TOC entry 2716 (class 0 OID 17237)
 -- Dependencies: 245
 -- Data for Name: via_visas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -3094,7 +3132,7 @@ INSERT INTO via_visas (vis_id, vis_nro, vis_nro_sec, vis_fec_venc, pat_id, pai_i
 
 
 --
--- TOC entry 2821 (class 0 OID 0)
+-- TOC entry 2823 (class 0 OID 0)
 -- Dependencies: 246
 -- Name: via_visas_vis_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -3103,7 +3141,7 @@ SELECT pg_catalog.setval('via_visas_vis_id_seq', 5, true);
 
 
 --
--- TOC entry 2433 (class 2606 OID 17279)
+-- TOC entry 2435 (class 2606 OID 17279)
 -- Name: actividades_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3112,7 +3150,7 @@ ALTER TABLE ONLY via_actividades
 
 
 --
--- TOC entry 2435 (class 2606 OID 17281)
+-- TOC entry 2437 (class 2606 OID 17281)
 -- Name: actividades_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3121,7 +3159,7 @@ ALTER TABLE ONLY via_actividades
 
 
 --
--- TOC entry 2387 (class 2606 OID 17283)
+-- TOC entry 2389 (class 2606 OID 17283)
 -- Name: atractivos_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3130,7 +3168,7 @@ ALTER TABLE ONLY pge_atractivos
 
 
 --
--- TOC entry 2389 (class 2606 OID 17285)
+-- TOC entry 2391 (class 2606 OID 17285)
 -- Name: atractivos_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3139,7 +3177,7 @@ ALTER TABLE ONLY pge_atractivos
 
 
 --
--- TOC entry 2472 (class 2606 OID 17651)
+-- TOC entry 2474 (class 2606 OID 17651)
 -- Name: caj_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3148,7 +3186,7 @@ ALTER TABLE ONLY com_cajas
 
 
 --
--- TOC entry 2391 (class 2606 OID 17287)
+-- TOC entry 2393 (class 2606 OID 17287)
 -- Name: ciudades_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3157,7 +3195,7 @@ ALTER TABLE ONLY pge_ciudades
 
 
 --
--- TOC entry 2393 (class 2606 OID 17289)
+-- TOC entry 2395 (class 2606 OID 17289)
 -- Name: ciudades_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3166,7 +3204,7 @@ ALTER TABLE ONLY pge_ciudades
 
 
 --
--- TOC entry 2377 (class 2606 OID 17291)
+-- TOC entry 2379 (class 2606 OID 17291)
 -- Name: cobros_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3175,7 +3213,7 @@ ALTER TABLE ONLY pag_cobros
 
 
 --
--- TOC entry 2383 (class 2606 OID 17293)
+-- TOC entry 2385 (class 2606 OID 17293)
 -- Name: comprobantes_det_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3184,7 +3222,7 @@ ALTER TABLE ONLY pag_comprobantes_det
 
 
 --
--- TOC entry 2385 (class 2606 OID 17295)
+-- TOC entry 2387 (class 2606 OID 17295)
 -- Name: comprobantes_det_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3193,7 +3231,7 @@ ALTER TABLE ONLY pag_comprobantes_det
 
 
 --
--- TOC entry 2476 (class 2606 OID 17720)
+-- TOC entry 2478 (class 2606 OID 17720)
 -- Name: con_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3202,7 +3240,7 @@ ALTER TABLE ONLY via_conceptos
 
 
 --
--- TOC entry 2480 (class 2606 OID 17847)
+-- TOC entry 2482 (class 2606 OID 17847)
 -- Name: contacto_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3211,7 +3249,7 @@ ALTER TABLE ONLY con_contactos
 
 
 --
--- TOC entry 2395 (class 2606 OID 17297)
+-- TOC entry 2397 (class 2606 OID 17297)
 -- Name: cotizaciones_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3220,7 +3258,7 @@ ALTER TABLE ONLY pge_cotizaciones
 
 
 --
--- TOC entry 2397 (class 2606 OID 17299)
+-- TOC entry 2399 (class 2606 OID 17299)
 -- Name: datos_generalles_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3229,7 +3267,7 @@ ALTER TABLE ONLY pge_datos_generales
 
 
 --
--- TOC entry 2399 (class 2606 OID 17301)
+-- TOC entry 2401 (class 2606 OID 17301)
 -- Name: direcciones_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3238,7 +3276,7 @@ ALTER TABLE ONLY pge_direcciones
 
 
 --
--- TOC entry 2465 (class 2606 OID 17591)
+-- TOC entry 2467 (class 2606 OID 17591)
 -- Name: fac_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3247,7 +3285,7 @@ ALTER TABLE ONLY com_facturas
 
 
 --
--- TOC entry 2467 (class 2606 OID 17609)
+-- TOC entry 2469 (class 2606 OID 17609)
 -- Name: fad_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3256,7 +3294,7 @@ ALTER TABLE ONLY com_facturas_det
 
 
 --
--- TOC entry 2437 (class 2606 OID 17303)
+-- TOC entry 2439 (class 2606 OID 17303)
 -- Name: fidelidades_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3265,7 +3303,7 @@ ALTER TABLE ONLY via_fidelidades
 
 
 --
--- TOC entry 2439 (class 2606 OID 17305)
+-- TOC entry 2441 (class 2606 OID 17305)
 -- Name: fidelidades_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3274,7 +3312,7 @@ ALTER TABLE ONLY via_fidelidades
 
 
 --
--- TOC entry 2441 (class 2606 OID 17307)
+-- TOC entry 2443 (class 2606 OID 17307)
 -- Name: gasto_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3283,7 +3321,7 @@ ALTER TABLE ONLY via_gastos
 
 
 --
--- TOC entry 2443 (class 2606 OID 17309)
+-- TOC entry 2445 (class 2606 OID 17309)
 -- Name: gasto_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3292,7 +3330,7 @@ ALTER TABLE ONLY via_gastos
 
 
 --
--- TOC entry 2401 (class 2606 OID 17311)
+-- TOC entry 2403 (class 2606 OID 17311)
 -- Name: menu_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3301,7 +3339,7 @@ ALTER TABLE ONLY pge_menus
 
 
 --
--- TOC entry 2403 (class 2606 OID 17313)
+-- TOC entry 2405 (class 2606 OID 17313)
 -- Name: menus_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3310,7 +3348,7 @@ ALTER TABLE ONLY pge_menus
 
 
 --
--- TOC entry 2405 (class 2606 OID 17315)
+-- TOC entry 2407 (class 2606 OID 17315)
 -- Name: modulos_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3319,7 +3357,7 @@ ALTER TABLE ONLY pge_modulos
 
 
 --
--- TOC entry 2407 (class 2606 OID 17317)
+-- TOC entry 2409 (class 2606 OID 17317)
 -- Name: monedas_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3328,7 +3366,7 @@ ALTER TABLE ONLY pge_monedas
 
 
 --
--- TOC entry 2474 (class 2606 OID 17695)
+-- TOC entry 2476 (class 2606 OID 17695)
 -- Name: mov_cajas_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3337,7 +3375,7 @@ ALTER TABLE ONLY com_mov_cajas
 
 
 --
--- TOC entry 2409 (class 2606 OID 17319)
+-- TOC entry 2411 (class 2606 OID 17319)
 -- Name: organizaciones_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3346,7 +3384,7 @@ ALTER TABLE ONLY pge_organizaciones
 
 
 --
--- TOC entry 2411 (class 2606 OID 17321)
+-- TOC entry 2413 (class 2606 OID 17321)
 -- Name: organizaciones_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3355,7 +3393,7 @@ ALTER TABLE ONLY pge_organizaciones
 
 
 --
--- TOC entry 2379 (class 2606 OID 17323)
+-- TOC entry 2381 (class 2606 OID 17323)
 -- Name: pag_comprobantes_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3364,7 +3402,7 @@ ALTER TABLE ONLY pag_comprobantes
 
 
 --
--- TOC entry 2381 (class 2606 OID 17325)
+-- TOC entry 2383 (class 2606 OID 17325)
 -- Name: pag_comprobantes_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3373,7 +3411,7 @@ ALTER TABLE ONLY pag_comprobantes
 
 
 --
--- TOC entry 2470 (class 2606 OID 17627)
+-- TOC entry 2472 (class 2606 OID 17627)
 -- Name: pagos_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3382,7 +3420,7 @@ ALTER TABLE ONLY com_pagos
 
 
 --
--- TOC entry 2413 (class 2606 OID 17327)
+-- TOC entry 2415 (class 2606 OID 17327)
 -- Name: paises_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3391,7 +3429,7 @@ ALTER TABLE ONLY pge_paises
 
 
 --
--- TOC entry 2445 (class 2606 OID 17329)
+-- TOC entry 2447 (class 2606 OID 17329)
 -- Name: pas_viajes_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3400,7 +3438,7 @@ ALTER TABLE ONLY via_pasajeros
 
 
 --
--- TOC entry 2447 (class 2606 OID 17331)
+-- TOC entry 2449 (class 2606 OID 17331)
 -- Name: pas_viajes_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3409,7 +3447,7 @@ ALTER TABLE ONLY via_pasajeros
 
 
 --
--- TOC entry 2449 (class 2606 OID 17333)
+-- TOC entry 2451 (class 2606 OID 17333)
 -- Name: pasaportes_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3418,7 +3456,7 @@ ALTER TABLE ONLY via_pasaportes
 
 
 --
--- TOC entry 2451 (class 2606 OID 17335)
+-- TOC entry 2453 (class 2606 OID 17335)
 -- Name: pasaportes_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3427,7 +3465,7 @@ ALTER TABLE ONLY via_pasaportes
 
 
 --
--- TOC entry 2415 (class 2606 OID 17337)
+-- TOC entry 2417 (class 2606 OID 17337)
 -- Name: permisos_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3436,7 +3474,7 @@ ALTER TABLE ONLY pge_permisos
 
 
 --
--- TOC entry 2417 (class 2606 OID 17339)
+-- TOC entry 2419 (class 2606 OID 17339)
 -- Name: personas_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3445,7 +3483,7 @@ ALTER TABLE ONLY pge_personas
 
 
 --
--- TOC entry 2453 (class 2606 OID 17341)
+-- TOC entry 2455 (class 2606 OID 17341)
 -- Name: pre_viajes_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3454,7 +3492,7 @@ ALTER TABLE ONLY via_pre_viajes
 
 
 --
--- TOC entry 2455 (class 2606 OID 17343)
+-- TOC entry 2457 (class 2606 OID 17343)
 -- Name: pre_viajes_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3463,7 +3501,7 @@ ALTER TABLE ONLY via_pre_viajes
 
 
 --
--- TOC entry 2463 (class 2606 OID 17559)
+-- TOC entry 2465 (class 2606 OID 17559)
 -- Name: pro_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3472,7 +3510,7 @@ ALTER TABLE ONLY com_proveedores
 
 
 --
--- TOC entry 2419 (class 2606 OID 17345)
+-- TOC entry 2421 (class 2606 OID 17345)
 -- Name: profesiones_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3481,7 +3519,7 @@ ALTER TABLE ONLY pge_profesiones
 
 
 --
--- TOC entry 2421 (class 2606 OID 17347)
+-- TOC entry 2423 (class 2606 OID 17347)
 -- Name: roles_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3490,7 +3528,7 @@ ALTER TABLE ONLY pge_roles
 
 
 --
--- TOC entry 2423 (class 2606 OID 17349)
+-- TOC entry 2425 (class 2606 OID 17349)
 -- Name: secuencias_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3499,7 +3537,7 @@ ALTER TABLE ONLY pge_secuencias
 
 
 --
--- TOC entry 2425 (class 2606 OID 17351)
+-- TOC entry 2427 (class 2606 OID 17351)
 -- Name: tipo_org_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3508,7 +3546,7 @@ ALTER TABLE ONLY pge_tipo_org
 
 
 --
--- TOC entry 2431 (class 2606 OID 17353)
+-- TOC entry 2433 (class 2606 OID 17353)
 -- Name: usu_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3517,7 +3555,7 @@ ALTER TABLE ONLY pge_usuarios
 
 
 --
--- TOC entry 2427 (class 2606 OID 17355)
+-- TOC entry 2429 (class 2606 OID 17355)
 -- Name: usu_roles_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3526,7 +3564,7 @@ ALTER TABLE ONLY pge_usu_roles
 
 
 --
--- TOC entry 2429 (class 2606 OID 17357)
+-- TOC entry 2431 (class 2606 OID 17357)
 -- Name: usu_roles_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3535,7 +3573,7 @@ ALTER TABLE ONLY pge_usu_roles
 
 
 --
--- TOC entry 2457 (class 2606 OID 17359)
+-- TOC entry 2459 (class 2606 OID 17359)
 -- Name: via_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3544,7 +3582,7 @@ ALTER TABLE ONLY via_viajes
 
 
 --
--- TOC entry 2478 (class 2606 OID 17794)
+-- TOC entry 2480 (class 2606 OID 17794)
 -- Name: viajes_det_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3553,7 +3591,7 @@ ALTER TABLE ONLY via_viajes_det
 
 
 --
--- TOC entry 2459 (class 2606 OID 17361)
+-- TOC entry 2461 (class 2606 OID 17361)
 -- Name: visas_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3562,7 +3600,7 @@ ALTER TABLE ONLY via_visas
 
 
 --
--- TOC entry 2461 (class 2606 OID 17363)
+-- TOC entry 2463 (class 2606 OID 17363)
 -- Name: visas_uq01; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3571,7 +3609,7 @@ ALTER TABLE ONLY via_visas
 
 
 --
--- TOC entry 2468 (class 1259 OID 17743)
+-- TOC entry 2470 (class 1259 OID 17743)
 -- Name: fki_facturas_det_fk02; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -3579,7 +3617,7 @@ CREATE INDEX fki_facturas_det_fk02 ON com_facturas_det USING btree (con_id);
 
 
 --
--- TOC entry 2505 (class 2606 OID 17364)
+-- TOC entry 2507 (class 2606 OID 17364)
 -- Name: actividades_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3588,7 +3626,7 @@ ALTER TABLE ONLY via_actividades
 
 
 --
--- TOC entry 2504 (class 2606 OID 17369)
+-- TOC entry 2506 (class 2606 OID 17369)
 -- Name: actividades_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3597,7 +3635,7 @@ ALTER TABLE ONLY via_actividades
 
 
 --
--- TOC entry 2488 (class 2606 OID 17374)
+-- TOC entry 2490 (class 2606 OID 17374)
 -- Name: atractivos_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3606,7 +3644,7 @@ ALTER TABLE ONLY pge_atractivos
 
 
 --
--- TOC entry 2527 (class 2606 OID 17652)
+-- TOC entry 2529 (class 2606 OID 17652)
 -- Name: cajas_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3615,7 +3653,7 @@ ALTER TABLE ONLY com_cajas
 
 
 --
--- TOC entry 2489 (class 2606 OID 17379)
+-- TOC entry 2491 (class 2606 OID 17379)
 -- Name: ciudades_fk_01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3624,7 +3662,7 @@ ALTER TABLE ONLY pge_ciudades
 
 
 --
--- TOC entry 2481 (class 2606 OID 17384)
+-- TOC entry 2483 (class 2606 OID 17384)
 -- Name: cobros_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3633,7 +3671,7 @@ ALTER TABLE ONLY pag_cobros
 
 
 --
--- TOC entry 2482 (class 2606 OID 17389)
+-- TOC entry 2484 (class 2606 OID 17389)
 -- Name: cobros_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3642,7 +3680,7 @@ ALTER TABLE ONLY pag_cobros
 
 
 --
--- TOC entry 2483 (class 2606 OID 17394)
+-- TOC entry 2485 (class 2606 OID 17394)
 -- Name: cobros_fk03; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3651,7 +3689,7 @@ ALTER TABLE ONLY pag_cobros
 
 
 --
--- TOC entry 2535 (class 2606 OID 17849)
+-- TOC entry 2537 (class 2606 OID 17849)
 -- Name: contacto_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3660,7 +3698,7 @@ ALTER TABLE ONLY con_contactos
 
 
 --
--- TOC entry 2534 (class 2606 OID 17854)
+-- TOC entry 2536 (class 2606 OID 17854)
 -- Name: contactos_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3669,7 +3707,7 @@ ALTER TABLE ONLY con_contactos
 
 
 --
--- TOC entry 2490 (class 2606 OID 17399)
+-- TOC entry 2492 (class 2606 OID 17399)
 -- Name: cotizaciones_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3678,7 +3716,7 @@ ALTER TABLE ONLY pge_cotizaciones
 
 
 --
--- TOC entry 2491 (class 2606 OID 17404)
+-- TOC entry 2493 (class 2606 OID 17404)
 -- Name: direcciones_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3687,7 +3725,7 @@ ALTER TABLE ONLY pge_direcciones
 
 
 --
--- TOC entry 2492 (class 2606 OID 17409)
+-- TOC entry 2494 (class 2606 OID 17409)
 -- Name: direcciones_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3696,7 +3734,7 @@ ALTER TABLE ONLY pge_direcciones
 
 
 --
--- TOC entry 2493 (class 2606 OID 17414)
+-- TOC entry 2495 (class 2606 OID 17414)
 -- Name: direcciones_fk03; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3705,7 +3743,7 @@ ALTER TABLE ONLY pge_direcciones
 
 
 --
--- TOC entry 2523 (class 2606 OID 17610)
+-- TOC entry 2525 (class 2606 OID 17610)
 -- Name: facturas_det_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3714,7 +3752,7 @@ ALTER TABLE ONLY com_facturas_det
 
 
 --
--- TOC entry 2524 (class 2606 OID 17738)
+-- TOC entry 2526 (class 2606 OID 17738)
 -- Name: facturas_det_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3723,7 +3761,7 @@ ALTER TABLE ONLY com_facturas_det
 
 
 --
--- TOC entry 2521 (class 2606 OID 17592)
+-- TOC entry 2523 (class 2606 OID 17592)
 -- Name: facturas_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3732,7 +3770,7 @@ ALTER TABLE ONLY com_facturas
 
 
 --
--- TOC entry 2522 (class 2606 OID 17597)
+-- TOC entry 2524 (class 2606 OID 17597)
 -- Name: facturas_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3741,7 +3779,7 @@ ALTER TABLE ONLY com_facturas
 
 
 --
--- TOC entry 2506 (class 2606 OID 17419)
+-- TOC entry 2508 (class 2606 OID 17419)
 -- Name: fidelidades_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3750,7 +3788,7 @@ ALTER TABLE ONLY via_fidelidades
 
 
 --
--- TOC entry 2507 (class 2606 OID 17424)
+-- TOC entry 2509 (class 2606 OID 17424)
 -- Name: fidelidades_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3759,7 +3797,7 @@ ALTER TABLE ONLY via_fidelidades
 
 
 --
--- TOC entry 2508 (class 2606 OID 17429)
+-- TOC entry 2510 (class 2606 OID 17429)
 -- Name: gasto_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3768,7 +3806,7 @@ ALTER TABLE ONLY via_gastos
 
 
 --
--- TOC entry 2509 (class 2606 OID 17434)
+-- TOC entry 2511 (class 2606 OID 17434)
 -- Name: gasto_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3777,7 +3815,7 @@ ALTER TABLE ONLY via_gastos
 
 
 --
--- TOC entry 2510 (class 2606 OID 17832)
+-- TOC entry 2512 (class 2606 OID 17832)
 -- Name: gastos_fk03; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3786,7 +3824,7 @@ ALTER TABLE ONLY via_gastos
 
 
 --
--- TOC entry 2528 (class 2606 OID 17696)
+-- TOC entry 2530 (class 2606 OID 17696)
 -- Name: mov_cajas_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3795,7 +3833,7 @@ ALTER TABLE ONLY com_mov_cajas
 
 
 --
--- TOC entry 2529 (class 2606 OID 17701)
+-- TOC entry 2531 (class 2606 OID 17701)
 -- Name: mov_cajas_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3804,7 +3842,7 @@ ALTER TABLE ONLY com_mov_cajas
 
 
 --
--- TOC entry 2495 (class 2606 OID 17439)
+-- TOC entry 2497 (class 2606 OID 17439)
 -- Name: organizaciones_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3813,7 +3851,7 @@ ALTER TABLE ONLY pge_organizaciones
 
 
 --
--- TOC entry 2496 (class 2606 OID 17444)
+-- TOC entry 2498 (class 2606 OID 17444)
 -- Name: organizaciones_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3822,7 +3860,7 @@ ALTER TABLE ONLY pge_organizaciones
 
 
 --
--- TOC entry 2486 (class 2606 OID 17449)
+-- TOC entry 2488 (class 2606 OID 17449)
 -- Name: pag_comprobantes_det; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3831,7 +3869,7 @@ ALTER TABLE ONLY pag_comprobantes_det
 
 
 --
--- TOC entry 2484 (class 2606 OID 17454)
+-- TOC entry 2486 (class 2606 OID 17454)
 -- Name: pag_comprobantes_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3840,7 +3878,7 @@ ALTER TABLE ONLY pag_comprobantes
 
 
 --
--- TOC entry 2487 (class 2606 OID 17459)
+-- TOC entry 2489 (class 2606 OID 17459)
 -- Name: pag_comprobantes_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3849,7 +3887,7 @@ ALTER TABLE ONLY pag_comprobantes_det
 
 
 --
--- TOC entry 2485 (class 2606 OID 17464)
+-- TOC entry 2487 (class 2606 OID 17464)
 -- Name: pag_comprobantes_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3858,7 +3896,7 @@ ALTER TABLE ONLY pag_comprobantes
 
 
 --
--- TOC entry 2525 (class 2606 OID 17628)
+-- TOC entry 2527 (class 2606 OID 17628)
 -- Name: pagos_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3867,7 +3905,7 @@ ALTER TABLE ONLY com_pagos
 
 
 --
--- TOC entry 2526 (class 2606 OID 17633)
+-- TOC entry 2528 (class 2606 OID 17633)
 -- Name: pagos_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3876,7 +3914,7 @@ ALTER TABLE ONLY com_pagos
 
 
 --
--- TOC entry 2494 (class 2606 OID 17469)
+-- TOC entry 2496 (class 2606 OID 17469)
 -- Name: paises_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3885,7 +3923,7 @@ ALTER TABLE ONLY pge_monedas
 
 
 --
--- TOC entry 2511 (class 2606 OID 17474)
+-- TOC entry 2513 (class 2606 OID 17474)
 -- Name: pas_viajes_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3894,7 +3932,7 @@ ALTER TABLE ONLY via_pasajeros
 
 
 --
--- TOC entry 2512 (class 2606 OID 17479)
+-- TOC entry 2514 (class 2606 OID 17479)
 -- Name: pas_viajes_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3903,7 +3941,7 @@ ALTER TABLE ONLY via_pasajeros
 
 
 --
--- TOC entry 2513 (class 2606 OID 17484)
+-- TOC entry 2515 (class 2606 OID 17484)
 -- Name: pasaportes_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3912,7 +3950,7 @@ ALTER TABLE ONLY via_pasaportes
 
 
 --
--- TOC entry 2497 (class 2606 OID 17489)
+-- TOC entry 2499 (class 2606 OID 17489)
 -- Name: permisos_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3921,7 +3959,7 @@ ALTER TABLE ONLY pge_permisos
 
 
 --
--- TOC entry 2499 (class 2606 OID 17494)
+-- TOC entry 2501 (class 2606 OID 17494)
 -- Name: personas_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3930,7 +3968,7 @@ ALTER TABLE ONLY pge_personas
 
 
 --
--- TOC entry 2500 (class 2606 OID 17499)
+-- TOC entry 2502 (class 2606 OID 17499)
 -- Name: personas_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3939,7 +3977,7 @@ ALTER TABLE ONLY pge_personas
 
 
 --
--- TOC entry 2498 (class 2606 OID 17504)
+-- TOC entry 2500 (class 2606 OID 17504)
 -- Name: pge_permisos_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3948,7 +3986,7 @@ ALTER TABLE ONLY pge_permisos
 
 
 --
--- TOC entry 2514 (class 2606 OID 17509)
+-- TOC entry 2516 (class 2606 OID 17509)
 -- Name: pre_viajes_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3957,7 +3995,7 @@ ALTER TABLE ONLY via_pre_viajes
 
 
 --
--- TOC entry 2515 (class 2606 OID 17514)
+-- TOC entry 2517 (class 2606 OID 17514)
 -- Name: pre_viajes_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3966,7 +4004,7 @@ ALTER TABLE ONLY via_pre_viajes
 
 
 --
--- TOC entry 2519 (class 2606 OID 17560)
+-- TOC entry 2521 (class 2606 OID 17560)
 -- Name: proveedores_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3975,7 +4013,7 @@ ALTER TABLE ONLY com_proveedores
 
 
 --
--- TOC entry 2520 (class 2606 OID 17565)
+-- TOC entry 2522 (class 2606 OID 17565)
 -- Name: proveedores_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3984,7 +4022,7 @@ ALTER TABLE ONLY com_proveedores
 
 
 --
--- TOC entry 2501 (class 2606 OID 17519)
+-- TOC entry 2503 (class 2606 OID 17519)
 -- Name: usu_roles_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3993,7 +4031,7 @@ ALTER TABLE ONLY pge_usu_roles
 
 
 --
--- TOC entry 2502 (class 2606 OID 17524)
+-- TOC entry 2504 (class 2606 OID 17524)
 -- Name: usu_roles_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4002,7 +4040,7 @@ ALTER TABLE ONLY pge_usu_roles
 
 
 --
--- TOC entry 2503 (class 2606 OID 17529)
+-- TOC entry 2505 (class 2606 OID 17529)
 -- Name: usuarios_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4011,7 +4049,7 @@ ALTER TABLE ONLY pge_usuarios
 
 
 --
--- TOC entry 2530 (class 2606 OID 17795)
+-- TOC entry 2532 (class 2606 OID 17795)
 -- Name: viajes_det_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4020,7 +4058,7 @@ ALTER TABLE ONLY via_viajes_det
 
 
 --
--- TOC entry 2531 (class 2606 OID 17800)
+-- TOC entry 2533 (class 2606 OID 17800)
 -- Name: viajes_det_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4029,7 +4067,7 @@ ALTER TABLE ONLY via_viajes_det
 
 
 --
--- TOC entry 2532 (class 2606 OID 17805)
+-- TOC entry 2534 (class 2606 OID 17805)
 -- Name: viajes_det_fk03; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4038,7 +4076,7 @@ ALTER TABLE ONLY via_viajes_det
 
 
 --
--- TOC entry 2533 (class 2606 OID 17819)
+-- TOC entry 2535 (class 2606 OID 17819)
 -- Name: viajes_det_fk04; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4047,7 +4085,7 @@ ALTER TABLE ONLY via_viajes_det
 
 
 --
--- TOC entry 2516 (class 2606 OID 17824)
+-- TOC entry 2518 (class 2606 OID 17824)
 -- Name: viajes_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4056,7 +4094,7 @@ ALTER TABLE ONLY via_viajes
 
 
 --
--- TOC entry 2517 (class 2606 OID 17534)
+-- TOC entry 2519 (class 2606 OID 17534)
 -- Name: visas_fk01; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4065,7 +4103,7 @@ ALTER TABLE ONLY via_visas
 
 
 --
--- TOC entry 2518 (class 2606 OID 17539)
+-- TOC entry 2520 (class 2606 OID 17539)
 -- Name: visas_fk02; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4074,7 +4112,7 @@ ALTER TABLE ONLY via_visas
 
 
 --
--- TOC entry 2740 (class 0 OID 0)
+-- TOC entry 2742 (class 0 OID 0)
 -- Dependencies: 7
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -4085,7 +4123,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2016-07-24 11:16:06
+-- Completed on 2016-07-27 05:44:35
 
 --
 -- PostgreSQL database dump complete
