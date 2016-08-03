@@ -9,6 +9,7 @@ import com.fpuna.py.travelware.dao.ViajeDao;
 import com.fpuna.py.travelware.model.PgePersonas;
 import com.fpuna.py.travelware.model.ViaPasajeros;
 import com.fpuna.py.travelware.model.ViaViajes;
+import com.fpuna.py.travelware.model.ViaViajesDet;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -113,6 +114,16 @@ public class ViajeImpl implements ViajeDao{
             return (ViaViajes) em.createNamedQuery("ViaViajes.findByViaDesc").setParameter("viaDesc", value).getSingleResult();
         } catch (Exception e) {
             System.out.println("CLASS "+this.getClass().getName()+" METHOD: getAll "+ e);
+            return null;
+        }
+    }
+
+    @Override
+    public ViaViajesDet getByViaDetId(int id) {
+        try {
+            return (ViaViajesDet) em.createNamedQuery("ViaViajesDet.findByVidId").setParameter("vidId", id);
+        } catch (Exception e) {
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: getByViaDetId "+ e);
             return null;
         }
     }

@@ -7,6 +7,7 @@ package com.fpuna.py.travelware.dao;
 
 import com.fpuna.py.travelware.model.PgePersonas;
 import com.fpuna.py.travelware.model.ViaViajes;
+import com.fpuna.py.travelware.model.ViaViajesDet;
 import java.util.List;
 
 /**
@@ -17,4 +18,5 @@ public interface ViajeDao extends GenericDao<ViaViajes, Integer>{
     ViaViajes getByName(String value);
     List<ViaViajes> getAllDisp();
     List<ViaViajes> getAllFuturos();
+    ViaViajesDet getByViaDetId(int id);
 }
