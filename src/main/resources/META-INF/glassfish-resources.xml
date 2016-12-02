@@ -32,6 +32,6 @@
         <property name="URL" value="jdbc:postgresql://localhost:5432/travelware"/>
         <property name="driverClass" value="org.postgresql.Driver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="postgres-travelware" 
+    <jdbc-resource enabled="true" jndi-name="travelware" 
                    object-type="user" pool-name="post-gre-sql_travelware_postgresPool"/>
 </resources>

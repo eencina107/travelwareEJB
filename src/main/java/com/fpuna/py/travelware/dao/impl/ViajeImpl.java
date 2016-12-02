@@ -117,4 +117,16 @@ public class ViajeImpl implements ViajeDao{
         }
     }
     
+    @Override
+    public boolean isDisponible(ViaViajes viaje) {
+        try {
+            Long cant= (Long) em.createQuery("select COUNT(v) from ViaViajes v where v.viaId = :viaId and v.viaCantTot > v.viaCantVend and v.viaFecSali > current_timestamp").setParameter("viaId", viaje.getViaId()).getSingleResult();
+            if (cant.intValue() > 0)
+                return true;
+            return false;
+        } catch (Exception e) {
+            System.out.println("CLASS "+this.getClass().getName()+" METHOD: isDisponible "+ e);
+            return false;
+        }
+    }
 }
