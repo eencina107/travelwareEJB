@@ -58,6 +58,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ComFacturas.findByFacFormaPago", query = "SELECT c FROM ComFacturas c WHERE c.facFormaPago = :facFormaPago")})
 public class ComFacturas implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facId")
+    private List<ComPagos> comPagosList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -367,6 +370,14 @@ public class ComFacturas implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.ComFacturas[ facId=" + facId + " ]";
+    }
+
+    public List<ComPagos> getComPagosList() {
+        return comPagosList;
+    }
+
+    public void setComPagosList(List<ComPagos> comPagosList) {
+        this.comPagosList = comPagosList;
     }
     
 }

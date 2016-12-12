@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.5
 -- Dumped by pg_dump version 9.5.5
 
--- Started on 2016-12-12 10:09:23 PYST
+-- Started on 2016-12-12 17:04:24 PYST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -265,7 +265,7 @@ CREATE TABLE com_pagos (
     mon_id integer NOT NULL,
     pgo_cambio numeric(14,2) DEFAULT 1,
     pgo_monto numeric(18,2) NOT NULL,
-    pgo_for_pago character(3) NOT NULL,
+    pgo_for_pago character(3),
     pgo_observacion text,
     pgo_anulado character(1) DEFAULT 'N'::bpchar,
     pgo_usu_ins character(10) NOT NULL,
@@ -2279,6 +2279,10 @@ INSERT INTO com_facturas VALUES (12, 1, '001-001-0000030     ', '2016-07-04', 6,
 INSERT INTO com_facturas VALUES (15, 1, '001-002-0000032     ', '2016-08-02', 6, 1.00, NULL, NULL, 120000000.00, 'Paquete a Machu Pichu                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ', 'I', '1155662        ', '2016-11-30', 'R', NULL, 120000000.00, 12, NULL, 'damian    ', '2016-08-02 10:43:55.297', NULL, NULL, NULL);
 INSERT INTO com_facturas VALUES (13, 1, '001-001-0000031     ', '2016-07-19', 6, 1.00, NULL, NULL, 27500.00, 'Fact. Nro. 31 de prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ', 'I', '321            ', '2016-08-31', 'C', NULL, 27500.00, 1, NULL, 'damian    ', '2016-07-25 20:35:35.19', 'damian    ', '2016-08-07 14:08:48.047', NULL);
 INSERT INTO com_facturas VALUES (7, 2, '001-001-0000004     ', '2016-07-07', 6, 1.00, NULL, NULL, 420000.00, 'Fact. Nro. 4 de prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ', 'I', '11564400       ', '2016-07-31', 'R', NULL, 200000.00, 10, NULL, 'damian    ', '2016-07-09 10:15:46.683', 'damian    ', '2016-08-07 14:08:02.713', NULL);
+INSERT INTO com_facturas VALUES (23, 2, '001-001-121220161   ', '2016-12-12', 6, 1.00, NULL, NULL, 600000.00, 'Desc Prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ', 'A', '33665541       ', '2016-12-30', 'C', NULL, 600000.00, 3, NULL, 'eduardo   ', '2016-12-12 13:31:46.612', NULL, NULL, NULL);
+INSERT INTO com_facturas VALUES (24, 2, '001-001-121220161   ', '2016-12-12', 6, 1.00, NULL, NULL, 600000.00, 'Prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ', 'A', '1515981        ', '2016-12-30', 'C', NULL, 600000.00, 3, NULL, 'eduardo   ', '2016-12-12 13:41:39.454', NULL, NULL, NULL);
+INSERT INTO com_facturas VALUES (25, 1, '001-001-0000151     ', '2016-12-12', 6, 1.00, NULL, NULL, 600000.00, 'Desc Prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ', 'I', '16181223       ', '2016-12-30', 'C', NULL, 600000.00, 3, NULL, 'eduardo   ', '2016-12-12 15:15:45.664', NULL, NULL, NULL);
+INSERT INTO com_facturas VALUES (26, 2, '001-001-121220161   ', '2016-12-12', 6, 1.00, NULL, NULL, 600000.00, 'Prueba                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ', 'I', '65168111       ', '2016-12-30', 'C', NULL, 600000.00, 3, NULL, 'eduardo   ', '2016-12-12 15:19:11.512', NULL, NULL, NULL);
 
 
 --
@@ -2315,7 +2319,7 @@ SELECT pg_catalog.setval('com_facturas_det_fad_id_seq', 17, true);
 -- Name: com_facturas_fac_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('com_facturas_fac_id_seq', 16, true);
+SELECT pg_catalog.setval('com_facturas_fac_id_seq', 26, true);
 
 
 --
@@ -2374,6 +2378,9 @@ INSERT INTO com_pagos VALUES (18, 6, 'CTA', '1              ', 3, 1.00, 10.00, '
 INSERT INTO com_pagos VALUES (19, 7, 'CTA', '1              ', 6, 1.00, 100000.00, 'CHE', 'pago 1', 'N', 'damian    ', '2016-08-07 13:46:25.981', NULL, NULL, ' cien mil 00/100 Guaraníes.', NULL, NULL);
 INSERT INTO com_pagos VALUES (20, 7, 'CTA', '2              ', 6, 1.00, 100000.00, 'EFE', 'pago 2', 'N', 'damian    ', '2016-08-07 13:48:00.434', NULL, NULL, ' cien mil 00/100 Guaraníes.', NULL, NULL);
 INSERT INTO com_pagos VALUES (21, 7, 'CTA', '3              ', 6, 1.00, 20000.00, 'CHE', 'pago 3', 'N', 'damian    ', '2016-08-07 14:09:30.459', NULL, NULL, 'veinte mil 00/100 Guaraníes.', NULL, NULL);
+INSERT INTO com_pagos VALUES (22, 26, NULL, NULL, 6, 1.00, 200000.00, NULL, NULL, 'N', 'eduardo   ', '2016-12-12 15:19:14.72', NULL, NULL, 'SEISCIENTOS MIL 00/100 GUARANÍES.', 1, false);
+INSERT INTO com_pagos VALUES (23, 26, NULL, NULL, 6, 1.00, 200000.00, NULL, NULL, 'N', 'eduardo   ', '2016-12-12 15:19:19.947', NULL, NULL, 'SEISCIENTOS MIL 00/100 GUARANÍES.', 2, false);
+INSERT INTO com_pagos VALUES (24, 26, NULL, NULL, 6, 1.00, 200000.00, NULL, NULL, 'N', 'eduardo   ', '2016-12-12 15:19:23.021', NULL, NULL, 'SEISCIENTOS MIL 00/100 GUARANÍES.', 3, false);
 
 
 --
@@ -2382,7 +2389,7 @@ INSERT INTO com_pagos VALUES (21, 7, 'CTA', '3              ', 6, 1.00, 20000.00
 -- Name: com_pagos_pgo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('com_pagos_pgo_id_seq', 21, true);
+SELECT pg_catalog.setval('com_pagos_pgo_id_seq', 24, true);
 
 
 --
@@ -4301,7 +4308,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2016-12-12 10:09:23 PYST
+-- Completed on 2016-12-12 17:04:24 PYST
 
 --
 -- PostgreSQL database dump complete

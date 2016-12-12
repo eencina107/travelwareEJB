@@ -68,10 +68,8 @@ public class ComPagos implements Serializable {
     @NotNull
     @Column(name = "pgo_monto", nullable = false, precision = 18, scale = 2)
     private BigDecimal pgoMonto;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 3)
-    @Column(name = "pgo_for_pago", nullable = false, length = 3)
+    @Size(max = 3)
+    @Column(name = "pgo_for_pago", length = 3)
     private String pgoForPago;
     @Size(max = 2147483647)
     @Column(name = "pgo_observacion", length = 2147483647)
@@ -115,10 +113,9 @@ public class ComPagos implements Serializable {
         this.pgoId = pgoId;
     }
 
-    public ComPagos(Integer pgoId, BigDecimal pgoMonto, String pgoForPago, String pgoUsuIns, Date pgoFecIns) {
+    public ComPagos(Integer pgoId, BigDecimal pgoMonto, String pgoUsuIns, Date pgoFecIns) {
         this.pgoId = pgoId;
         this.pgoMonto = pgoMonto;
-        this.pgoForPago = pgoForPago;
         this.pgoUsuIns = pgoUsuIns;
         this.pgoFecIns = pgoFecIns;
     }

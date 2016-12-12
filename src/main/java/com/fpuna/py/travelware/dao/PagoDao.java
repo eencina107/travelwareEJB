@@ -14,4 +14,5 @@ import com.fpuna.py.travelware.model.ComPagos;
  */
 public interface PagoDao extends GenericDao<ComPagos, Integer>{
     public void agregarCuotasFactura(ComFacturas fact);
+    public ComPagos getCuotaAPagar(ComFacturas fact);
 }

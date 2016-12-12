@@ -17,4 +17,5 @@ import java.io.Serializable;
 public interface FacturaDao extends GenericDao<ComFacturas, Integer>{
     public List<ComFacturas> getAllProv(ComProveedores proveedor);
     public ComFacturas getByName(String value);
+    public ComFacturas getLast();
 }
