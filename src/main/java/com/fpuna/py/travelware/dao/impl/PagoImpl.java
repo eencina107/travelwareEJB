@@ -6,7 +6,11 @@
 package com.fpuna.py.travelware.dao.impl;
 
 import com.fpuna.py.travelware.dao.PagoDao;
+import com.fpuna.py.travelware.model.ComFacturas;
 import com.fpuna.py.travelware.model.ComPagos;
+import com.fpuna.py.travelware.utils.NumeroLetrasConverter;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,6 +24,11 @@ import javax.persistence.PersistenceContext;
 public class PagoImpl implements PagoDao{
     @PersistenceContext(unitName = "TravelwarePU")
     private EntityManager em;
+    private final NumeroLetrasConverter nlConv;
+
+    public PagoImpl() {
+        this.nlConv = new NumeroLetrasConverter();
+    }
 
     @Override
     public ComPagos create(ComPagos object) {
@@ -81,5 +90,29 @@ public class PagoImpl implements PagoDao{
             return null;
         }
     }
+
+    @Override
+    public void agregarCuotasFactura(ComFacturas fact) {
+        ComPagos pag;
+        for(int i=0; i<fact.getFacCanCuo();i++){
+            pag = new ComPagos();
+            pag.setMonId(fact.getMonId());
+            pag.setPgoCambio(fact.getFacCambio());
+            pag.setPgoCuotaNro(i+1);
+            pag.setPgoEstado(false);
+            pag.setPgoFecIns(new Date());
+            pag.setPgoForPago(fact.getFacFormaPago());
+            pag.setFacId(fact);
+            pag.setPgoMonto(fact.getFacTotal().divide(BigDecimal.valueOf(fact.getFacCanCuo().doubleValue())));
+            pag.setPgoMontoLetras(nlConv.Convertir(fact.getFacTotal().toPlainString(), true));
+            pag.setPgoUsuIns(fact.getFacUsuIns());
+            
+            em.persist(pag);
+            em.flush();
+            System.out.println("Se agrego el pago "+pag.getPgoId()+" de la factura con id "+fact.getFacId());
+        }
+    }
+    
+    
     
 }

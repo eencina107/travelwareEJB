@@ -23,15 +23,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author damia_000
+ * @author eencina
  */
 @Entity
-@Table(name = "com_pagos")
-@XmlRootElement
+@Table(name = "com_pagos", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ComPagos.findAll", query = "SELECT c FROM ComPagos c"),
     @NamedQuery(name = "ComPagos.findByPgoId", query = "SELECT c FROM ComPagos c WHERE c.pgoId = :pgoId"),
@@ -46,60 +44,67 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ComPagos.findByPgoFecIns", query = "SELECT c FROM ComPagos c WHERE c.pgoFecIns = :pgoFecIns"),
     @NamedQuery(name = "ComPagos.findByPgoUsuMod", query = "SELECT c FROM ComPagos c WHERE c.pgoUsuMod = :pgoUsuMod"),
     @NamedQuery(name = "ComPagos.findByPgoFecMod", query = "SELECT c FROM ComPagos c WHERE c.pgoFecMod = :pgoFecMod"),
-    @NamedQuery(name = "ComPagos.findByPgoMontoLetras", query = "SELECT c FROM ComPagos c WHERE c.pgoMontoLetras = :pgoMontoLetras")})
+    @NamedQuery(name = "ComPagos.findByPgoMontoLetras", query = "SELECT c FROM ComPagos c WHERE c.pgoMontoLetras = :pgoMontoLetras"),
+    @NamedQuery(name = "ComPagos.findByPgoCuotaNro", query = "SELECT c FROM ComPagos c WHERE c.pgoCuotaNro = :pgoCuotaNro"),
+    @NamedQuery(name = "ComPagos.findByPgoEstado", query = "SELECT c FROM ComPagos c WHERE c.pgoEstado = :pgoEstado")})
 public class ComPagos implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "pgo_id")
+    @Column(name = "pgo_id", nullable = false)
     private Integer pgoId;
     @Size(max = 3)
-    @Column(name = "pgo_tipo")
+    @Column(name = "pgo_tipo", length = 3)
     private String pgoTipo;
     @Size(max = 15)
-    @Column(name = "pgo_nro")
+    @Column(name = "pgo_nro", length = 15)
     private String pgoNro;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "pgo_cambio")
+    @Column(name = "pgo_cambio", precision = 14, scale = 2)
     private BigDecimal pgoCambio;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "pgo_monto")
+    @Column(name = "pgo_monto", nullable = false, precision = 18, scale = 2)
     private BigDecimal pgoMonto;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 3)
-    @Column(name = "pgo_for_pago")
+    @Column(name = "pgo_for_pago", nullable = false, length = 3)
     private String pgoForPago;
     @Size(max = 2147483647)
-    @Column(name = "pgo_observacion")
+    @Column(name = "pgo_observacion", length = 2147483647)
     private String pgoObservacion;
     @Column(name = "pgo_anulado")
     private Character pgoAnulado;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "pgo_usu_ins")
+    @Column(name = "pgo_usu_ins", nullable = false, length = 10)
     private String pgoUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "pgo_fec_ins")
+    @Column(name = "pgo_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date pgoFecIns;
     @Size(max = 10)
-    @Column(name = "pgo_usu_mod")
+    @Column(name = "pgo_usu_mod", length = 10)
     private String pgoUsuMod;
     @Column(name = "pgo_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date pgoFecMod;
     @Size(max = 2147483647)
-    @Column(name = "pgo_monto_letras")
+    @Column(name = "pgo_monto_letras", length = 2147483647)
     private String pgoMontoLetras;
-    @JoinColumn(name = "fac_id", referencedColumnName = "fac_id")
+    @Column(name = "pgo_cuota_nro")
+    private Integer pgoCuotaNro;
+    @Column(name = "pgo_estado")
+    private Boolean pgoEstado;
+    @JoinColumn(name = "fac_id", referencedColumnName = "fac_id", nullable = false)
     @ManyToOne(optional = false)
     private ComFacturas facId;
-    @JoinColumn(name = "mon_id", referencedColumnName = "mon_id")
+    @JoinColumn(name = "mon_id", referencedColumnName = "mon_id", nullable = false)
     @ManyToOne(optional = false)
     private PgeMonedas monId;
 
@@ -220,6 +225,22 @@ public class ComPagos implements Serializable {
 
     public void setPgoMontoLetras(String pgoMontoLetras) {
         this.pgoMontoLetras = pgoMontoLetras;
+    }
+
+    public Integer getPgoCuotaNro() {
+        return pgoCuotaNro;
+    }
+
+    public void setPgoCuotaNro(Integer pgoCuotaNro) {
+        this.pgoCuotaNro = pgoCuotaNro;
+    }
+
+    public Boolean getPgoEstado() {
+        return pgoEstado;
+    }
+
+    public void setPgoEstado(Boolean pgoEstado) {
+        this.pgoEstado = pgoEstado;
     }
 
     public ComFacturas getFacId() {

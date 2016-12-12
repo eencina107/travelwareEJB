@@ -7,8 +7,8 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,16 +26,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author damia_000
+ * @author eencina
  */
 @Entity
-@Table(name = "com_facturas")
-@XmlRootElement
+@Table(name = "com_facturas", catalog = "travelware", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "ComFacturas.findAll", query = "SELECT c FROM ComFacturas c"),
     @NamedQuery(name = "ComFacturas.findByFacId", query = "SELECT c FROM ComFacturas c WHERE c.facId = :facId"),
@@ -57,79 +54,82 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ComFacturas.findByFacUsuIns", query = "SELECT c FROM ComFacturas c WHERE c.facUsuIns = :facUsuIns"),
     @NamedQuery(name = "ComFacturas.findByFacFecIns", query = "SELECT c FROM ComFacturas c WHERE c.facFecIns = :facFecIns"),
     @NamedQuery(name = "ComFacturas.findByFacUsuMod", query = "SELECT c FROM ComFacturas c WHERE c.facUsuMod = :facUsuMod"),
-    @NamedQuery(name = "ComFacturas.findByFacFecMod", query = "SELECT c FROM ComFacturas c WHERE c.facFecMod = :facFecMod")})
+    @NamedQuery(name = "ComFacturas.findByFacFecMod", query = "SELECT c FROM ComFacturas c WHERE c.facFecMod = :facFecMod"),
+    @NamedQuery(name = "ComFacturas.findByFacFormaPago", query = "SELECT c FROM ComFacturas c WHERE c.facFormaPago = :facFormaPago")})
 public class ComFacturas implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facId")
-    private Collection<ComPagos> comPagosCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "fac_id")
+    @Column(name = "fac_id", nullable = false)
     private Integer facId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
-    @Column(name = "fac_nro")
+    @Column(name = "fac_nro", nullable = false, length = 20)
     private String facNro;
     @Column(name = "fac_fecha")
     @Temporal(TemporalType.DATE)
     private Date facFecha;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "fac_cambio")
+    @Column(name = "fac_cambio", precision = 14, scale = 2)
     private BigDecimal facCambio;
     @Column(name = "fac_tip")
     private Character facTip;
     @Column(name = "fac_iva_inc")
     private Character facIvaInc;
-    @Column(name = "fac_total")
+    @Column(name = "fac_total", precision = 18, scale = 2)
     private BigDecimal facTotal;
     @Size(max = 1000)
-    @Column(name = "fac_desc")
+    @Column(name = "fac_desc", length = 1000)
     private String facDesc;
     @Column(name = "fac_est")
     private Character facEst;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
-    @Column(name = "fac_nro_tim")
+    @Column(name = "fac_nro_tim", nullable = false, length = 15)
     private String facNroTim;
     @Column(name = "fac_fec_ven")
     @Temporal(TemporalType.DATE)
     private Date facFecVen;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "fac_cond")
+    @Column(name = "fac_cond", nullable = false)
     private Character facCond;
     @Size(max = 20)
-    @Column(name = "fac_ruc")
+    @Column(name = "fac_ruc", length = 20)
     private String facRuc;
-    @Column(name = "fac_saldo")
+    @Column(name = "fac_saldo", precision = 18, scale = 2)
     private BigDecimal facSaldo;
     @Column(name = "fac_can_cuo")
     private Integer facCanCuo;
     @Size(max = 2147483647)
-    @Column(name = "fac_img")
+    @Column(name = "fac_img", length = 2147483647)
     private String facImg;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "fac_usu_ins")
+    @Column(name = "fac_usu_ins", nullable = false, length = 10)
     private String facUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "fac_fec_ins")
+    @Column(name = "fac_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date facFecIns;
     @Size(max = 10)
-    @Column(name = "fac_usu_mod")
+    @Column(name = "fac_usu_mod", length = 10)
     private String facUsuMod;
     @Column(name = "fac_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date facFecMod;
+    @Size(max = 3)
+    @Column(name = "fac_forma_pago", length = 3)
+    private String facFormaPago;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "facId")
-    private Collection<ComFacturasDet> comFacturasDetCollection;
-    @JoinColumn(name = "pro_id", referencedColumnName = "pro_id")
+    private List<ComFacturasDet> comFacturasDetList;
+    @JoinColumn(name = "pro_id", referencedColumnName = "pro_id", nullable = false)
     @ManyToOne(optional = false)
     private ComProveedores proId;
     @JoinColumn(name = "mon_id", referencedColumnName = "mon_id")
@@ -312,13 +312,20 @@ public class ComFacturas implements Serializable {
         this.facFecMod = facFecMod;
     }
 
-    @XmlTransient
-    public Collection<ComFacturasDet> getComFacturasDetCollection() {
-        return comFacturasDetCollection;
+    public String getFacFormaPago() {
+        return facFormaPago;
     }
 
-    public void setComFacturasDetCollection(Collection<ComFacturasDet> comFacturasDetCollection) {
-        this.comFacturasDetCollection = comFacturasDetCollection;
+    public void setFacFormaPago(String facFormaPago) {
+        this.facFormaPago = facFormaPago;
+    }
+
+    public List<ComFacturasDet> getComFacturasDetList() {
+        return comFacturasDetList;
+    }
+
+    public void setComFacturasDetList(List<ComFacturasDet> comFacturasDetList) {
+        this.comFacturasDetList = comFacturasDetList;
     }
 
     public ComProveedores getProId() {
@@ -360,15 +367,6 @@ public class ComFacturas implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.ComFacturas[ facId=" + facId + " ]";
-    }
-
-    @XmlTransient
-    public Collection<ComPagos> getComPagosCollection() {
-        return comPagosCollection;
-    }
-
-    public void setComPagosCollection(Collection<ComPagos> comPagosCollection) {
-        this.comPagosCollection = comPagosCollection;
     }
     
 }

@@ -8,6 +8,7 @@ package com.fpuna.py.travelware.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,6 +42,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ViaViajesDet.findByVidCantVend", query = "SELECT v FROM ViaViajesDet v WHERE v.vidCantVend = :vidCantVend"),
     @NamedQuery(name = "ViaViajesDet.findByVidTip", query = "SELECT v FROM ViaViajesDet v WHERE v.vidTip = :vidTip")})
 public class ViaViajesDet implements Serializable {
+
+    @OneToMany(mappedBy = "viaDetId")
+    private List<ComFacturasDet> comFacturasDetList;
     @Size(max = 2147483647)
     @Column(name = "vid_img")
     private String vidImg;
@@ -240,6 +245,14 @@ public class ViaViajesDet implements Serializable {
 
     public void setVidImg(String vidImg) {
         this.vidImg = vidImg;
+    }
+
+    public List<ComFacturasDet> getComFacturasDetList() {
+        return comFacturasDetList;
+    }
+
+    public void setComFacturasDetList(List<ComFacturasDet> comFacturasDetList) {
+        this.comFacturasDetList = comFacturasDetList;
     }
     
 }
