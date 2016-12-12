@@ -43,6 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PgeMonedas.findByMonFecMod", query = "SELECT p FROM PgeMonedas p WHERE p.monFecMod = :monFecMod"),
     @NamedQuery(name = "PgeMonedas.findByMonAbreviatura", query = "SELECT p FROM PgeMonedas p WHERE p.monAbreviatura = :monAbreviatura")})
 public class PgeMonedas implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monId")
+    private Collection<PagCobros> pagCobrosCollection;
     @OneToMany(mappedBy = "monId")
     private Collection<ViaGastos> viaGastosCollection;
     @OneToMany(mappedBy = "monId")
@@ -255,6 +257,15 @@ public class PgeMonedas implements Serializable {
 
     public void setViaGastosCollection(Collection<ViaGastos> viaGastosCollection) {
         this.viaGastosCollection = viaGastosCollection;
+    }
+
+    @XmlTransient
+    public Collection<PagCobros> getPagCobrosCollection() {
+        return pagCobrosCollection;
+    }
+
+    public void setPagCobrosCollection(Collection<PagCobros> pagCobrosCollection) {
+        this.pagCobrosCollection = pagCobrosCollection;
     }
     
 }

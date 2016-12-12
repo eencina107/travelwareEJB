@@ -46,6 +46,22 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PagCobros.findByCobFecMod", query = "SELECT p FROM PagCobros p WHERE p.cobFecMod = :cobFecMod"),
     @NamedQuery(name = "PagCobros.findByCobMontoLetras", query = "SELECT p FROM PagCobros p WHERE p.cobMontoLetras = :cobMontoLetras")})
 public class PagCobros implements Serializable {
+    @Column(name = "cob_fec_anu")
+    @Temporal(TemporalType.DATE)
+    private Date cobFecAnu;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "cob_estado")
+    private Character cobEstado;
+    @Column(name = "cob_fec_pago")
+    @Temporal(TemporalType.DATE)
+    private Date cobFecPago;
+    @Size(max = 15)
+    @Column(name = "cob_fac_nro")
+    private String cobFacNro;
+    @Size(max = 15)
+    @Column(name = "cob_ncr_nro")
+    private String cobNcrNro;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -270,6 +286,46 @@ public class PagCobros implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.PagCobros[ cobId=" + cobId + " ]";
+    }
+
+    public Character getCobEstado() {
+        return cobEstado;
+    }
+
+    public void setCobEstado(Character cobEstado) {
+        this.cobEstado = cobEstado;
+    }
+
+    public Date getCobFecPago() {
+        return cobFecPago;
+    }
+
+    public void setCobFecPago(Date cobFecPago) {
+        this.cobFecPago = cobFecPago;
+    }
+
+    public String getCobFacNro() {
+        return cobFacNro;
+    }
+
+    public void setCobFacNro(String cobFacNro) {
+        this.cobFacNro = cobFacNro;
+    }
+
+    public String getCobNcrNro() {
+        return cobNcrNro;
+    }
+
+    public void setCobNcrNro(String cobNcrNro) {
+        this.cobNcrNro = cobNcrNro;
+    }
+
+    public Date getCobFecAnu() {
+        return cobFecAnu;
+    }
+
+    public void setCobFecAnu(Date cobFecAnu) {
+        this.cobFecAnu = cobFecAnu;
     }
     
 }
