@@ -86,7 +86,7 @@ public class PagoImpl implements PagoDao {
     @Override
     public List<ComPagos> getAll() {
         try {
-            return em.createQuery("SELECT p FROM ComPagos p WHERE p.pgoAnulado<>\'S\'").getResultList();
+            return em.createQuery("select p from ComPagos p where p.pgoAnulado != :est and p.pgoEstado = false").setParameter("est", 'S').getResultList();
         } catch (Exception e) {
             System.out.println("ERROR: " + this.getClass().getName() + " METHOD: getAll " + e);
             return null;
@@ -112,7 +112,7 @@ public class PagoImpl implements PagoDao {
                 }
                 pag.setFacId(fact);
                 pag.setPgoMonto(fact.getFacTotal().divide(BigDecimal.valueOf(fact.getFacCanCuo().doubleValue())));
-                pag.setPgoMontoLetras(nlConv.Convertir(fact.getFacTotal().toPlainString(), true));
+                pag.setPgoMontoLetras(nlConv.Convertir(pag.getPgoMonto().toPlainString(), true));
                 pag.setPgoUsuIns(fact.getFacUsuIns());
 
                 em.persist(pag);
