@@ -108,5 +108,15 @@ public class ViajeDetImpl implements ViajeDetDao{
             return null;
         }
     }
+
+    @Override
+    public ViaViajesDet getByName(String name) {
+        try {
+            return (ViaViajesDet) em.createQuery("SELECT vd FROM ViaViajesDet vd WHERE vd.vidDesc = :name").setParameter("name", name).getSingleResult();
+        } catch (Exception e) {
+            System.out.println("ERROR: CLASS "+this.getClass().getName()+" METHOD: getByName("+name+") "+e);
+            return null;
+        }
+    }
     
 }

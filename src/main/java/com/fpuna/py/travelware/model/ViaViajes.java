@@ -7,11 +7,8 @@ package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,13 +18,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -47,29 +42,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ViaViajes.findByViaFecMod", query = "SELECT v FROM ViaViajes v WHERE v.viaFecMod = :viaFecMod"),
     @NamedQuery(name = "ViaViajes.findByViaCost", query = "SELECT v FROM ViaViajes v WHERE v.viaCost = :viaCost"),
     @NamedQuery(name = "ViaViajes.findByViaCantTot", query = "SELECT v FROM ViaViajes v WHERE v.viaCantTot = :viaCantTot"),
-    @NamedQuery(name = "ViaViajes.findByViaCantVend", query = "SELECT v FROM ViaViajes v WHERE v.viaCantVend = :viaCantVend")})
+    @NamedQuery(name = "ViaViajes.findByViaCantVend", query = "SELECT v FROM ViaViajes v WHERE v.viaCantVend = :viaCantVend"),
+    @NamedQuery(name = "ViaViajes.findByViaResumen", query = "SELECT v FROM ViaViajes v WHERE v.viaResumen = :viaResumen"),
+    @NamedQuery(name = "ViaViajes.findByViaImg", query = "SELECT v FROM ViaViajes v WHERE v.viaImg = :viaImg")})
 public class ViaViajes implements Serializable {
-    @Size(max = 2147483647)
-    @Column(name = "via_resumen")
-    private String viaResumen;
-    @Size(max = 2147483647)
-    @Column(name = "via_img")
-    private String viaImg;
-    @JoinColumn(name = "mon_id", referencedColumnName = "mon_id")
-    @ManyToOne
-    private PgeMonedas monId;
-    @Column(name = "via_cant_vend")
-    private Integer viaCantVend;
-    @Column(name = "via_cant_tot")
-    private Integer viaCantTot;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaId")
-    private Collection<ViaViajesDet> viaViajesDetCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaId")
-    private List<PagCobros> pagCobrosList;
-    @OneToMany(mappedBy = "viaId")
-    private List<PagComprobantesDet> pagComprobantesDetList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "viaId")
-    private List<ViaPasajeros> viaPasajerosList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,6 +87,19 @@ public class ViaViajes implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "via_cost", precision = 18, scale = 2)
     private BigDecimal viaCost;
+    @Column(name = "via_cant_tot")
+    private Integer viaCantTot;
+    @Column(name = "via_cant_vend")
+    private Integer viaCantVend;
+    @Size(max = 2147483647)
+    @Column(name = "via_resumen", length = 2147483647)
+    private String viaResumen;
+    @Size(max = 2147483647)
+    @Column(name = "via_img", length = 2147483647)
+    private String viaImg;
+    @JoinColumn(name = "mon_id", referencedColumnName = "mon_id")
+    @ManyToOne
+    private PgeMonedas monId;
 
     public ViaViajes() {
     }
@@ -199,6 +189,46 @@ public class ViaViajes implements Serializable {
         this.viaCost = viaCost;
     }
 
+    public Integer getViaCantTot() {
+        return viaCantTot;
+    }
+
+    public void setViaCantTot(Integer viaCantTot) {
+        this.viaCantTot = viaCantTot;
+    }
+
+    public Integer getViaCantVend() {
+        return viaCantVend;
+    }
+
+    public void setViaCantVend(Integer viaCantVend) {
+        this.viaCantVend = viaCantVend;
+    }
+
+    public String getViaResumen() {
+        return viaResumen;
+    }
+
+    public void setViaResumen(String viaResumen) {
+        this.viaResumen = viaResumen;
+    }
+
+    public String getViaImg() {
+        return viaImg;
+    }
+
+    public void setViaImg(String viaImg) {
+        this.viaImg = viaImg;
+    }
+
+    public PgeMonedas getMonId() {
+        return monId;
+    }
+
+    public void setMonId(PgeMonedas monId) {
+        this.monId = monId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -222,79 +252,6 @@ public class ViaViajes implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.ViaViajes[ viaId=" + viaId + " ]";
-    }
-
-    public List<ViaPasajeros> getViaPasajerosList() {
-        return viaPasajerosList;
-    }
-
-    public void setViaPasajerosList(List<ViaPasajeros> viaPasajerosList) {
-        this.viaPasajerosList = viaPasajerosList;
-    }
-
-    public List<PagComprobantesDet> getPagComprobantesDetList() {
-        return pagComprobantesDetList;
-    }
-
-    public void setPagComprobantesDetList(List<PagComprobantesDet> pagComprobantesDetList) {
-        this.pagComprobantesDetList = pagComprobantesDetList;
-    }
-
-    public List<PagCobros> getPagCobrosList() {
-        return pagCobrosList;
-    }
-
-    public void setPagCobrosList(List<PagCobros> pagCobrosList) {
-        this.pagCobrosList = pagCobrosList;
-    }
-
-    public Integer getViaCantTot() {
-        return viaCantTot;
-    }
-
-    public void setViaCantTot(Integer viaCantTot) {
-        this.viaCantTot = viaCantTot;
-    }
-
-    @XmlTransient
-    public Collection<ViaViajesDet> getViaViajesDetCollection() {
-        return viaViajesDetCollection;
-    }
-
-    public void setViaViajesDetCollection(Collection<ViaViajesDet> viaViajesDetCollection) {
-        this.viaViajesDetCollection = viaViajesDetCollection;
-    }
-
-    public Integer getViaCantVend() {
-        return viaCantVend;
-    }
-
-    public void setViaCantVend(Integer viaCantVend) {
-        this.viaCantVend = viaCantVend;
-    }
-
-    public PgeMonedas getMonId() {
-        return monId;
-    }
-
-    public void setMonId(PgeMonedas monId) {
-        this.monId = monId;
-    }
-
-    public String getViaResumen() {
-        return viaResumen;
-    }
-
-    public void setViaResumen(String viaResumen) {
-        this.viaResumen = viaResumen;
-    }
-
-    public String getViaImg() {
-        return viaImg;
-    }
-
-    public void setViaImg(String viaImg) {
-        this.viaImg = viaImg;
     }
     
 }

@@ -6,10 +6,8 @@
 package com.fpuna.py.travelware.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,22 +17,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author damia_000
+ * @author eencina
  */
 @Entity
-@Table(name = "com_proveedores")
-@XmlRootElement
+@Table(name = "com_proveedores", catalog = "travelware", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"pro_ruc"})})
 @NamedQueries({
     @NamedQuery(name = "ComProveedores.findAll", query = "SELECT c FROM ComProveedores c"),
     @NamedQuery(name = "ComProveedores.findByProId", query = "SELECT c FROM ComProveedores c WHERE c.proId = :proId"),
@@ -45,27 +41,27 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ComProveedores.findByProUsuIns", query = "SELECT c FROM ComProveedores c WHERE c.proUsuIns = :proUsuIns"),
     @NamedQuery(name = "ComProveedores.findByProFecIns", query = "SELECT c FROM ComProveedores c WHERE c.proFecIns = :proFecIns"),
     @NamedQuery(name = "ComProveedores.findByProUsuMod", query = "SELECT c FROM ComProveedores c WHERE c.proUsuMod = :proUsuMod"),
-    @NamedQuery(name = "ComProveedores.findByProFecMod", query = "SELECT c FROM ComProveedores c WHERE c.proFecMod = :proFecMod")})
+    @NamedQuery(name = "ComProveedores.findByProFecMod", query = "SELECT c FROM ComProveedores c WHERE c.proFecMod = :proFecMod"),
+    @NamedQuery(name = "ComProveedores.findByProRuc", query = "SELECT c FROM ComProveedores c WHERE c.proRuc = :proRuc")})
 public class ComProveedores implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proId")
-    private Collection<ComFacturas> comFacturasCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "pro_id")
+    @Column(name = "pro_id", nullable = false)
     private Integer proId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 60)
-    @Column(name = "pro_desc")
+    @Column(name = "pro_desc", nullable = false, length = 60)
     private String proDesc;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "pro_est")
+    @Column(name = "pro_est", nullable = false)
     private Character proEst;
     @Size(max = 15)
-    @Column(name = "pro_nro_tim")
+    @Column(name = "pro_nro_tim", length = 15)
     private String proNroTim;
     @Column(name = "pro_fec_ven")
     @Temporal(TemporalType.DATE)
@@ -73,19 +69,22 @@ public class ComProveedores implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
-    @Column(name = "pro_usu_ins")
+    @Column(name = "pro_usu_ins", nullable = false, length = 10)
     private String proUsuIns;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "pro_fec_ins")
+    @Column(name = "pro_fec_ins", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date proFecIns;
     @Size(max = 10)
-    @Column(name = "pro_usu_mod")
+    @Column(name = "pro_usu_mod", length = 10)
     private String proUsuMod;
     @Column(name = "pro_fec_mod")
     @Temporal(TemporalType.TIMESTAMP)
     private Date proFecMod;
+    @Size(max = 20)
+    @Column(name = "pro_ruc", length = 20)
+    private String proRuc;
     @JoinColumn(name = "org_id", referencedColumnName = "org_id")
     @ManyToOne
     private PgeOrganizaciones orgId;
@@ -180,6 +179,14 @@ public class ComProveedores implements Serializable {
         this.proFecMod = proFecMod;
     }
 
+    public String getProRuc() {
+        return proRuc;
+    }
+
+    public void setProRuc(String proRuc) {
+        this.proRuc = proRuc;
+    }
+
     public PgeOrganizaciones getOrgId() {
         return orgId;
     }
@@ -219,15 +226,6 @@ public class ComProveedores implements Serializable {
     @Override
     public String toString() {
         return "com.fpuna.py.travelware.model.ComProveedores[ proId=" + proId + " ]";
-    }
-
-    @XmlTransient
-    public Collection<ComFacturas> getComFacturasCollection() {
-        return comFacturasCollection;
-    }
-
-    public void setComFacturasCollection(Collection<ComFacturas> comFacturasCollection) {
-        this.comFacturasCollection = comFacturasCollection;
     }
     
 }

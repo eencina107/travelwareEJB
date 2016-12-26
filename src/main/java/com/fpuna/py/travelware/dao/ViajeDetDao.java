@@ -17,4 +17,5 @@ import java.util.List;
 public interface ViajeDetDao extends GenericDao<ViaViajesDet, Integer>{
     List<ViaViajesDet> getAll(ViaViajes viajes);
     Integer getCantTotCon(ViaViajes viaje, ViaConceptos concepto);
+    ViaViajesDet getByName(String name);
 }
